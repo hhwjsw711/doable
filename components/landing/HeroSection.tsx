@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { TextAnimate } from '@/components/ui/text-animate';
 import { DotPattern } from '@/components/ui/dot-pattern';
+import Image from 'next/image';
 
 const GitHubIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -123,6 +124,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <GitHubIcon />
             </a>
           </Button>
+        </div>
+
+        {/* Peerlist Embed */}
+        <div className="flex justify-center items-center">
+          <a 
+            href="https://peerlist.io/code_kartik/project/doable" 
+            target="_blank" 
+            rel="noreferrer"
+            className="transition-opacity hover:opacity-80"
+          >
+            <Image
+              src="https://peerlist.io/api/v1/projects/embed/PRJHDNDDK7AQK8BDRCA6BJMM6NJGGJ?showUpvote=true&theme=dark"
+              alt="doable"
+              width={300}
+              height={72}
+              style={{ width: 'auto', height: '72px' }}
+              unoptimized
+            />
+          </a>
         </div>
       </div>
     </div>
