@@ -129,9 +129,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="flex justify-center items-center">
           <a href="https://peerlist.io/code_kartik/project/doable" target="_blank" rel="noreferrer">
             <img 
-              src="https://peerlist.io/api/v1/projects/embed/PRJHDNDDK7AQK8BDRCA6BJMM6NJGGJ?showUpvote=true&amp;theme=dark" 
+              src="https://peerlist.io/api/v1/projects/embed/PRJHDNDDK7AQK8BDRCA6BJMM6NJGGJ?showUpvote=true&theme=dark" 
               alt="doable" 
-              style={{ height: '72px', width: 'auto' }}
+              className="h-[72px] w-auto"
             />
           </a>
         </div>
