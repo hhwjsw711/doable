@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Sidebar,
@@ -79,8 +79,8 @@ const navigationItems = (openApiKeyDialog: () => void): NavigationItem[] => [
     type: "item",
   },
   {
-    type: 'label',
-    name: 'Management',
+    type: "label",
+    name: "Management",
   },
   {
     name: "Management",
@@ -102,24 +102,32 @@ const navigationItems = (openApiKeyDialog: () => void): NavigationItem[] => [
   },
 ];
 
-function HeaderBreadcrumb({ items, baseBreadcrumb, basePath }: { 
-  items: NavigationItem[], 
-  baseBreadcrumb?: { title: string; href: string }[], 
-  basePath: string 
+function HeaderBreadcrumb({
+  items,
+  baseBreadcrumb,
+  basePath,
+}: {
+  items: NavigationItem[];
+  baseBreadcrumb?: { title: string; href: string }[];
+  basePath: string;
 }) {
   const segment = useSegment(basePath);
-  const item = items.find((item) => item.type === 'item' && item.href === segment);
+  const item = items.find(
+    (item) => item.type === "item" && item.href === segment,
+  );
   const title: string | undefined = item?.name;
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {baseBreadcrumb?.map((item, index) => [
-          <BreadcrumbItem key={`item-${index}`}>
-            <BreadcrumbLink href={item.href}>{item.title}</BreadcrumbLink>
-          </BreadcrumbItem>,
-          <BreadcrumbSeparator key={`separator-${index}`} />,
-        ]).flat()}
+        {baseBreadcrumb
+          ?.map((item, index) => [
+            <BreadcrumbItem key={`item-${index}`}>
+              <BreadcrumbLink href={item.href}>{item.title}</BreadcrumbLink>
+            </BreadcrumbItem>,
+            <BreadcrumbSeparator key={`separator-${index}`} />,
+          ])
+          .flat()}
         <BreadcrumbItem>
           <BreadcrumbPage>{title}</BreadcrumbPage>
         </BreadcrumbItem>
@@ -128,14 +136,14 @@ function HeaderBreadcrumb({ items, baseBreadcrumb, basePath }: {
   );
 }
 
-function AppSidebar({ 
-  items, 
-  basePath, 
-  sidebarTop 
-}: { 
-  items: NavigationItem[], 
-  basePath: string, 
-  sidebarTop?: React.ReactNode 
+function AppSidebar({
+  items,
+  basePath,
+  sidebarTop,
+}: {
+  items: NavigationItem[];
+  basePath: string;
+  sidebarTop?: React.ReactNode;
 }) {
   const segment = useSegment(basePath);
 
@@ -156,9 +164,9 @@ function AppSidebar({
                     </SidebarGroupLabel>
                   );
                 }
-                
+
                 const isActive = item.href ? segment === item.href : false;
-                
+
                 if (item.action && !item.href) {
                   // Action item (no href)
                   return (
@@ -174,7 +182,7 @@ function AppSidebar({
                     </SidebarMenuItem>
                   );
                 }
-                
+
                 // Navigation item with href
                 return (
                   <SidebarMenuItem key={`item-${index}`}>
@@ -183,7 +191,7 @@ function AppSidebar({
                       isActive={isActive}
                       tooltip={item.name}
                     >
-                      <Link href={basePath + (item.href || '')}>
+                      <Link href={basePath + (item.href || "")}>
                         {item.icon && <item.icon />}
                         <span>{item.name}</span>
                       </Link>
@@ -236,7 +244,7 @@ export default function Layout(props: { children: React.ReactNode }) {
     // Fetch team data
     const fetchTeam = async () => {
       try {
-        const response = await fetch('/api/teams');
+        const response = await fetch("/api/teams");
         if (response.ok) {
           const teams = await response.json();
           const currentTeam = teams.find((t: any) => t.id === params.teamId);
@@ -247,21 +255,21 @@ export default function Layout(props: { children: React.ReactNode }) {
             // If team not found, redirect to dashboard immediately
             setIsRedirecting(true);
             setLoading(false);
-            router.replace('/dashboard');
+            router.replace("/dashboard");
             return; // Exit early to prevent rendering
           }
         } else {
           // If response not ok, redirect to dashboard
           setIsRedirecting(true);
           setLoading(false);
-          router.replace('/dashboard');
+          router.replace("/dashboard");
         }
       } catch (error) {
-        console.error('Error fetching team:', error);
+        console.error("Error fetching team:", error);
         setLoading(false);
         setIsRedirecting(true);
         // Redirect to dashboard on error
-        router.replace('/dashboard');
+        router.replace("/dashboard");
       }
     };
     fetchTeam();
@@ -269,21 +277,21 @@ export default function Layout(props: { children: React.ReactNode }) {
 
   // Detect if user is on Mac
   useEffect(() => {
-    setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0);
+    setIsMac(navigator.platform.toUpperCase().indexOf("MAC") >= 0);
   }, []);
 
   // Add Cmd+K (Mac) or Ctrl+K (Windows/Linux) shortcut to open chatbot
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Check for Cmd+K (Mac) or Ctrl+K (Windows/Linux)
-      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
         // Don't trigger if user is typing in an input, textarea, or contenteditable
         const target = event.target as HTMLElement;
-        const isInputElement = 
-          target.tagName === 'INPUT' || 
-          target.tagName === 'TEXTAREA' || 
+        const isInputElement =
+          target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
           target.isContentEditable;
-        
+
         if (!isInputElement) {
           event.preventDefault();
           setChatbotOpen((prev) => !prev);
@@ -291,15 +299,15 @@ export default function Layout(props: { children: React.ReactNode }) {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
   const handleSignOut = async () => {
     await authClient.signOut();
-    window.location.href = '/sign-in';
+    window.location.href = "/sign-in";
   };
 
   // Don't render anything if redirecting
@@ -315,36 +323,46 @@ export default function Layout(props: { children: React.ReactNode }) {
   if (loading || !team) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <DashboardLoader message="Loading team" submessage="Fetching team data..." />
+        <DashboardLoader
+          message="Loading team"
+          submessage="Fetching team data..."
+        />
       </div>
     );
   }
 
   const items = navigationItems(() => setApiKeyDialogOpen(true));
   const basePath = `/dashboard/${team.id}`;
-  const baseBreadcrumb = [{
-    title: team.displayName || team.name,
-    href: basePath,
-  }];
+  const baseBreadcrumb = [
+    {
+      title: team.displayName || team.name,
+      href: basePath,
+    },
+  ];
 
   return (
     <SidebarProvider>
-      <AppSidebar 
+      <AppSidebar
         items={items}
         basePath={basePath}
-        sidebarTop={<WorkspaceSelector currentTeamId={team.id} currentTeamName={team.name} />}
+        sidebarTop={
+          <WorkspaceSelector
+            currentTeamId={team.id}
+            currentTeamName={team.name}
+          />
+        }
       />
-      <SidebarInset>
+      <SidebarInset className="overflow-x-hidden">
         {/* Header */}
         <header className="h-16 border-b border-border/50 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 sticky top-0 z-10">
           <div className="flex items-center justify-between h-full px-6">
             {/* Left side - Sidebar trigger + Breadcrumb */}
             <div className="flex items-center space-x-4">
               <SidebarTrigger />
-              <HeaderBreadcrumb 
-                baseBreadcrumb={baseBreadcrumb} 
-                basePath={basePath} 
-                items={items} 
+              <HeaderBreadcrumb
+                baseBreadcrumb={baseBreadcrumb}
+                basePath={basePath}
+                items={items}
               />
             </div>
 
@@ -354,44 +372,61 @@ export default function Layout(props: { children: React.ReactNode }) {
                 <>
                   {/* AI Chatbot Button */}
                   <div className="border border-border/80 rounded-md p-2">
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setChatbotOpen(true)}
-                      className="relative"
-                      title={`Open Doable AI (${isMac ? '⌘' : 'Ctrl'}+K)`}
-                    >
-                      <IconMsgs className="h-8 w-8" />
-                    </Button>
-                    <kbd className="pointer-events-none inline-flex h-6 select-none items-center gap-1 rounded-md border border-border/50 bg-muted/50 px-2 font-mono text-[11px] font-medium text-muted-foreground opacity-100 whitespace-nowrap shadow-sm">
-                      <span className="text-xs">{isMac ? '⌘' : 'Ctrl'}</span>K
-                    </kbd>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setChatbotOpen(true)}
+                        className="relative"
+                        title={`Open Doable AI (${isMac ? "⌘" : "Ctrl"}+K)`}
+                      >
+                        <IconMsgs className="h-8 w-8" />
+                      </Button>
+                      <kbd className="pointer-events-none inline-flex h-6 select-none items-center gap-1 rounded-md border border-border/50 bg-muted/50 px-2 font-mono text-[11px] font-medium text-muted-foreground opacity-100 whitespace-nowrap shadow-sm">
+                        <span className="text-xs">{isMac ? "⌘" : "Ctrl"}</span>K
+                      </kbd>
                     </div>
                   </div>
 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                      <Button
+                        variant="ghost"
+                        className="relative h-10 w-10 rounded-full"
+                      >
                         <Avatar className="h-10 w-10">
-                          <AvatarImage src={session.user.image || undefined} alt={session.user.name || ""} />
+                          <AvatarImage
+                            src={session.user.image || undefined}
+                            alt={session.user.name || ""}
+                          />
                           <AvatarFallback>
-                            {session.user.name?.charAt(0)?.toUpperCase() || session.user.email?.charAt(0)?.toUpperCase() || "U"}
+                            {session.user.name?.charAt(0)?.toUpperCase() ||
+                              session.user.email?.charAt(0)?.toUpperCase() ||
+                              "U"}
                           </AvatarFallback>
                         </Avatar>
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuContent
+                      className="w-56"
+                      align="end"
+                      forceMount
+                    >
                       <DropdownMenuLabel className="font-normal">
                         <div className="flex flex-col space-y-1">
-                          <p className="text-sm font-medium leading-none">{session.user.name || "User"}</p>
+                          <p className="text-sm font-medium leading-none">
+                            {session.user.name || "User"}
+                          </p>
                           <p className="text-xs leading-none text-muted-foreground">
                             {session.user.email}
                           </p>
                         </div>
                       </DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
+                      <DropdownMenuItem
+                        onClick={handleSignOut}
+                        className="text-red-600"
+                      >
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>Sign out</span>
                       </DropdownMenuItem>
@@ -405,9 +440,7 @@ export default function Layout(props: { children: React.ReactNode }) {
 
         {/* Main Content */}
         <main className="flex-1 overflow-hidden bg-background">
-          <div className="px-6 py-6 h-full overflow-auto">
-            {props.children}
-          </div>
+          <div className="px-6 py-6 h-full overflow-auto">{props.children}</div>
         </main>
       </SidebarInset>
 
