@@ -18,7 +18,7 @@ const emailTemplate = (teamName: string, inviterName: string, role: string, invi
                   You've been invited to join ${teamName}
                 </h1>
                 <p style="margin: 0 0 16px 0; font-size: 16px; color: #4a4a4a; line-height: 1.5;">
-                  ${inviterName} has invited you to join the <strong>${teamName}</strong> team as a <strong>${role}</strong> on Doable.
+                  ${inviterName} has invited you to join the <strong>${teamName}</strong> team as a <strong>${role}</strong> on TheGroupFinder.
                 </p>
                 <p style="margin: 0 0 32px 0; font-size: 16px; color: #4a4a4a; line-height: 1.5;">
                   Click the button below to accept the invitation:
@@ -67,7 +67,7 @@ export async function sendInvitationEmail(params: {
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: email,
-      subject: `You've been invited to join ${teamName} on Doable`,
+      subject: `You've been invited to join ${teamName} on TheGroupFinder`,
       html: emailTemplate(teamName, inviterName, role, inviteUrl),
     })
 

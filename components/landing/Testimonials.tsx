@@ -41,7 +41,7 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ className = '' }) =>
             What People Are Saying
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-            See what developers and teams are saying about Doable
+            See what developers and teams are saying about TheGroupFinder
           </p>
         </div>
 

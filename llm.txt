@@ -6,7 +6,7 @@ Doable is a modern, AI-powered task management platform designed for teams who w
 
 **Repository**: https://github.com/KartikLabhshetwar/doable  
 **License**: Apache License 2.0  
-**Live URL**: https://doable-lyart.vercel.app
+**Live URL**: https://thegroupfinder.com
 
 ## Tech Stack
 

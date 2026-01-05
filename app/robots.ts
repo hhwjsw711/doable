@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://doable-lyart.vercel.app";
+  const baseUrl = "https://thegroupfinder.com";
 
   return {
     rules: [

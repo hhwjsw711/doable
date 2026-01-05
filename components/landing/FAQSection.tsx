@@ -14,20 +14,20 @@ interface FAQSectionProps {
 
 const faqData = [
   {
-    question: "Who is Doable for?",
-    answer: "Doable is built for individuals and indie hackers who want to get things done instead of wasting time on complicated tools. If you're building something solo or with a small team, and you want a simple, fast way to manage tasks without all the bloat, Doable is for you."
+    question: "Who is TheGroupFinder for?",
+    answer: "TheGroupFinder is built for individuals and indie hackers who want to get things done instead of wasting time on complicated tools. If you're building something solo or with a small team, and you want a simple, fast way to manage tasks without all the bloat, TheGroupFinder is for you."
   },
   {
-    question: "What is Doable?",
-    answer: "Doable is a simple, AI-powered task management tool. You can create tasks, organize projects, and manage your work through natural language. No need to learn complex interfaces - just tell the AI what you need and it handles the rest."
+    question: "What is TheGroupFinder?",
+    answer: "TheGroupFinder is a simple, AI-powered task management tool. You can create tasks, organize projects, and manage your work through natural language. No need to learn complex interfaces - just tell the AI what you need and it handles the rest."
   },
   {
     question: "How does the AI assistant work?",
     answer: "Just chat with it naturally. Say things like 'Create a task for fixing the login bug' or 'Show me all high-priority tasks' and the AI does it. No clicking through menus or filling out forms - just talk to it like a teammate."
   },
   {
-    question: "Is Doable free?",
-    answer: "Yes! Doable is completely free and open source. You'll need a Groq API key for the AI features (which has a generous free tier), but everything else is unlimited. You can also self-host it on your own server."
+    question: "Is TheGroupFinder free?",
+    answer: "Yes! TheGroupFinder is completely free and open source. You'll need a Groq API key for the AI features (which has a generous free tier), but everything else is unlimited. You can also self-host it on your own server."
   },
   {
     question: "Can I use my own API key?",
@@ -35,7 +35,7 @@ const faqData = [
   },
   {
     question: "Do I need a team to use it?",
-    answer: "Nope. While Doable supports teams, it works great for solo projects too. Create your workspace, add projects, and start managing tasks. Invite others later if you want."
+    answer: "Nope. While TheGroupFinder supports teams, it works great for solo projects too. Create your workspace, add projects, and start managing tasks. Invite others later if you want."
   },
   {
     question: "How do I get started?",
@@ -43,7 +43,7 @@ const faqData = [
   },
   {
     question: "Is my data safe?",
-    answer: "Yes. Doable uses secure authentication and you can self-host it to keep your data on your own server. The code is open source, so you can verify everything yourself."
+    answer: "Yes. TheGroupFinder uses secure authentication and you can self-host it to keep your data on your own server. The code is open source, so you can verify everything yourself."
   }
 ];
 
@@ -57,7 +57,7 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ className = '' }) => {
             Frequently Asked Questions
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-            Everything you need to know about Doable
+            Everything you need to know about TheGroupFinder
           </p>
         </div>
 

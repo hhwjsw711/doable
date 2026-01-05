@@ -34,7 +34,7 @@ export const HowToUseSection: React.FC<HowToUseSectionProps> = ({ className = ''
             How to Get Started
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Get started with Doable in just three simple steps. No complex setup required!
+            Get started with TheGroupFinder in just three simple steps. No complex setup required!
           </p>
         </div>
 

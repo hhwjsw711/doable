@@ -51,7 +51,7 @@ export const Contributors: React.FC<ContributorsProps> = ({ className = '' }) =>
               Contributors
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-              The amazing people who make Doable possible
+              The amazing people who make TheGroupFinder possible
             </p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
@@ -80,7 +80,7 @@ export const Contributors: React.FC<ContributorsProps> = ({ className = '' }) =>
             Contributors
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-            The amazing people who make Doable possible
+            The amazing people who make TheGroupFinder possible
           </p>
         </div>
 

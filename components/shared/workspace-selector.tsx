@@ -135,7 +135,7 @@ export function WorkspaceSelector({ currentTeamId, currentTeamName }: WorkspaceS
   return (
     <div className="flex flex-col gap-2 w-full">
       <div className="flex items-center gap-2 px-2">
-        <div className="font-semibold text-lg">doable</div>
+        <div className="font-semibold text-lg">TheGroupFinder</div>
       </div>
       <div className="w-full">
         <DropdownMenu>

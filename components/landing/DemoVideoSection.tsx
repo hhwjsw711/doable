@@ -72,7 +72,7 @@ export const DemoVideoSection: React.FC<DemoVideoSectionProps> = ({
         {/* Optional CTA or additional content can go here */}
         <div className="mt-12 text-center">
           <p className="text-sm text-muted-foreground">
-            Try Doable free today. No credit card required.
+            Try TheGroupFinder free today. No credit card required.
           </p>
         </div>
       </div>

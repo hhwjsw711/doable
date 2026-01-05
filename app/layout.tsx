@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://doable-lyart.vercel.app/",
+    url: "https://thegroupfinder.com/",
     siteName: "Doable",
     title: "Doable",
     description: "Built for teams who want to get things done. Clean, fast, and powerful task management.",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     images: ["/open-graph.png"],
   },
   alternates: {
-    canonical: "https://doable-lyart.vercel.app/",
+    canonical: "https://thegroupfinder.com/",
   },
   category: "productivity",
 };

@@ -78,13 +78,13 @@ export default function SignUpPage() {
         <div className="w-full max-w-md space-y-8">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <span className="text-foreground text-xl font-medium tracking-tight">doable</span>
+            <span className="text-foreground text-xl font-medium tracking-tight">TheGroupFinder</span>
           </div>
 
           {/* Welcome Message */}
           <div className="space-y-2">
             <h1 className="text-3xl font-light tracking-tight text-foreground">Create your account</h1>
-            <p className="text-base text-muted-foreground">Sign up to start your journey with doable</p>
+            <p className="text-base text-muted-foreground">Sign up to start your journey with TheGroupFinder</p>
           </div>
 
           {error && (

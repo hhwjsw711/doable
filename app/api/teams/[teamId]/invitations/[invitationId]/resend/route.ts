@@ -57,7 +57,7 @@ export async function POST(
     const inviterName = user.name || user.email || 'Someone'
 
     // Resend invitation email
-    const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
     const inviteUrl = `${baseUrl}/invite/${invitation.id}`
 
     if (process.env.RESEND_API_KEY) {

@@ -110,7 +110,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
           onMouseOut={handleMouseOut}
         >
           <svg width="100%" height="80" viewBox="0 0 300 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Text "doable" */}
+            {/* Text "TheGroupFinder" */}
             <text
               x="50%"
               y="50%"
@@ -119,7 +119,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
               className="text-5xl font-bold fill-foreground"
               style={{ fontFamily: 'Inter, sans-serif', fontSize: '48px', letterSpacing: '-0.02em' }}
             >
-              doable
+              TheGroupFinder
             </text>
             
             {/* Animated gradient circle */}
@@ -157,7 +157,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                   fill="white"
                   style={{ fontFamily: 'Inter, sans-serif', fontSize: '48px', letterSpacing: '-0.02em', fontWeight: 'bold' }}
                 >
-                  doable
+                  TheGroupFinder
                 </text>
               </mask>
               <linearGradient id="circle-rgb-gradient" x1="0" y1="0" x2="1" y2="1">
@@ -177,7 +177,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
         {/* Footer Info */}
         <div className="mt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} doable. Built for teams who ship.
+            © {new Date().getFullYear()} TheGroupFinder. Built for teams who ship.
           </p>
         </div>
       </div>

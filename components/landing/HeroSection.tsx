@@ -112,18 +112,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               {primaryButtonText}
             </a>
           </Button>
-          
-          <Button
-            variant="outline"
-            size="lg"
-              className="group px-6 py-4 text-lg font-medium bg-neutral-900 border-neutral-800 text-white hover:bg-neutral-800 transition-all duration-300 hover:scale-105"
-              asChild
-            >
-            <a href="https://github.com/KartikLabhshetwar/doable" target="_blank" rel="noopener noreferrer">
-              Open Source
-              <GitHubIcon />
-            </a>
-          </Button>
         </div>
 
         {/* Peerlist Embed */}
