@@ -206,8 +206,7 @@ Chat history is persisted in the database for each conversation, allowing users 
    - Copy the key (starts with `gsk_`)
 
 2. **Configure API Key:**
-   - Option 1: Add to `.env.local` as `GROQ_API_KEY` (applies to all teams)
-   - Option 2: Set per-team in Team Settings → Manage API Key (recommended for multi-tenant setups)
+   - Add `GROQ_API_KEY` to your `.env.local` file (applies to all users globally)
 
 3. **Start Using AI:**
    - Navigate to any team's dashboard

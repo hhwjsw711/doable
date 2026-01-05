@@ -1,18 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import { useTeamStats } from "@/lib/hooks/use-team-data"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer } from "@/components/ui/chart"
 import { BarChart, Bar, XAxis, YAxis, PieChart, Pie, Cell, Tooltip } from "recharts"
 import { Spinner } from "@/components/ui/spinner"
-import { Button } from "@/components/ui/button"
-import { ApiKeyDialog } from "@/components/shared/api-key-dialog"
-import { Badge } from "@/components/ui/badge"
 import IconFiles from "@/components/ui/IconFiles"
-import IconKey from "@/components/ui/IconKey"
-import IconMsgs from "@/components/ui/IconMsgs"
 import IconUsers from "@/components/ui/IconUsers"
 import IconSquareChartLine from "@/components/ui/IconSquareChartLine"
 import IconCircleCheck from "@/components/ui/IconCircleCheck"
@@ -30,28 +24,9 @@ const CHART_COLORS = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#0
 export function ManagementPageClient() {
   const params = useParams<{ teamId: string }>()
   const teamId = params.teamId as string
-  const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false)
-  const [apiKeyStatus, setApiKeyStatus] = useState<{ hasKey: boolean; key: string | null } | null>(null)
 
   // Use TanStack Query hook
   const { data: stats, isLoading: loading } = useTeamStats(teamId)
-
-  // Check localStorage for API key
-  const checkApiKeyStatus = () => {
-    if (typeof window !== 'undefined') {
-      const apiKey = localStorage.getItem('groq_api_key')
-      setApiKeyStatus({
-        hasKey: !!apiKey,
-        key: apiKey
-      })
-    }
-  }
-
-  useEffect(() => {
-    if (teamId) {
-      checkApiKeyStatus()
-    }
-  }, [teamId])
 
   if (loading || !stats) {
     return (
@@ -77,57 +52,12 @@ export function ManagementPageClient() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-semibold">Management</h1>
-          <p className="text-muted-foreground text-xs sm:text-sm">
-            Track your team&apos;s performance and productivity
-          </p>
-        </div>
-        <Button
-          variant="outline"
-          onClick={() => setApiKeyDialogOpen(true)}
-          className="gap-2"
-          size="sm"
-        >
-          <IconKey className="h-4 w-4" />
-          <span className="hidden sm:inline">Manage API Key</span>
-          <span className="sm:hidden">API Key</span>
-          {apiKeyStatus?.hasKey && (
-            <Badge variant="default" className="ml-1 sm:ml-2 text-xs">
-              Configured
-            </Badge>
-          )}
-        </Button>
+      <div>
+        <h1 className="text-xl sm:text-2xl font-semibold">Management</h1>
+        <p className="text-muted-foreground text-xs sm:text-sm">
+          Track your team&apos;s performance and productivity
+        </p>
       </div>
-
-      {/* AI Chatbot Status Card */}
-      <Card className="bg-gradient-to-br from-primary/10 via-primary/5 to-background border-primary/20">
-        <CardHeader>
-          <div className="flex items-start sm:items-center justify-between gap-3">
-            <div className="flex items-start sm:items-center gap-3 flex-1 min-w-0">
-              <div className="rounded-full bg-primary/20 p-2 flex-shrink-0">
-                <IconMsgs className="h-5 w-5 text-primary" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <CardTitle className="flex items-center gap-2 flex-wrap">
-                  <span>doable AI</span>
-                  {apiKeyStatus?.hasKey ? (
-                    <Badge variant="default" className="bg-green-600 text-xs">Ready</Badge>
-                  ) : (
-                    <Badge variant="destructive" className="text-xs">Not Configured</Badge>
-                  )}
-                </CardTitle>
-                <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-                  {apiKeyStatus?.hasKey
-                    ? 'AI chatbot is ready to use. Click the sparkles icon in the header to start chatting.'
-                    : 'Get your free Groq API key to enable the Doable AI feature.'}
-                </p>
-              </div>
-            </div>
-          </div>
-        </CardHeader>
-      </Card>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -310,16 +240,6 @@ export function ManagementPageClient() {
           </CardContent>
         </Card>
       </div>
-
-      {/* API Key Dialog */}
-      <ApiKeyDialog
-        open={apiKeyDialogOpen}
-        onOpenChange={setApiKeyDialogOpen}
-        onSuccess={() => {
-          // Refresh API key status from localStorage
-          checkApiKeyStatus()
-        }}
-      />
     </div>
   )
 }

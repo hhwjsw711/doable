@@ -3,7 +3,6 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -14,20 +13,17 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { LogOut } from "lucide-react";
 import IconSquareChartLine from "@/components/ui/IconSquareChartLine";
 import IconMsgs from "@/components/ui/IconMsgs";
 import IconUsers from "@/components/ui/IconUsers";
 import IconFiles from "@/components/ui/IconFiles";
-import IconGearKeyhole from "@/components/ui/IconGearKeyhole";
 import IconDocFolder from "@/components/ui/IconDocFolder";
 import { authClient } from "@/lib/auth-client";
 import { useParams, useRouter, usePathname } from "next/navigation";
 import { DashboardLoader } from "@/components/ui/dashboard-loader";
 import { WorkspaceSelector } from "@/components/shared/workspace-selector";
-import { ApiKeyDialog } from "@/components/shared/api-key-dialog";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
@@ -65,7 +61,7 @@ type NavigationItem = {
   action?: () => void;
 };
 
-const navigationItems = (openApiKeyDialog: () => void): NavigationItem[] => [
+const navigationItems: NavigationItem[] = [
   {
     name: "Issues",
     href: "/issues",
@@ -93,12 +89,6 @@ const navigationItems = (openApiKeyDialog: () => void): NavigationItem[] => [
     href: "/people",
     icon: IconUsers,
     type: "item",
-  },
-  {
-    name: "API Key",
-    icon: IconGearKeyhole,
-    type: "item",
-    action: openApiKeyDialog,
   },
 ];
 
@@ -208,7 +198,6 @@ function AppSidebar({
 }
 
 export default function Layout(props: { children: React.ReactNode }) {
-  const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);
   const [chatbotOpen, setChatbotOpen] = useState(false);
   const params = useParams<{ teamId: string }>();
   const { data: session } = authClient.useSession();
@@ -309,7 +298,6 @@ export default function Layout(props: { children: React.ReactNode }) {
     );
   }
 
-  const items = navigationItems(() => setApiKeyDialogOpen(true));
   const basePath = `/dashboard/${team.id}`;
   const baseBreadcrumb = [
     {
@@ -321,7 +309,7 @@ export default function Layout(props: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar
-        items={items}
+        items={navigationItems}
         basePath={basePath}
         sidebarTop={
           <WorkspaceSelector
@@ -340,7 +328,7 @@ export default function Layout(props: { children: React.ReactNode }) {
               <HeaderBreadcrumb
                 baseBreadcrumb={baseBreadcrumb}
                 basePath={basePath}
-                items={items}
+                items={navigationItems}
               />
             </div>
 
@@ -428,12 +416,6 @@ export default function Layout(props: { children: React.ReactNode }) {
           {team?.id && <AIChatbot teamId={team.id} />}
         </SheetContent>
       </Sheet>
-
-      {/* API Key Dialog */}
-      <ApiKeyDialog
-        open={apiKeyDialogOpen}
-        onOpenChange={setApiKeyDialogOpen}
-      />
     </SidebarProvider>
   );
 }

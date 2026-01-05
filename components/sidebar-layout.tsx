@@ -29,7 +29,6 @@ import {
 import { Separator } from "./ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { AIChatbot } from "./ai/ai-chatbot";
-import { ApiKeyDialog } from "./shared/api-key-dialog";
 
 function useSegment(basePath: string) {
   const path = usePathname();
@@ -226,7 +225,6 @@ export default function SidebarLayout(props: {
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [chatbotOpen, setChatbotOpen] = useState(false);
-  const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('sidebar-collapsed');
@@ -373,12 +371,6 @@ export default function SidebarLayout(props: {
           {props.teamId && <AIChatbot teamId={props.teamId} />}
         </SheetContent>
       </Sheet>
-
-      {/* API Key Dialog */}
-      <ApiKeyDialog
-        open={apiKeyDialogOpen}
-        onOpenChange={setApiKeyDialogOpen}
-      />
     </div>
   );
 }
