@@ -26,12 +26,6 @@ export const CustomNavbar: React.FC<CustomNavbarProps> = ({ className }) => {
       <NavBody>
         <NavbarLogo />
         <div className="flex items-center gap-3">
-          <GitHubStarButton 
-            owner="KartikLabhshetwar" 
-            repo="doable" 
-            variant="outline"
-            className="text-sm"
-          />
           <NavbarButton href="/dashboard" variant="primary">
             Get Started
           </NavbarButton>
@@ -52,12 +46,6 @@ export const CustomNavbar: React.FC<CustomNavbarProps> = ({ className }) => {
           onClose={() => setIsMobileMenuOpen(false)}
         >
           <div className="flex flex-col gap-3">
-            <GitHubStarButton 
-              owner="KartikLabhshetwar" 
-              repo="doable" 
-              variant="outline"
-              className="text-sm justify-start"
-            />
             <NavbarButton href="/dashboard" variant="primary">
               Get Started
             </NavbarButton>

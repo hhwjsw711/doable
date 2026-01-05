@@ -4,7 +4,8 @@ import { useState } from "react"
 import { authClient } from "@/lib/auth-client"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { ChevronLeft, Mail } from "lucide-react"
 import Link from "next/link"
 
 const GoogleIcon = () => (
@@ -22,6 +23,12 @@ export default function SignUpPage() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
+  // Email OTP state
+  const [email, setEmail] = useState("")
+  const [otp, setOtp] = useState("")
+  const [otpSent, setOtpSent] = useState(false)
+  const [showEmailSignUp, setShowEmailSignUp] = useState(false)
+
   const handleGoogleSignUp = async () => {
     setError("")
     setLoading(true)
@@ -38,13 +45,57 @@ export default function SignUpPage() {
     }
   }
 
+  const handleSendOTP = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError("")
+    setLoading(true)
+
+    try {
+      await authClient.emailOtp.sendVerificationOtp({
+        email,
+        type: "sign-in",
+      })
+      setOtpSent(true)
+      setLoading(false)
+    } catch (err: any) {
+      console.error("Error sending OTP:", err)
+      setError(err?.message || "Failed to send verification code")
+      setLoading(false)
+    }
+  }
+
+  const handleVerifyOTP = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError("")
+    setLoading(true)
+
+    try {
+      const result = await authClient.signIn.emailOtp({
+        email,
+        otp,
+      })
+
+      if (result.data) {
+        const redirectUrl = searchParams.get("redirect") || "/dashboard"
+        router.push(redirectUrl)
+      } else {
+        setError("Invalid verification code")
+        setLoading(false)
+      }
+    } catch (err: any) {
+      console.error("Error verifying OTP:", err)
+      setError(err?.message || "Invalid verification code")
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen flex bg-background">
       {/* Left Section - Primary Gradient */}
       <div className="hidden lg:flex lg:w-[40%] relative overflow-hidden">
         {/* Gradient Background using primary color */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/10 to-background"></div>
-        
+
         {/* Subtle animated background patterns */}
         <div className="absolute inset-0 opacity-[0.03]">
           <div className="absolute top-0 left-0 w-96 h-96 rounded-full mix-blend-multiply filter blur-3xl animate-blob bg-primary"></div>
@@ -56,8 +107,8 @@ export default function SignUpPage() {
         <div className="relative z-10 flex flex-col justify-between p-8 h-full">
           {/* Back Button */}
           <Link href="/">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="bg-card/50 border-border/50 text-foreground hover:bg-card/80 hover:border-border backdrop-blur-sm w-fit"
             >
               <ChevronLeft className="w-4 h-4 mr-2" />
@@ -93,20 +144,136 @@ export default function SignUpPage() {
             </div>
           )}
 
-          {/* Google Sign Up Button */}
-          <Button
-            type="button"
-            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 justify-center"
-            onClick={handleGoogleSignUp}
-            disabled={loading}
-          >
-            <span className="ml-2">{loading ? "Signing up..." : "Sign up with Google"}</span>
-          </Button>
+          {!showEmailSignUp ? (
+            <>
+              {/* Google Sign Up Button */}
+              <Button
+                type="button"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 justify-center"
+                onClick={handleGoogleSignUp}
+                disabled={loading}
+              >
+                <GoogleIcon />
+                <span className="ml-2">{loading ? "Signing up..." : "Sign up with Google"}</span>
+              </Button>
+
+              {/* Divider */}
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t border-border" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">Or</span>
+                </div>
+              </div>
+
+              {/* Email Sign Up Button */}
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={() => setShowEmailSignUp(true)}
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Sign up with Email
+              </Button>
+            </>
+          ) : (
+            <>
+              {/* Email OTP Form */}
+              {!otpSent ? (
+                <form onSubmit={handleSendOTP} className="space-y-4">
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="text-sm font-medium text-foreground">
+                      Email address
+                    </label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="your@email.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="w-full"
+                      disabled={loading}
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                    disabled={loading || !email}
+                  >
+                    {loading ? "Sending..." : "Send verification code"}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="w-full"
+                    onClick={() => setShowEmailSignUp(false)}
+                  >
+                    Back to other options
+                  </Button>
+                </form>
+              ) : (
+                <form onSubmit={handleVerifyOTP} className="space-y-4">
+                  <div className="space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      We sent a verification code to <strong>{email}</strong>
+                    </p>
+                    <label htmlFor="otp" className="text-sm font-medium text-foreground">
+                      Verification code
+                    </label>
+                    <Input
+                      id="otp"
+                      type="text"
+                      placeholder="Enter 6-digit code"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                      required
+                      maxLength={6}
+                      className="w-full text-center text-2xl tracking-widest"
+                      disabled={loading}
+                      autoFocus
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                    disabled={loading || otp.length !== 6}
+                  >
+                    {loading ? "Verifying..." : "Verify and sign up"}
+                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      className="flex-1"
+                      onClick={() => {
+                        setOtpSent(false)
+                        setOtp("")
+                      }}
+                    >
+                      Change email
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      className="flex-1"
+                      onClick={handleSendOTP}
+                      disabled={loading}
+                    >
+                      Resend code
+                    </Button>
+                  </div>
+                </form>
+              )}
+            </>
+          )}
 
           {/* Sign In Link */}
           <div className="text-center text-sm text-muted-foreground">
             Already have an account?{" "}
-            <Link 
+            <Link
               href={`/sign-in${searchParams.get("redirect") ? `?redirect=${searchParams.get("redirect")}` : ""}`}
               className="text-primary hover:text-primary/80 hover:underline font-medium"
             >

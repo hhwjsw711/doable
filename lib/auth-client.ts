@@ -1,6 +1,7 @@
 "use client"
 
 import { createAuthClient } from "better-auth/react"
+import { emailOTPClient, twoFactorClient } from "better-auth/client/plugins"
 
 // Get the base URL for the client
 const getBaseURL = () => {
@@ -14,6 +15,10 @@ const getBaseURL = () => {
 
 export const authClient = createAuthClient({
   baseURL: getBaseURL(),
+  plugins: [
+    emailOTPClient(),
+    twoFactorClient(),
+  ],
 })
 
 export type Session = typeof authClient.$Infer.Session

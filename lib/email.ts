@@ -40,6 +40,90 @@ const emailTemplate = (teamName: string, inviterName: string, role: string, invi
         </html>
       `
 
+const otpEmailTemplate = (otp: string, type: 'sign-in' | 'email-verification') => {
+  const title = type === 'sign-in' ? 'Sign In to Your Account' : 'Verify Your Email'
+  const description = type === 'sign-in'
+    ? 'Use the code below to sign in to your TheGroupFinder account:'
+    : 'Use the code below to verify your email address:'
+
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${title}</title>
+      </head>
+      <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+        <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+          <div style="background-color: white; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <h1 style="margin: 0 0 20px 0; font-size: 24px; font-weight: 600; color: #1a1a1a;">
+              ${title}
+            </h1>
+            <p style="margin: 0 0 24px 0; font-size: 16px; color: #4a4a4a; line-height: 1.5;">
+              ${description}
+            </p>
+            <div style="background-color: #f8f9fa; border-radius: 6px; padding: 20px; text-align: center; margin-bottom: 24px;">
+              <div style="font-size: 32px; font-weight: 700; letter-spacing: 8px; color: #0066cc; font-family: 'Courier New', monospace;">
+                ${otp}
+              </div>
+            </div>
+            <p style="margin: 0 0 16px 0; font-size: 14px; color: #888; line-height: 1.5;">
+              This code will expire in 10 minutes. You have 3 attempts to enter it correctly.
+            </p>
+            <hr style="margin: 32px 0; border: none; border-top: 1px solid #e0e0e0;">
+            <p style="margin: 0; font-size: 14px; color: #888;">
+              If you didn't request this code, you can safely ignore this email.
+            </p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `
+}
+
+export async function sendOTPEmail(params: {
+  email: string
+  otp: string
+  type: 'sign-in' | 'email-verification'
+}) {
+  const { email, otp, type } = params
+
+  try {
+    // Check if Resend is configured
+    if (!resend || !process.env.RESEND_API_KEY) {
+      console.log('📧 EMAIL DISABLED - Resend API key not configured')
+      console.log(`📧 OTP for ${email}: ${otp}`)
+      console.log('   💡 Tip: Add RESEND_API_KEY to .env')
+      return { success: true, skipped: true }
+    }
+
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@thegroupfinder.com'
+    const subject = type === 'sign-in'
+      ? 'Your Sign-In Code for TheGroupFinder'
+      : 'Verify Your Email - TheGroupFinder'
+
+    const { data, error } = await resend.emails.send({
+      from: fromEmail,
+      to: email,
+      subject,
+      html: otpEmailTemplate(otp, type),
+    })
+
+    if (error) {
+      console.error('Resend error:', error)
+      throw error
+    }
+
+    console.log('✅ OTP email sent via Resend:', data)
+    return { success: true }
+  } catch (error: any) {
+    console.error('Error sending OTP email:', error)
+    console.log(`📧 OTP for ${email}: ${otp}`)
+    return { success: false, error }
+  }
+}
+
 export async function sendInvitationEmail(params: {
   email: string
   teamName: string
@@ -63,7 +147,7 @@ export async function sendInvitationEmail(params: {
     // Send email via Resend
     // Use verified domain: doable.kartiklabhshetwar.me
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@doable.kartikk.tech'
-    
+
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: email,

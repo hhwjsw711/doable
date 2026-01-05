@@ -2,6 +2,8 @@ import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
 import { nextCookies } from "better-auth/next-js"
 import { db } from "./db"
+import { emailOTP, twoFactor } from "better-auth/plugins"
+import { sendOTPEmail } from "./email"
 
 export const auth = betterAuth({
   database: prismaAdapter(db, {
@@ -41,7 +43,31 @@ export const auth = betterAuth({
     ].filter(Boolean) as string[]
     return origins
   },
+  account: {
+    accountLinking: {
+      enabled: true,
+    },
+  },
   plugins: [
+    emailOTP({
+      otpLength: 6,
+      expiresIn: 10 * 60, // 10 minutes
+      allowedAttempts: 3,
+      async sendVerificationOTP({ email, otp, type }) {
+        // Log in development
+        if (process.env.NODE_ENV === "development") {
+          console.log("📧 OTP verification email sent to", email, "with code", otp);
+        }
+
+        // Send OTP email
+        await sendOTPEmail({
+          email,
+          otp,
+          type: type as 'sign-in' | 'email-verification',
+        });
+      },
+    }),
+    twoFactor(),
     nextCookies(), // Must be last plugin
   ],
 })
