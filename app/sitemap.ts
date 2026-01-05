@@ -12,9 +12,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       images: [`${baseUrl}/open-graph.png`],
       videos: [
         {
-          title: "Doable Demo Video",
+          title: "TheGroupFinder Demo Video",
           thumbnail_loc: `${baseUrl}/open-graph.png`,
-          description: "Watch how teams use Doable to manage tasks and collaborate effectively.",
+          description: "Watch how teams use TheGroupFinder to manage tasks and collaborate effectively.",
         },
       ],
     },

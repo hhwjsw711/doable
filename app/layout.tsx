@@ -8,7 +8,7 @@ import { ErrorBoundaryWrapper } from "@/components/error-boundary-wrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Doable",
+  title: "TheGroupFinder",
   description: "Built for teams who want to get things done. Clean, fast, and powerful task management. Free forever, open source.",
   keywords: ["task management", "team collaboration", "project management", "kanban", "agile", "productivity", "open source"],
   authors: [{ name: "Kartik Labhshetwar" }],
@@ -29,24 +29,24 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://thegroupfinder.com/",
-    siteName: "Doable",
-    title: "Doable",
+    siteName: "TheGroupFinder",
+    title: "TheGroupFinder",
     description: "Built for teams who want to get things done. Clean, fast, and powerful task management.",
     images: [
       {
         url: "/open-graph.png",
         width: 1200,
         height: 630,
-        alt: "Doable",
+        alt: "TheGroupFinder",
         type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    site: "@code_kartik",
-    creator: "@code_kartik",
-    title: "Doable",
+    site: "@hhwjsw711",
+    creator: "@hhwjsw711",
+    title: "TheGroupFinder",
     description: "Built for teams who want to get things done. Clean, fast, and powerful task management.",
     images: ["/open-graph.png"],
   },
