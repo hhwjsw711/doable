@@ -11,7 +11,7 @@ import { getIssues } from '@/lib/api/issues'
 import { getIssueById } from '@/lib/api/issues'
 import { deleteIssue } from '@/lib/api/issues'
 import { createProject, updateProject, deleteProject } from '@/lib/api/projects'
-import { sendInvitationEmail } from '@/lib/email'
+import { sendInvitationEmail, getLocaleFromRequest } from '@/lib/email'
 import { stepCountIs } from 'ai'
 import {
   resolveWorkflowState,
@@ -49,6 +49,9 @@ export async function POST(
         { status: 401 }
       )
     }
+
+    // Get user's locale preference from request
+    const locale = getLocaleFromRequest(request)
 
     // Get or create conversation
     let conversationId = existingConversationId
@@ -1217,6 +1220,7 @@ Always use the provided tools for actions.`
                   inviterName,
                   role: role || 'developer',
                   inviteUrl: `${process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_URL}/invite/${invitation.id}`,
+                  locale,
                 })
               } catch (emailError) {
                 console.error('Error sending invitation email:', emailError)
@@ -1297,6 +1301,7 @@ Always use the provided tools for actions.`
                       inviterName,
                       role: invitationData.role || 'developer',
                       inviteUrl: `${process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_URL}/invite/${invitation.id}`,
+                      locale,
                     })
                   } catch (emailError) {
                     console.error(`Error sending invitation email to ${invitationData.email}:`, emailError)

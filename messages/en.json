@@ -11,6 +11,35 @@
     "edit": "Edit",
     "back": "Back"
   },
+  "metadata": {
+    "title": "TheGroupFinder - Modern Team Task Management",
+    "description": "Built for teams who want to get things done. Clean, fast, and powerful task management. Free forever, open source.",
+    "keywords": "task management, team collaboration, project management, kanban, agile, productivity, open source",
+    "openGraph": {
+      "title": "TheGroupFinder",
+      "description": "Built for teams who want to get things done. Clean, fast, and powerful task management.",
+      "siteName": "TheGroupFinder",
+      "imageAlt": "TheGroupFinder - Modern Team Task Management"
+    },
+    "twitter": {
+      "title": "TheGroupFinder",
+      "description": "Built for teams who want to get things done. Clean, fast, and powerful task management."
+    }
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "heading": "404 - Page Not Found",
+    "message": "Sorry, we couldn't find the page you're looking for.",
+    "backHome": "Back to Home",
+    "backDashboard": "Back to Dashboard"
+  },
+  "error": {
+    "title": "Something Went Wrong",
+    "heading": "Oops! Something went wrong",
+    "message": "We encountered an unexpected error. Please try again.",
+    "retry": "Try Again",
+    "backHome": "Back to Home"
+  },
   "workflowStates": {
     "Backlog": "Backlog",
     "Todo": "Todo",
@@ -381,6 +410,31 @@
     "createDialogDescription": "Create a new project for your team.",
     "editDialogTitle": "Edit Project",
     "editDialogDescription": "Update the project details."
+  },
+  "emails": {
+    "invitation": {
+      "subject": "You've been invited to join {teamName} on TheGroupFinder",
+      "title": "You've been invited to join {teamName}",
+      "bodyIntro": "{inviterName} has invited you to join the <strong>{teamName}</strong> team as a <strong>{role}</strong> on TheGroupFinder.",
+      "bodyAction": "Click the button below to accept the invitation:",
+      "acceptButton": "Accept Invitation",
+      "urlFallback": "Or copy and paste this URL into your browser:",
+      "footer": "If you didn't expect this invitation, you can safely ignore this email."
+    },
+    "otp": {
+      "signIn": {
+        "subject": "Your Sign-In Code for TheGroupFinder",
+        "title": "Sign In to Your Account",
+        "description": "Use the code below to sign in to your TheGroupFinder account:"
+      },
+      "emailVerification": {
+        "subject": "Verify Your Email - TheGroupFinder",
+        "title": "Verify Your Email",
+        "description": "Use the code below to verify your email address:"
+      },
+      "expiryNotice": "This code will expire in 10 minutes. You have 3 attempts to enter it correctly.",
+      "footer": "If you didn't request this code, you can safely ignore this email."
+    }
   },
   "components": {
     "issueDialog": {

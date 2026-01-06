@@ -5,6 +5,7 @@ import { ProjectWithRelations } from '@/lib/types'
 import { UserAvatar } from '@/components/shared/user-avatar'
 import { Button } from '@/components/ui/button'
 import { ChevronDown, ChevronRight, Plus, MoreVertical, X } from 'lucide-react'
+import { useFormatDate } from '@/lib/hooks/use-format-date'
 
 interface ProjectListProps {
   projects: ProjectWithRelations[]
@@ -59,26 +60,11 @@ export function ProjectList({
     })
   }
 
+  const { formatDateShort } = useFormatDate()
   const formatDate = (date: Date | string) => {
     if (!date) return ''
-    const dateObj = typeof date === 'string' ? new Date(date) : date
-    if (isNaN(dateObj.getTime())) return ''
-    
-    const today = new Date()
-    const isThisYear = dateObj.getFullYear() === today.getFullYear()
-    
-    if (isThisYear) {
-      return new Intl.DateTimeFormat('en-US', {
-        month: 'short',
-        day: 'numeric',
-      }).format(dateObj)
-    }
-    
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    }).format(dateObj)
+    const result = formatDateShort(date)
+    return result === 'Invalid date' ? '' : result
   }
 
   const isCompleted = (status: string) => {

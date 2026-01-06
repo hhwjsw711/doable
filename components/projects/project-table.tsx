@@ -9,6 +9,7 @@ import { ChevronUp, ChevronDown } from 'lucide-react'
 import { ActionsMenu, createProjectActions } from '@/components/shared/actions-menu'
 import { UserAvatar } from '@/components/shared/user-avatar'
 import { useTranslations } from 'next-intl'
+import { useFormatDate } from '@/lib/hooks/use-format-date'
 
 interface ProjectTableProps {
   projects: ProjectWithRelations[]
@@ -58,20 +59,11 @@ export function ProjectTable({
     }
   }
 
+  const { formatDate: formatDateHelper } = useFormatDate()
   const formatDate = (date: Date | string) => {
     if (!date) return 'N/A'
-    
-    const dateObj = typeof date === 'string' ? new Date(date) : date
-    
-    if (isNaN(dateObj.getTime())) {
-      return 'N/A'
-    }
-    
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    }).format(dateObj)
+    const result = formatDateHelper(date)
+    return result === 'Invalid date' ? 'N/A' : result
   }
 
   const sortedProjects = [...projects].sort((a, b) => {

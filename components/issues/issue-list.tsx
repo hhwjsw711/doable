@@ -11,6 +11,7 @@ import { ActionsMenu, createIssueActions } from '@/components/shared/actions-men
 import { cn } from '@/lib/utils'
 import { useTranslations } from 'next-intl'
 import { translateWorkflowState } from '@/lib/i18n/translate-workflow-state'
+import { useFormatDate } from '@/lib/hooks/use-format-date'
 
 interface IssueListProps {
   issues: IssueWithRelations[]
@@ -84,26 +85,8 @@ export function IssueList({
     })
   }
 
-  const formatDate = (date: Date | string) => {
-    const dateObj = typeof date === 'string' ? new Date(date) : date
-    if (isNaN(dateObj.getTime())) return ''
-    
-    const today = new Date()
-    const isThisYear = dateObj.getFullYear() === today.getFullYear()
-    
-    if (isThisYear) {
-      return new Intl.DateTimeFormat('en-US', {
-        month: 'short',
-        day: 'numeric',
-      }).format(dateObj)
-    }
-    
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    }).format(dateObj)
-  }
+  const { formatDateShort } = useFormatDate()
+  const formatDate = formatDateShort
 
   const getIssueIdentifier = (issue: IssueWithRelations) => {
     return `${issue.project?.key || issue.team.key}-${issue.number}`

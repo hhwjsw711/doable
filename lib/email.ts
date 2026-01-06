@@ -1,38 +1,83 @@
 import { Resend } from 'resend'
+import { getTranslations } from 'next-intl/server'
 
 // Initialize Resend if API key is provided
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
-const emailTemplate = (teamName: string, inviterName: string, role: string, inviteUrl: string) => `
+/**
+ * Get locale from request headers or cookies
+ * Priority: NEXT_LOCALE cookie > Accept-Language header > 'en' (default)
+ */
+export function getLocaleFromRequest(request?: Request): string {
+  if (!request) return 'en'
+
+  try {
+    // Try to get locale from NEXT_LOCALE cookie (set by next-intl)
+    const cookieHeader = request.headers.get('cookie')
+    if (cookieHeader) {
+      const cookies = cookieHeader.split(';').reduce((acc, cookie) => {
+        const [key, value] = cookie.trim().split('=')
+        acc[key] = value
+        return acc
+      }, {} as Record<string, string>)
+
+      if (cookies.NEXT_LOCALE && ['en', 'zh'].includes(cookies.NEXT_LOCALE)) {
+        return cookies.NEXT_LOCALE
+      }
+    }
+
+    // Fallback to Accept-Language header
+    const acceptLanguage = request.headers.get('accept-language')
+    if (acceptLanguage) {
+      // Parse Accept-Language: "zh-CN,zh;q=0.9,en;q=0.8"
+      const preferredLang = acceptLanguage.split(',')[0]?.split('-')[0]
+      if (preferredLang && ['en', 'zh'].includes(preferredLang)) {
+        return preferredLang
+      }
+    }
+  } catch (error) {
+    console.error('Error getting locale from request:', error)
+  }
+
+  return 'en'
+}
+
+const emailTemplate = (
+  teamName: string,
+  inviterName: string,
+  role: string,
+  inviteUrl: string,
+  t: Awaited<ReturnType<typeof getTranslations<'emails.invitation'>>>
+) => `
         <!DOCTYPE html>
         <html>
           <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Invitation to join ${teamName}</title>
+            <title>${t('title', { teamName })}</title>
           </head>
           <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
             <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
               <div style="background-color: white; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                 <h1 style="margin: 0 0 20px 0; font-size: 24px; font-weight: 600; color: #1a1a1a;">
-                  You've been invited to join ${teamName}
+                  ${t('title', { teamName })}
                 </h1>
                 <p style="margin: 0 0 16px 0; font-size: 16px; color: #4a4a4a; line-height: 1.5;">
-                  ${inviterName} has invited you to join the <strong>${teamName}</strong> team as a <strong>${role}</strong> on TheGroupFinder.
+                  ${t.rich('bodyIntro', { teamName, inviterName, role })}
                 </p>
                 <p style="margin: 0 0 32px 0; font-size: 16px; color: #4a4a4a; line-height: 1.5;">
-                  Click the button below to accept the invitation:
+                  ${t('bodyAction')}
                 </p>
                 <a href="${inviteUrl}" style="display: inline-block; background-color: #0066cc; color: white; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-size: 16px; font-weight: 500; margin-bottom: 24px;">
-                  Accept Invitation
+                  ${t('acceptButton')}
                 </a>
                 <p style="margin: 0; font-size: 14px; color: #888; line-height: 1.5;">
-                  Or copy and paste this URL into your browser:<br>
+                  ${t('urlFallback')}<br>
                   <a href="${inviteUrl}" style="color: #0066cc; word-break: break-all;">${inviteUrl}</a>
                 </p>
                 <hr style="margin: 32px 0; border: none; border-top: 1px solid #e0e0e0;">
                 <p style="margin: 0; font-size: 14px; color: #888;">
-                  If you didn't expect this invitation, you can safely ignore this email.
+                  ${t('footer')}
                 </p>
               </div>
             </div>
@@ -40,11 +85,13 @@ const emailTemplate = (teamName: string, inviterName: string, role: string, invi
         </html>
       `
 
-const otpEmailTemplate = (otp: string, type: 'sign-in' | 'email-verification') => {
-  const title = type === 'sign-in' ? 'Sign In to Your Account' : 'Verify Your Email'
-  const description = type === 'sign-in'
-    ? 'Use the code below to sign in to your TheGroupFinder account:'
-    : 'Use the code below to verify your email address:'
+const otpEmailTemplate = (
+  otp: string,
+  type: 'sign-in' | 'email-verification',
+  t: Awaited<ReturnType<typeof getTranslations<'emails.otp'>>>
+) => {
+  const title = type === 'sign-in' ? t('signIn.title') : t('emailVerification.title')
+  const description = type === 'sign-in' ? t('signIn.description') : t('emailVerification.description')
 
   return `
     <!DOCTYPE html>
@@ -69,11 +116,11 @@ const otpEmailTemplate = (otp: string, type: 'sign-in' | 'email-verification') =
               </div>
             </div>
             <p style="margin: 0 0 16px 0; font-size: 14px; color: #888; line-height: 1.5;">
-              This code will expire in 10 minutes. You have 3 attempts to enter it correctly.
+              ${t('expiryNotice')}
             </p>
             <hr style="margin: 32px 0; border: none; border-top: 1px solid #e0e0e0;">
             <p style="margin: 0; font-size: 14px; color: #888;">
-              If you didn't request this code, you can safely ignore this email.
+              ${t('footer')}
             </p>
           </div>
         </div>
@@ -86,8 +133,9 @@ export async function sendOTPEmail(params: {
   email: string
   otp: string
   type: 'sign-in' | 'email-verification'
+  locale?: string
 }) {
-  const { email, otp, type } = params
+  const { email, otp, type, locale = 'en' } = params
 
   try {
     // Check if Resend is configured
@@ -99,15 +147,18 @@ export async function sendOTPEmail(params: {
     }
 
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@thegroupfinder.com'
+
+    // Get translations for the specified locale
+    const t = await getTranslations({ locale, namespace: 'emails.otp' })
     const subject = type === 'sign-in'
-      ? 'Your Sign-In Code for TheGroupFinder'
-      : 'Verify Your Email - TheGroupFinder'
+      ? t('signIn.subject')
+      : t('emailVerification.subject')
 
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: email,
       subject,
-      html: otpEmailTemplate(otp, type),
+      html: otpEmailTemplate(otp, type, t),
     })
 
     if (error) {
@@ -130,8 +181,9 @@ export async function sendInvitationEmail(params: {
   inviterName: string
   role: string
   inviteUrl: string
+  locale?: string
 }) {
-  const { email, teamName, inviterName, role, inviteUrl } = params
+  const { email, teamName, inviterName, role, inviteUrl, locale = 'en' } = params
 
   try {
     // Check if Resend is configured
@@ -144,6 +196,9 @@ export async function sendInvitationEmail(params: {
       return { success: true, skipped: true }
     }
 
+    // Get translations for the specified locale
+    const t = await getTranslations({ locale, namespace: 'emails.invitation' })
+
     // Send email via Resend
     // Use verified domain: doable.kartiklabhshetwar.me
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@doable.kartikk.tech'
@@ -151,8 +206,8 @@ export async function sendInvitationEmail(params: {
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: email,
-      subject: `You've been invited to join ${teamName} on TheGroupFinder`,
-      html: emailTemplate(teamName, inviterName, role, inviteUrl),
+      subject: t('subject', { teamName }),
+      html: emailTemplate(teamName, inviterName, role, inviteUrl, t),
     })
 
     if (error) {

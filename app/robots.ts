@@ -7,8 +7,13 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
-        disallow: ["/dashboard/", "/api/"],
+        allow: ["/", "/en/", "/zh/"],
+        disallow: [
+          "/dashboard/",
+          "/api/",
+          "/invite/",
+          "/*?*conversationId=*", // Don't index chat conversations with query params
+        ],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

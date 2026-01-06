@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowUpDown, MessageSquare, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useTranslations } from 'next-intl'
+import { useFormatDate } from '@/lib/hooks/use-format-date'
 
 interface IssueTableProps {
   issues: IssueWithRelations[]
@@ -41,22 +42,7 @@ export function IssueTable({
   className
 }: IssueTableProps) {
   const t = useTranslations('components.issueTable')
-
-  const formatDate = (date: Date | string) => {
-    // Convert to Date object if it's a string
-    const dateObj = typeof date === 'string' ? new Date(date) : date
-    
-    // Check if the date is valid
-    if (isNaN(dateObj.getTime())) {
-      return 'Invalid date'
-    }
-    
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    }).format(dateObj)
-  }
+  const { formatDate } = useFormatDate()
 
   const getProjectInfo = (issue: any) => {
     // First try to get from the project relation (if included in the query)

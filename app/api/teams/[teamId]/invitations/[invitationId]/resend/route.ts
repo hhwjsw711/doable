@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getUserId, getUser } from "@/lib/auth-server-helpers"
 import { db } from '@/lib/db'
-import { sendInvitationEmail } from '@/lib/email'
+import { sendInvitationEmail, getLocaleFromRequest } from '@/lib/email'
 
 export async function POST(
   request: NextRequest,
@@ -62,12 +62,14 @@ export async function POST(
 
     if (process.env.RESEND_API_KEY) {
       try {
+        const locale = getLocaleFromRequest(request)
         await sendInvitationEmail({
           email: invitation.email,
           teamName: team?.name || 'the team',
           inviterName,
           role: invitation.role,
           inviteUrl,
+          locale,
         })
       } catch (emailError) {
         console.error('Error resending invitation email:', emailError)

@@ -11,6 +11,35 @@
     "edit": "编辑",
     "back": "返回"
   },
+  "metadata": {
+    "title": "TheGroupFinder - 现代化团队任务管理",
+    "description": "专为追求高效的团队打造。简洁、快速、强大的任务管理工具。永久免费，开源。",
+    "keywords": "任务管理, 团队协作, 项目管理, 看板, 敏捷开发, 生产力工具, 开源",
+    "openGraph": {
+      "title": "TheGroupFinder",
+      "description": "专为追求高效的团队打造。简洁、快速、强大的任务管理工具。",
+      "siteName": "TheGroupFinder",
+      "imageAlt": "TheGroupFinder - 现代化团队任务管理"
+    },
+    "twitter": {
+      "title": "TheGroupFinder",
+      "description": "专为追求高效的团队打造。简洁、快速、强大的任务管理工具。"
+    }
+  },
+  "notFound": {
+    "title": "页面未找到",
+    "heading": "404 - 页面未找到",
+    "message": "抱歉，我们找不到您要访问的页面。",
+    "backHome": "返回首页",
+    "backDashboard": "返回仪表板"
+  },
+  "error": {
+    "title": "出错了",
+    "heading": "哎呀！出错了",
+    "message": "我们遇到了一个意外错误，请重试。",
+    "retry": "重试",
+    "backHome": "返回首页"
+  },
   "workflowStates": {
     "Backlog": "待办事项",
     "Todo": "未开始",
@@ -381,6 +410,31 @@
     "createDialogDescription": "为您的团队创建新项目。",
     "editDialogTitle": "编辑项目",
     "editDialogDescription": "更新项目详情。"
+  },
+  "emails": {
+    "invitation": {
+      "subject": "您已被邀请加入 {teamName} - TheGroupFinder",
+      "title": "您已被邀请加入 {teamName}",
+      "bodyIntro": "{inviterName} 邀请您以 <strong>{role}</strong> 身份加入 TheGroupFinder 的 <strong>{teamName}</strong> 团队。",
+      "bodyAction": "点击下方按钮接受邀请：",
+      "acceptButton": "接受邀请",
+      "urlFallback": "或复制以下链接到浏览器中打开：",
+      "footer": "如果您没有预期收到此邀请，可以安全地忽略这封邮件。"
+    },
+    "otp": {
+      "signIn": {
+        "subject": "您的 TheGroupFinder 登录验证码",
+        "title": "登录您的账户",
+        "description": "使用以下验证码登录您的 TheGroupFinder 账户："
+      },
+      "emailVerification": {
+        "subject": "验证您的邮箱 - TheGroupFinder",
+        "title": "验证您的邮箱",
+        "description": "使用以下验证码验证您的邮箱地址："
+      },
+      "expiryNotice": "此验证码将在 10 分钟后过期。您有 3 次输入机会。",
+      "footer": "如果您没有请求此验证码，可以安全地忽略这封邮件。"
+    }
   },
   "components": {
     "issueDialog": {
