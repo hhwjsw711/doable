@@ -653,6 +653,13 @@
         "showStatistics": "显示团队统计信息",
         "myIssues": "有哪些问题分配给了我？"
       }
+    },
+    "chatInput": {
+      "placeholder": "输入您的消息...（回车发送，Shift+回车换行）"
+    },
+    "chatMessage": {
+      "you": "您",
+      "ai": "Doable AI"
     }
   }
 }

@@ -653,6 +653,13 @@
         "showStatistics": "Show me team statistics",
         "myIssues": "What issues are assigned to me?"
       }
+    },
+    "chatInput": {
+      "placeholder": "Type your message... (Enter to send, Shift+Enter for new line)"
+    },
+    "chatMessage": {
+      "you": "You",
+      "ai": "Doable AI"
     }
   }
 }

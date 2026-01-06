@@ -8,6 +8,7 @@ import {
   PromptInputActions,
 } from '@/components/ui/prompt-input'
 import { ArrowUp } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 interface ChatInputProps {
   onSend: (message: string) => void
   disabled?: boolean
@@ -16,6 +17,7 @@ interface ChatInputProps {
 
 export function ChatInput({ onSend, disabled, suggestedPrompt }: ChatInputProps) {
   const [input, setInput] = useState('')
+  const t = useTranslations('components.chatInput')
 
   // Update input when a prompt is suggested
   useEffect(() => {
@@ -42,7 +44,7 @@ export function ChatInput({ onSend, disabled, suggestedPrompt }: ChatInputProps)
       >
         <PromptInputActions>
           <PromptInputTextarea
-            placeholder="Type your message... (Enter to send, Shift+Enter for new line)"
+            placeholder={t('placeholder')}
             className="flex-1"
           />
           <Button

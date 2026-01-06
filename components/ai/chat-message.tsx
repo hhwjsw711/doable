@@ -5,6 +5,7 @@ import { Markdown } from '@/components/ui/markdown'
 import { cn } from '@/lib/utils'
 import IconUser from '../ui/IconUser'
 import IconMsgs from '../ui/IconMsgs'
+import { useTranslations } from 'next-intl'
 
 interface ChatMessageProps {
   message: {
@@ -17,6 +18,7 @@ interface ChatMessageProps {
 export function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === 'user'
   const isAssistant = message.role === 'assistant'
+  const t = useTranslations('components.chatMessage')
 
   return (
     <div className={cn(
@@ -36,7 +38,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
       <div className="flex-1 space-y-2">
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold">
-            {isUser ? 'You' : 'Doable AI'}
+            {isUser ? t('you') : t('ai')}
           </span>
         </div>
 
