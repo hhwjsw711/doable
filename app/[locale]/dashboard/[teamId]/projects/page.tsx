@@ -18,6 +18,7 @@ import { useProjects, useCreateProject, useUpdateProject, useDeleteProject } fro
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
+import { translateProjectStatus } from '@/lib/i18n/translate-project-status'
 import {
   Pagination,
   PaginationContent,
@@ -44,6 +45,7 @@ interface ProjectFilters {
 
 export default function ProjectsPage() {
   const t = useTranslations('projects');
+  const tCommon = useTranslations();
   const params = useParams<{ teamId: string }>()
   const teamId = params.teamId
   const queryClient = useQueryClient()
@@ -341,7 +343,7 @@ export default function ProjectsPage() {
                     updateFilter('status', newStatuses)
                   }}
                 >
-                  {t(status as any)}
+                  {translateProjectStatus(status, tCommon)}
                 </DropdownMenuCheckboxItem>
               ))}
 

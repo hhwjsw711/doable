@@ -10,6 +10,7 @@ import { ActionsMenu, createProjectActions } from '@/components/shared/actions-m
 import { UserAvatar } from '@/components/shared/user-avatar'
 import { useTranslations } from 'next-intl'
 import { useFormatDate } from '@/lib/hooks/use-format-date'
+import { translateProjectStatus } from '@/lib/i18n/translate-project-status'
 
 interface ProjectTableProps {
   projects: ProjectWithRelations[]
@@ -33,6 +34,8 @@ export function ProjectTable({
   className
 }: ProjectTableProps) {
   const t = useTranslations('components.actionsMenu')
+  const tCommon = useTranslations()
+  const tTable = useTranslations('components.projectTable')
   const projectActions = createProjectActions(t)
   const [sortField, setSortField] = useState<'name' | 'status' | 'createdAt' | 'issues'>('name')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
@@ -100,7 +103,7 @@ export function ProjectTable({
       variant="ghost"
       size="sm"
       onClick={() => handleSort(field)}
-      className="h-auto p-0 font-medium text-muted-foreground hover:text-foreground"
+      className="h-auto p-0 font-medium text-sm text-muted-foreground hover:text-foreground"
     >
       <span className="flex items-center gap-1">
         {children}
@@ -114,33 +117,33 @@ export function ProjectTable({
   return (
     <Card className={className}>
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-medium">Projects</CardTitle>
+        <CardTitle className="text-lg font-medium">{tTable('title')}</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-border/50">
-                <th className="text-left p-4 font-medium text-muted-foreground">
-                  <SortButton field="name">Name</SortButton>
+                <th className="text-left p-4 font-medium text-sm text-muted-foreground">
+                  <SortButton field="name">{tTable('name')}</SortButton>
                 </th>
-                <th className="text-left p-4 font-medium text-muted-foreground">
-                  <SortButton field="status">Status</SortButton>
+                <th className="text-left p-4 font-medium text-sm text-muted-foreground">
+                  <SortButton field="status">{tTable('status')}</SortButton>
                 </th>
-                <th className="text-left p-4 font-medium text-muted-foreground">
-                  Lead
+                <th className="text-left p-4 font-medium text-sm text-muted-foreground">
+                  {tTable('lead')}
                 </th>
-                <th className="text-left p-4 font-medium text-muted-foreground">
-                  Members
+                <th className="text-left p-4 font-medium text-sm text-muted-foreground">
+                  {tTable('members')}
                 </th>
-                <th className="text-left p-4 font-medium text-muted-foreground">
-                  <SortButton field="issues">Issues</SortButton>
+                <th className="text-left p-4 font-medium text-sm text-muted-foreground">
+                  <SortButton field="issues">{tTable('issues')}</SortButton>
                 </th>
-                <th className="text-left p-4 font-medium text-muted-foreground">
-                  <SortButton field="createdAt">Created</SortButton>
+                <th className="text-left p-4 font-medium text-sm text-muted-foreground">
+                  <SortButton field="createdAt">{tTable('created')}</SortButton>
                 </th>
-                <th className="text-right p-4 font-medium text-muted-foreground">
-                  Actions
+                <th className="text-right p-4 font-medium text-sm text-muted-foreground">
+                  {tTable('actions')}
                 </th>
               </tr>
             </thead>
@@ -156,17 +159,17 @@ export function ProjectTable({
                         <div className="w-2 h-2 rounded-full bg-muted-foreground/50" />
                       </div>
                       <div>
-                        <div className="font-medium text-foreground">{project.name}</div>
-                        <div className="text-sm text-muted-foreground font-mono">{project.key}</div>
+                        <div className="font-medium text-foreground text-base">{project.name}</div>
+                        <div className="text-xs text-muted-foreground font-mono">{project.key}</div>
                       </div>
                     </div>
                   </td>
                   <td className="p-4">
-                    <div 
+                    <div
                       className="text-xs px-2 py-1 rounded text-white font-medium inline-block"
                       style={{ backgroundColor: getStatusColor(project.status) }}
                     >
-                      {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
+                      {translateProjectStatus(project.status, tCommon)}
                     </div>
                   </td>
                   <td className="p-4">

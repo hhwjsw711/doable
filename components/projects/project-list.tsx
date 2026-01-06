@@ -6,6 +6,8 @@ import { UserAvatar } from '@/components/shared/user-avatar'
 import { Button } from '@/components/ui/button'
 import { ChevronDown, ChevronRight, Plus, MoreVertical, X } from 'lucide-react'
 import { useFormatDate } from '@/lib/hooks/use-format-date'
+import { useTranslations } from 'next-intl'
+import { translateProjectStatus } from '@/lib/i18n/translate-project-status'
 
 interface ProjectListProps {
   projects: ProjectWithRelations[]
@@ -15,11 +17,6 @@ interface ProjectListProps {
 }
 
 const statusOrder = ['active', 'completed', 'canceled']
-const statusLabels = {
-  active: 'Active',
-  completed: 'Completed',
-  canceled: 'Canceled',
-}
 
 export function ProjectList({
   projects,
@@ -27,6 +24,7 @@ export function ProjectList({
   onProjectClick,
   onProjectCheck,
 }: ProjectListProps) {
+  const t = useTranslations()
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set())
 
   // Group projects by status
@@ -102,7 +100,7 @@ export function ProjectList({
                 )}
                 
                 <span className="font-medium text-sm text-foreground">
-                  {statusLabels[status as keyof typeof statusLabels]}
+                  {translateProjectStatus(status, t)}
                 </span>
                 
                 <span className="text-xs text-muted-foreground">
@@ -121,7 +119,7 @@ export function ProjectList({
                     e.stopPropagation()
                     onCreateProject(status)
                   }}
-                  aria-label={`Create project in ${statusLabels[status as keyof typeof statusLabels]}`}
+                  aria-label={`Create project in ${translateProjectStatus(status, t)}`}
                 >
                   <Plus className="h-3.5 w-3.5" />
                 </Button>

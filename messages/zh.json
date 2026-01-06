@@ -628,6 +628,16 @@
       "addIssue": "添加问题",
       "hideColumn": "隐藏列"
     },
+    "projectTable": {
+      "title": "项目",
+      "name": "名称",
+      "status": "状态",
+      "lead": "负责人",
+      "members": "成员",
+      "issues": "问题",
+      "created": "创建时间",
+      "actions": "操作"
+    },
     "statusChangeDropdown": {
       "placeholder": "更改状态...",
       "noStatusFound": "未找到状态"

@@ -628,6 +628,16 @@
       "addIssue": "Add issue",
       "hideColumn": "Hide column"
     },
+    "projectTable": {
+      "title": "Projects",
+      "name": "Name",
+      "status": "Status",
+      "lead": "Lead",
+      "members": "Members",
+      "issues": "Issues",
+      "created": "Created",
+      "actions": "Actions"
+    },
     "statusChangeDropdown": {
       "placeholder": "Change status...",
       "noStatusFound": "No status found"

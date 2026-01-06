@@ -69,12 +69,12 @@ export function IssueTable({
 
   const SortButton = ({ field, children }: { field: string; children: React.ReactNode }) => {
     if (!onSort) return <>{children}</>
-    
+
     return (
       <Button
         variant="ghost"
         size="sm"
-        className="h-auto p-0 font-medium hover:bg-transparent"
+        className="h-auto p-0 font-medium text-sm hover:bg-transparent"
         onClick={() => handleSort(field)}
       >
         <div className="flex items-center gap-1">
@@ -90,27 +90,27 @@ export function IssueTable({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>
+            <TableHead className="text-sm font-medium">
               <SortButton field="title">{t('title')}</SortButton>
             </TableHead>
-            <TableHead>
+            <TableHead className="text-sm font-medium">
               <SortButton field="number">{t('id')}</SortButton>
             </TableHead>
-            <TableHead>{t('status')}</TableHead>
-            <TableHead>{t('priority')}</TableHead>
-            <TableHead>{t('project')}</TableHead>
-            <TableHead>{t('assignee')}</TableHead>
-            <TableHead>{t('labels')}</TableHead>
-            <TableHead>
+            <TableHead className="text-sm font-medium">{t('status')}</TableHead>
+            <TableHead className="text-sm font-medium">{t('priority')}</TableHead>
+            <TableHead className="text-sm font-medium">{t('project')}</TableHead>
+            <TableHead className="text-sm font-medium">{t('assignee')}</TableHead>
+            <TableHead className="text-sm font-medium">{t('labels')}</TableHead>
+            <TableHead className="text-sm font-medium">
               <SortButton field="createdAt">{t('created')}</SortButton>
             </TableHead>
-            <TableHead>{t('comments')}</TableHead>
+            <TableHead className="text-sm font-medium">{t('comments')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {issues.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={9} className="text-center py-8 text-gray-500">
+              <TableCell colSpan={9} className="text-center py-8 text-sm text-gray-500">
                 {t('noIssuesFound')}
               </TableCell>
             </TableRow>
@@ -129,7 +129,7 @@ export function IssueTable({
                   )}
                   onClick={() => onIssueClick?.(issue)}
                 >
-                  <TableCell className="font-medium">
+                  <TableCell className="font-medium text-sm">
                     <div className="max-w-xs">
                       <div className="flex items-center gap-2 truncate">
                         {isOptimistic && (
@@ -138,7 +138,7 @@ export function IssueTable({
                         <span className="truncate">{issue.title}</span>
                       </div>
                       {issue.description && (
-                        <div className="text-sm text-gray-500 truncate mt-1">
+                        <div className="text-xs text-gray-500 truncate mt-1">
                           {issue.description}
                         </div>
                       )}
@@ -155,24 +155,24 @@ export function IssueTable({
                   <TableCell>
                     <PriorityIcon priority={issue.priority as any} showLabel={true} />
                   </TableCell>
-                  <TableCell className="text-sm">
+                  <TableCell>
                     {project ? (
-                      <span className="text-xs px-2 py-0.5 rounded-md" style={{ 
+                      <span className="text-xs px-2 py-0.5 rounded-md" style={{
                         backgroundColor: `${project.color || '#6366f1'}20`,
                         color: project.color || '#6366f1'
                       }}>
                         {project.key}
                       </span>
                     ) : (
-                      <span className="text-gray-400">-</span>
+                      <span className="text-sm text-gray-400">-</span>
                     )}
                   </TableCell>
                   <TableCell>
-                    <AssigneeAvatar 
+                    <AssigneeAvatar
                       assigneeId={issue.assigneeId}
                       assignee={issue.assignee}
                       size="sm"
-                      fallback={<span className="text-gray-400">-</span>}
+                      fallback={<span className="text-sm text-gray-400">-</span>}
                     />
                   </TableCell>
                   <TableCell>
@@ -197,7 +197,7 @@ export function IssueTable({
                         {issue.comments.length}
                       </div>
                     ) : (
-                      <span className="text-gray-400">-</span>
+                      <span className="text-sm text-gray-400">-</span>
                     )}
                   </TableCell>
                 </TableRow>

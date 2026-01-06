@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card'
 import { ActionsMenu, createProjectActions } from '@/components/shared/actions-menu'
 import { UserAvatar } from '@/components/shared/user-avatar'
 import { useTranslations } from 'next-intl'
+import { translateProjectStatus } from '@/lib/i18n/translate-project-status'
 
 interface ProjectCardProps {
   project: ProjectWithRelations
@@ -29,6 +30,7 @@ export function ProjectCard({
   isDragging
 }: ProjectCardProps) {
   const t = useTranslations('components.actionsMenu')
+  const tCommon = useTranslations()
   const projectActions = createProjectActions(t)
 
   const getStatusColor = (status: string) => {
@@ -60,11 +62,11 @@ export function ProjectCard({
           </span>
           
           {/* Status Badge */}
-          <div 
+          <div
             className="text-xs px-2 py-1 rounded text-white font-medium"
             style={{ backgroundColor: getStatusColor(project.status) }}
           >
-            {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
+            {translateProjectStatus(project.status, tCommon)}
           </div>
         </div>
 
