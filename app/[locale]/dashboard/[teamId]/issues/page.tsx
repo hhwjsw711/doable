@@ -52,6 +52,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useTranslations } from "next-intl";
 
 interface Issue {
   id: string;
@@ -108,6 +109,7 @@ export enum ISSUE_ACTION {
 // };
 
 export default function IssuesPage() {
+  const t = useTranslations('issues');
   const params = useParams<{ teamId: string }>();
   const teamId = params.teamId;
   const queryClient = useQueryClient();
@@ -215,11 +217,11 @@ export default function IssuesPage() {
     startTransition(async () => {
       try {
         await deleteIssue.mutateAsync(issueId);
-        toast.success("Issue deleted successfully");
+        toast.success(t('deleteSuccess'));
       } catch (error: any) {
         console.error("Error deleting issue:", error);
-        toast.error("Failed to delete issue", {
-          description: error.message || "Please try again",
+        toast.error(t('deleteFailed'), {
+          description: error.message || t('pleaseTryAgain'),
         });
       }
     });
@@ -227,20 +229,20 @@ export default function IssuesPage() {
 
   const handleIssueUpdate = async (data: any) => {
     if (!currentIssue) return;
-    const toastId = toast.loading("Updating issue...", {
-      description: `"${data.title}" is being updating`,
+    const toastId = toast.loading(t('updating'), {
+      description: t('beingUpdated', { title: data.title }),
     });
     try {
       await updateIssue.mutateAsync({ issueId: currentIssue.id, data });
-      toast.success("Issue updated successfully", {
+      toast.success(t('updateSuccess'), {
         id: toastId,
-        description: `Issue ${data.title} has been updated`,
+        description: t('hasBeenUpdated', { title: data.title }),
       });
     } catch (error: any) {
       console.error("Error updating issue:", error);
-      toast.error("Failed to update issue", {
+      toast.error(t('updateFailed'), {
         id: toastId,
-        description: error.message || "Please try again",
+        description: error.message || t('pleaseTryAgain'),
       });
       throw error;
     }
@@ -248,21 +250,21 @@ export default function IssuesPage() {
 
   const handleCreateIssue = async (data: CreateIssueData) => {
     // Show loading toast immediately
-    const toastId = toast.loading("Creating issue...", {
-      description: `"${data.title}" is being created`,
+    const toastId = toast.loading(t('creating'), {
+      description: t('beingCreated', { title: data.title }),
     });
 
     try {
       await createIssue.mutateAsync(data);
-      toast.success("Issue created successfully", {
+      toast.success(t('createSuccess'), {
         id: toastId,
-        description: `Issue "${data.title}" has been created`,
+        description: t('hasBeenCreated', { title: data.title }),
       });
     } catch (error: any) {
       console.error("Error creating issue:", error);
-      toast.error("Failed to create issue", {
+      toast.error(t('createFailed'), {
         id: toastId,
-        description: error.message || "Please try again",
+        description: error.message || t('pleaseTryAgain'),
       });
       throw error;
     }
@@ -329,7 +331,7 @@ export default function IssuesPage() {
     setCurrentPage(1);
   }, [filters]);
 
-  const error = issuesError ? "Failed to load issues. Please try again." : null;
+  const error = issuesError ? t('failedToLoad') : null;
 
   if (error) {
     return (
@@ -340,7 +342,7 @@ export default function IssuesPage() {
               <AlertTriangle className="h-16 w-16 text-destructive mx-auto" />
             </div>
             <h3 className="text-xl font-medium text-foreground mb-3">
-              Something went wrong
+              {t('somethingWentWrong')}
             </h3>
             <p className="text-body-medium text-muted-foreground mb-6">
               {error}
@@ -351,7 +353,7 @@ export default function IssuesPage() {
               }}
               className="font-medium"
             >
-              Refresh Page
+              {t('refreshPage')}
             </Button>
           </CardContent>
         </Card>
@@ -365,9 +367,9 @@ export default function IssuesPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="space-y-1">
-            <h1 className="text-xl sm:text-2xl font-semibold">Issues</h1>
+            <h1 className="text-xl sm:text-2xl font-semibold">{t('title')}</h1>
             <p className="text-muted-foreground text-xs sm:text-sm">
-              Manage and track your team&apos;s issues
+              {t('subtitle')}
             </p>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
@@ -385,15 +387,15 @@ export default function IssuesPage() {
               size="sm"
             >
               <Plus className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">Create Issue</span>
-              <span className="sm:hidden">Create</span>
+              <span className="hidden sm:inline">{t('createButton')}</span>
+              <span className="sm:hidden">{t('createButtonShort')}</span>
             </Button>
           </div>
         </div>
 
         {/* View Switcher */}
         <div className="flex items-center justify-between sm:justify-end">
-          <span className="text-sm text-muted-foreground sm:hidden">Views</span>
+          <span className="text-sm text-muted-foreground sm:hidden">{t('views')}</span>
           <ViewSwitcher
             currentView={currentView}
             onViewChange={setCurrentView}
@@ -407,7 +409,7 @@ export default function IssuesPage() {
               <div className="flex flex-col items-center space-y-4">
                 <Spinner size="md" />
                 <span className="text-muted-foreground">
-                  Loading dashboard...
+                  {t('loadingDashboard')}
                 </span>
               </div>
             </div>
@@ -422,10 +424,10 @@ export default function IssuesPage() {
                   ) ? (
                     <>
                       <p className="text-xl font-medium text-foreground mb-2">
-                        No issues found
+                        {t('noIssuesFound')}
                       </p>
                       <p className="text-body-medium mb-4">
-                        Try adjusting your search terms or filters
+                        {t('tryAdjustingFilters')}
                       </p>
                       <Button
                         variant="outline"
@@ -434,23 +436,23 @@ export default function IssuesPage() {
                           setFilters({});
                         }}
                       >
-                        Clear all filters
+                        {t('clearAllFilters')}
                       </Button>
                     </>
                   ) : (
                     <>
                       <p className="text-xl font-medium text-foreground mb-2">
-                        No issues yet
+                        {t('noIssuesYet')}
                       </p>
                       <p className="text-body-medium mb-6">
-                        Create your first issue to get started
+                        {t('createFirstIssue')}
                       </p>
                       <Button
                         className="font-medium"
                         onClick={() => setCreateDialogOpen(true)}
                       >
                         <Plus className="h-4 w-4 mr-2" />
-                        Create Issue
+                        {t('createButton')}
                       </Button>
                     </>
                   )}
@@ -506,9 +508,9 @@ export default function IssuesPage() {
                                   });
                                 } catch (error: any) {
                                   console.error("Error updating issue:", error);
-                                  toast.error("Failed to update issue status", {
+                                  toast.error(t('updateStatusFailed'), {
                                     description:
-                                      error.message || "Please try again",
+                                      error.message || t('pleaseTryAgain'),
                                   });
                                 }
                               });
@@ -541,8 +543,8 @@ export default function IssuesPage() {
                             });
                           } catch (error: any) {
                             console.error("Error updating issue:", error);
-                            toast.error("Failed to update issue", {
-                              description: error.message || "Please try again",
+                            toast.error(t('updateFailed'), {
+                              description: error.message || t('pleaseTryAgain'),
                             });
                           }
                         }}
@@ -656,8 +658,8 @@ export default function IssuesPage() {
           projects={projects}
           workflowStates={workflowStates}
           labels={labels}
-          title={"Create Issue"}
-          description="Create a new issue for your team."
+          title={t('createDialogTitle')}
+          description={t('createDialogDescription')}
           teamId={teamId}
         />
 
@@ -689,8 +691,8 @@ export default function IssuesPage() {
                 }
               : undefined
           }
-          title="Edit Issue"
-          description="Update the issue details."
+          title={t('editDialogTitle')}
+          description={t('editDialogDescription')}
           teamId={teamId}
         />
 
@@ -723,8 +725,8 @@ export default function IssuesPage() {
                 }
               : undefined
           }
-          title="Assign Issue"
-          description="Assign the issue to a team member."
+          title={t('assignDialogTitle')}
+          description={t('assignDialogDescription')}
         />
 
         {/* Move Issue Dialog */}
@@ -756,8 +758,8 @@ export default function IssuesPage() {
                 }
               : undefined
           }
-          title="Move Issue"
-          description="Move the issue to a different project or status."
+          title={t('moveDialogTitle')}
+          description={t('moveDialogDescription')}
         />
 
         {/* Command Palette */}

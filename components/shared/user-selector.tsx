@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { UserAvatar } from '@/components/shared/user-avatar'
+import { useTranslations } from 'next-intl'
 
 interface User {
   id: string
@@ -43,13 +44,14 @@ function setCachedMembers(teamId: string, data: User[]) {
   membersCache.set(teamId, { data, timestamp: Date.now() })
 }
 
-export function UserSelector({ 
-  value, 
-  onValueChange, 
-  placeholder = "Select assignee",
+export function UserSelector({
+  value,
+  onValueChange,
+  placeholder,
   className,
   teamId
 }: UserSelectorProps) {
+  const t = useTranslations('components.userSelector')
   const { data: session } = authClient.useSession()
   const [teamMembers, setTeamMembers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
@@ -127,7 +129,7 @@ export function UserSelector({
     return (
       <Select disabled>
         <SelectTrigger className={className}>
-          <SelectValue placeholder="Loading..." />
+          <SelectValue placeholder={t('loading')} />
         </SelectTrigger>
       </Select>
     )
@@ -139,10 +141,10 @@ export function UserSelector({
   return (
     <Select value={selectValue} onValueChange={onValueChange}>
       <SelectTrigger className={className}>
-        <SelectValue placeholder={placeholder}>
+        <SelectValue placeholder={placeholder || t('selectAssignee')}>
           {selectedUser ? (
             <div className="flex items-center gap-2">
-              <UserAvatar 
+              <UserAvatar
                 name={selectedUser.displayName}
                 imageUrl={selectedUser.profileImageUrl}
                 size="sm"
@@ -154,7 +156,7 @@ export function UserSelector({
               <div className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                 <span className="text-xs text-gray-500">?</span>
               </div>
-              <span>Unassigned</span>
+              <span>{t('unassigned')}</span>
             </div>
           ) : null}
         </SelectValue>
@@ -165,7 +167,7 @@ export function UserSelector({
             <div className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
               <span className="text-xs text-gray-500">?</span>
             </div>
-            <span>Unassigned</span>
+            <span>{t('unassigned')}</span>
           </div>
         </SelectItem>
         {teamMembers.map((member) => (

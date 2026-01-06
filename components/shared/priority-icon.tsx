@@ -1,6 +1,10 @@
+'use client'
+
 import { cn } from '@/lib/utils'
 import { PriorityLevel, PRIORITY_LEVELS } from '@/lib/types'
 import { AlertTriangle, ChevronUp, Minus, Zap } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import { translatePriority } from '@/lib/i18n/translate-priority'
 
 interface PriorityIconProps {
   priority: PriorityLevel
@@ -19,6 +23,7 @@ const priorityIcons = {
 export function PriorityIcon({ priority, className, showLabel = false }: PriorityIconProps) {
   const Icon = priorityIcons[priority]
   const config = PRIORITY_LEVELS[priority]
+  const tCommon = useTranslations()
 
   return (
     <div className={cn('flex items-center gap-1', className)}>
@@ -31,7 +36,7 @@ export function PriorityIcon({ priority, className, showLabel = false }: Priorit
           className="text-xs font-medium"
           style={{ color: config.color }}
         >
-          {config.label}
+          {translatePriority(config.label, tCommon)}
         </span>
       )}
     </div>

@@ -24,6 +24,7 @@ import { authClient } from "@/lib/auth-client";
 import { useParams, useRouter, usePathname } from "next/navigation";
 import { DashboardLoader } from "@/components/ui/dashboard-loader";
 import { WorkspaceSelector } from "@/components/shared/workspace-selector";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
@@ -46,6 +47,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { AIChatbot } from "@/components/ai/ai-chatbot";
+import { useTranslations } from "next-intl";
 
 function useSegment(basePath: string) {
   const path = usePathname();
@@ -54,7 +56,7 @@ function useSegment(basePath: string) {
 }
 
 type NavigationItem = {
-  name: string;
+  nameKey: string; // 翻译键
   href?: string;
   icon?: React.ComponentType<{ className?: string }>;
   type: "item" | "label";
@@ -63,29 +65,29 @@ type NavigationItem = {
 
 const navigationItems: NavigationItem[] = [
   {
-    name: "Issues",
+    nameKey: "issues",
     href: "/issues",
     icon: IconFiles,
     type: "item",
   },
   {
-    name: "Projects",
+    nameKey: "projects",
     href: "/projects",
     icon: IconDocFolder,
     type: "item",
   },
   {
     type: "label",
-    name: "Management",
+    nameKey: "management",
   },
   {
-    name: "Management",
+    nameKey: "management",
     href: "/management",
     icon: IconSquareChartLine,
     type: "item",
   },
   {
-    name: "People",
+    nameKey: "people",
     href: "/people",
     icon: IconUsers,
     type: "item",
@@ -96,16 +98,18 @@ function HeaderBreadcrumb({
   items,
   baseBreadcrumb,
   basePath,
+  t,
 }: {
   items: NavigationItem[];
   baseBreadcrumb?: { title: string; href: string }[];
   basePath: string;
+  t: any;
 }) {
   const segment = useSegment(basePath);
   const item = items.find(
     (item) => item.type === "item" && item.href === segment,
   );
-  const title: string | undefined = item?.name;
+  const title: string | undefined = item ? t(item.nameKey) : undefined;
 
   return (
     <Breadcrumb>
@@ -130,10 +134,12 @@ function AppSidebar({
   items,
   basePath,
   sidebarTop,
+  t,
 }: {
   items: NavigationItem[];
   basePath: string;
   sidebarTop?: React.ReactNode;
+  t: any;
 }) {
   const segment = useSegment(basePath);
 
@@ -150,7 +156,7 @@ function AppSidebar({
                 if (item.type === "label") {
                   return (
                     <SidebarGroupLabel key={`label-${index}`} className="px-2">
-                      {item.name}
+                      {t(item.nameKey)}
                     </SidebarGroupLabel>
                   );
                 }
@@ -164,10 +170,10 @@ function AppSidebar({
                       <SidebarMenuButton
                         onClick={item.action}
                         isActive={false}
-                        tooltip={item.name}
+                        tooltip={t(item.nameKey)}
                       >
                         {item.icon && <item.icon />}
-                        <span>{item.name}</span>
+                        <span>{t(item.nameKey)}</span>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   );
@@ -179,11 +185,11 @@ function AppSidebar({
                     <SidebarMenuButton
                       asChild
                       isActive={isActive}
-                      tooltip={item.name}
+                      tooltip={t(item.nameKey)}
                     >
                       <Link href={basePath + (item.href || "")}>
                         {item.icon && <item.icon />}
-                        <span>{item.name}</span>
+                        <span>{t(item.nameKey)}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -198,6 +204,7 @@ function AppSidebar({
 }
 
 export default function Layout(props: { children: React.ReactNode }) {
+  const t = useTranslations('dashboard');
   const [chatbotOpen, setChatbotOpen] = useState(false);
   const params = useParams<{ teamId: string }>();
   const { data: session } = authClient.useSession();
@@ -281,7 +288,7 @@ export default function Layout(props: { children: React.ReactNode }) {
   if (isRedirecting) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <DashboardLoader message="Redirecting..." submessage="Team not found" />
+        <DashboardLoader message={t('redirecting')} submessage={t('teamNotFound')} />
       </div>
     );
   }
@@ -291,8 +298,8 @@ export default function Layout(props: { children: React.ReactNode }) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <DashboardLoader
-          message="Loading team"
-          submessage="Fetching team data..."
+          message={t('loadingTeam')}
+          submessage={t('fetchingTeamData')}
         />
       </div>
     );
@@ -311,6 +318,7 @@ export default function Layout(props: { children: React.ReactNode }) {
       <AppSidebar
         items={navigationItems}
         basePath={basePath}
+        t={t}
         sidebarTop={
           <WorkspaceSelector
             currentTeamId={team.id}
@@ -329,10 +337,11 @@ export default function Layout(props: { children: React.ReactNode }) {
                 baseBreadcrumb={baseBreadcrumb}
                 basePath={basePath}
                 items={navigationItems}
+                t={t}
               />
             </div>
 
-            {/* Right side - Chatbot Button + User Button */}
+            {/* Right side - Chatbot Button + Language Switcher + User Button */}
             <div className="flex items-center gap-2">
               {session?.user && (
                 <>
@@ -344,7 +353,7 @@ export default function Layout(props: { children: React.ReactNode }) {
                         size="icon"
                         onClick={() => setChatbotOpen(true)}
                         className="relative"
-                        title={`Open Doable AI (${isMac ? "⌘" : "Ctrl"}+K)`}
+                        title={`${t('openDoableAI')} (${isMac ? "⌘" : "Ctrl"}+K)`}
                       >
                         <IconMsgs className="h-8 w-8" />
                       </Button>
@@ -353,6 +362,9 @@ export default function Layout(props: { children: React.ReactNode }) {
                       </kbd>
                     </div>
                   </div>
+
+                  {/* Language Switcher */}
+                  <LanguageSwitcher />
 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -394,7 +406,7 @@ export default function Layout(props: { children: React.ReactNode }) {
                         className="text-red-600"
                       >
                         <LogOut className="mr-2 h-4 w-4" />
-                        <span>Sign out</span>
+                        <span>{t('signOut')}</span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

@@ -15,6 +15,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
+import { translateWorkflowState } from '@/lib/i18n/translate-workflow-state'
 
 interface IssueBoardProps {
   issues: IssueWithRelations[]
@@ -32,10 +34,10 @@ interface IssueBoardProps {
   sidebarCollapsed?: boolean
 }
 
-export function IssueBoard({ 
-  issues, 
-  workflowStates, 
-  onIssueClick, 
+export function IssueBoard({
+  issues,
+  workflowStates,
+  onIssueClick,
   onIssueUpdate,
   onIssueView,
   onIssueEdit,
@@ -49,6 +51,8 @@ export function IssueBoard({
 }: IssueBoardProps) {
   const [isDragging, setIsDragging] = useState(false)
   const queryClient = useQueryClient()
+  const tCommon = useTranslations()
+  const t = useTranslations('components.issueBoard')
 
   const getIssuesByStatus = (statusId: string) => {
     return issues.filter(issue => issue.workflowStateId === statusId)
@@ -186,7 +190,7 @@ export function IssueBoard({
               <div className="flex items-center justify-between mb-3 px-1">
                 <div className="flex items-center gap-2 sm:gap-2.5">
                   {getStatusIcon()}
-                  <h3 className="font-medium text-xs sm:text-sm text-foreground">{state.name}</h3>
+                  <h3 className="font-medium text-xs sm:text-sm text-foreground">{translateWorkflowState(state.name, tCommon)}</h3>
                   <span className="text-xs text-muted-foreground font-normal">{stateIssues.length}</span>
                 </div>
                 <div className="flex items-center gap-1">
@@ -202,7 +206,7 @@ export function IssueBoard({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Hide column</DropdownMenuItem>
+                      <DropdownMenuItem>{t('hideColumn')}</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Button
@@ -238,7 +242,7 @@ export function IssueBoard({
                             onClick={() => onCreateIssue?.(state.id)}
                           >
                             <Plus className="h-4 w-4 mr-2" />
-                            <span className="text-xs sm:text-sm">Add issue</span>
+                            <span className="text-xs sm:text-sm">{t('addIssue')}</span>
                           </Button>
                         </div>
                       ) : (

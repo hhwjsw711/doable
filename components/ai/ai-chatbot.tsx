@@ -9,6 +9,7 @@ import IconMsgs from '../ui/IconMsgs'
 import IconUser from '../ui/IconUser'
 import { useActiveConversation } from '@/lib/hooks/use-chat-conversation'
 import { useQueryClient } from '@tanstack/react-query'
+import { useTranslations } from 'next-intl'
 import {
   Conversation,
   ConversationContent,
@@ -37,20 +38,21 @@ interface AIChatbotProps {
   teamId: string
 }
 
-const promptSuggestions = [
-  'Create a new issue for fixing the login bug',
-  'Show me all high-priority issues',
-  'What projects do we have?',
-  'Create a new project called "Web App"',
-  'List all issues in progress',
-  'Update the checkout page issue to In Progress',
-  'Add Sarah to the Web Project',
-  'Invite john@example.com to the team',
-  'Show me team statistics',
-  'What issues are assigned to me?',
-]
-
 export function AIChatbot({ teamId }: AIChatbotProps) {
+  const t = useTranslations('components.aiChatbot')
+
+  const promptSuggestions = [
+    t('suggestions.createIssue'),
+    t('suggestions.showHighPriority'),
+    t('suggestions.listProjects'),
+    t('suggestions.createProject'),
+    t('suggestions.listInProgress'),
+    t('suggestions.updateIssue'),
+    t('suggestions.addMember'),
+    t('suggestions.inviteMember'),
+    t('suggestions.showStatistics'),
+    t('suggestions.myIssues'),
+  ]
   const processedMessageIdsRef = useRef<Set<string>>(new Set())
   const previousStatusRef = useRef<string>('ready')
   const queryClient = useQueryClient()
@@ -412,9 +414,9 @@ export function AIChatbot({ teamId }: AIChatbotProps) {
             <IconMsgs className="h-5 w-5 text-primary" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold">Doable AI</h2>
+            <h2 className="text-lg font-semibold">{t('title')}</h2>
             <p className="text-xs text-muted-foreground">
-              Ask me anything about your team
+              {t('subtitle')}
             </p>
           </div>
         </div>
@@ -427,18 +429,18 @@ export function AIChatbot({ teamId }: AIChatbotProps) {
             <div className="flex items-center justify-center h-full">
               <div className="flex flex-col items-center space-y-4">
                 <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">Loading conversation...</p>
+                <p className="text-sm text-muted-foreground">{t('loadingConversation')}</p>
               </div>
             </div>
           ) : messages.length === 0 ? (
             <ConversationEmptyState
               icon={<IconMsgs className="h-12 w-12" />}
-              title="Start a conversation"
-              description="I can help you create issues, manage projects, invite team members, and more. Just ask me anything!"
+              title={t('startConversation')}
+              description={t('welcomeMessage')}
             >
               <div className="w-full max-w-2xl mt-6">
                 <p className="text-xs font-medium text-muted-foreground mb-3 text-center">
-                  Try asking:
+                  {t('tryAsking')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {promptSuggestions.map((suggestion, index) => (
@@ -504,7 +506,7 @@ export function AIChatbot({ teamId }: AIChatbotProps) {
                               ))
                             ) : (
                               <ChainOfThoughtStep
-                                label="Thinking process"
+                                label={t('thinkingProcess')}
                                 status="complete"
                               >
                                 <Response>{typeof chainOfThought === 'string' ? chainOfThought : JSON.stringify(chainOfThought)}</Response>
@@ -536,7 +538,7 @@ export function AIChatbot({ teamId }: AIChatbotProps) {
                   <MessageContent variant="flat">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      <span>AI is thinking...</span>
+                      <span>{t('thinking')}</span>
                     </div>
                   </MessageContent>
                 </Message>

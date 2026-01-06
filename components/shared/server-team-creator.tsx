@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Plus } from 'lucide-react'
 import { Spinner } from '@/components/ui/spinner'
 import { authClient } from '@/lib/auth-client'
+import { useTranslations } from 'next-intl'
 
 interface ServerTeamCreatorProps {
   onTeamCreated?: (team: any) => void
@@ -15,6 +16,7 @@ interface ServerTeamCreatorProps {
 }
 
 export function ServerTeamCreator({ onTeamCreated, inDialog = false }: ServerTeamCreatorProps) {
+  const t = useTranslations('components.teamCreator')
   const [teamName, setTeamName] = useState('')
   const [isCreating, setIsCreating] = useState(false)
   const { data: session } = authClient.useSession()
@@ -47,7 +49,7 @@ export function ServerTeamCreator({ onTeamCreated, inDialog = false }: ServerTea
         }
       } else {
         const error = await response.json()
-        throw new Error(error.error || 'Failed to create team')
+        throw new Error(error.error || t('failedToCreate'))
       }
     } catch (error) {
       console.error('Error creating team:', error)
@@ -59,29 +61,29 @@ export function ServerTeamCreator({ onTeamCreated, inDialog = false }: ServerTea
   const formContent = (
     <form onSubmit={handleCreateTeam} className="space-y-4">
       <div>
-        <Label htmlFor="teamName">Team Name</Label>
+        <Label htmlFor="teamName">{t('teamName')}</Label>
         <Input
           id="teamName"
-          placeholder="Enter team name"
+          placeholder={t('enterTeamName')}
           value={teamName}
           onChange={(e) => setTeamName(e.target.value)}
           disabled={isCreating}
           required
         />
       </div>
-      <Button 
-        type="submit" 
-        className="w-full" 
+      <Button
+        type="submit"
+        className="w-full"
         disabled={isCreating || !teamName.trim()}
       >
         {isCreating ? (
           <div className="flex items-center justify-center">
-            <span className="mr-2">Creating Team...</span>
+            <span className="mr-2">{t('creatingTeam')}</span>
           </div>
         ) : (
           <>
             <Plus className="h-4 w-4 mr-2" />
-            Create Team
+            {t('createTeam')}
           </>
         )}
       </Button>
@@ -98,7 +100,7 @@ export function ServerTeamCreator({ onTeamCreated, inDialog = false }: ServerTea
       <div className="space-y-4">
         <div className="text-center flex items-center justify-center gap-2">
           <Plus className="h-5 w-5" />
-          <h2 className="text-lg font-semibold">Create New Team</h2>
+          <h2 className="text-lg font-semibold">{t('createNewTeam')}</h2>
         </div>
         {formContent}
       </div>
@@ -110,7 +112,7 @@ export function ServerTeamCreator({ onTeamCreated, inDialog = false }: ServerTea
       <CardHeader>
         <CardTitle className="text-center flex items-center justify-center gap-2">
           <Plus className="h-5 w-5" />
-          Create New Team
+          {t('createNewTeam')}
         </CardTitle>
       </CardHeader>
       <CardContent>

@@ -16,6 +16,8 @@ import {
   CommandList,
 } from '@/components/ui/command'
 import { Check, Circle, MoreVertical, Clock, X } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import { translateWorkflowState } from '@/lib/i18n/translate-workflow-state'
 
 interface StatusChangeDropdownProps {
   currentState: WorkflowState
@@ -32,6 +34,8 @@ export function StatusChangeDropdown({
 }: StatusChangeDropdownProps) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
+  const tCommon = useTranslations()
+  const t = useTranslations('components.statusChangeDropdown')
 
   const getStateIcon = (stateType: string, color: string) => {
     switch (stateType) {
@@ -70,9 +74,10 @@ export function StatusChangeDropdown({
   })
 
   // Filter states based on search
-  const filteredStates = sortedStates.filter((state) =>
-    state.name.toLowerCase().includes(search.toLowerCase())
-  )
+  const filteredStates = sortedStates.filter((state) => {
+    const translatedName = translateWorkflowState(state.name, tCommon)
+    return translatedName.toLowerCase().includes(search.toLowerCase())
+  })
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -96,7 +101,7 @@ export function StatusChangeDropdown({
         <Command shouldFilter={false}>
           <div className="flex items-center border-b px-3">
             <CommandInput
-              placeholder="Change status..."
+              placeholder={t('placeholder')}
               value={search}
               onValueChange={setSearch}
               className="h-9 border-0 focus:ring-0"
@@ -106,7 +111,7 @@ export function StatusChangeDropdown({
             </kbd>
           </div>
           <CommandList>
-            <CommandEmpty>No status found.</CommandEmpty>
+            <CommandEmpty>{t('noStatusFound')}</CommandEmpty>
             <CommandGroup>
               {filteredStates.map((state, index) => {
                 const isSelected = state.id === currentState.id
@@ -124,7 +129,7 @@ export function StatusChangeDropdown({
                     <div className="flex-shrink-0">
                       {getStateIcon(state.type, state.color)}
                     </div>
-                    <span className="flex-1">{state.name}</span>
+                    <span className="flex-1">{translateWorkflowState(state.name, tCommon)}</span>
                     {isSelected && (
                       <Check className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                     )}

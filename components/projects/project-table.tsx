@@ -6,8 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ChevronUp, ChevronDown } from 'lucide-react'
-import { ActionsMenu, projectActions } from '@/components/shared/actions-menu'
+import { ActionsMenu, createProjectActions } from '@/components/shared/actions-menu'
 import { UserAvatar } from '@/components/shared/user-avatar'
+import { useTranslations } from 'next-intl'
 
 interface ProjectTableProps {
   projects: ProjectWithRelations[]
@@ -20,16 +21,18 @@ interface ProjectTableProps {
   className?: string
 }
 
-export function ProjectTable({ 
-  projects, 
-  onProjectClick, 
+export function ProjectTable({
+  projects,
+  onProjectClick,
   onProjectUpdate,
   onProjectEdit,
   onProjectDelete,
   onProjectDuplicate,
   onProjectArchive,
-  className 
+  className
 }: ProjectTableProps) {
+  const t = useTranslations('components.actionsMenu')
+  const projectActions = createProjectActions(t)
   const [sortField, setSortField] = useState<'name' | 'status' | 'createdAt' | 'issues'>('name')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
 

@@ -7,8 +7,10 @@ import { AssigneeAvatar } from '@/components/shared/assignee-avatar'
 import { PriorityIcon } from '@/components/shared/priority-icon'
 import { Button } from '@/components/ui/button'
 import { ChevronDown, ChevronRight, Plus, X, Loader2 } from 'lucide-react'
-import { ActionsMenu, issueActions } from '@/components/shared/actions-menu'
+import { ActionsMenu, createIssueActions } from '@/components/shared/actions-menu'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
+import { translateWorkflowState } from '@/lib/i18n/translate-workflow-state'
 
 interface IssueListProps {
   issues: IssueWithRelations[]
@@ -37,6 +39,9 @@ export function IssueList({
   onIssueMove,
   onIssueDelete,
 }: IssueListProps) {
+  const t = useTranslations('components.actionsMenu')
+  const tCommon = useTranslations()
+  const issueActions = createIssueActions(t)
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set())
 
   // Group issues by workflow state
@@ -138,7 +143,7 @@ export function IssueList({
                 )}
                 
                 <span className="font-medium text-sm text-foreground">
-                  {state.name}
+                  {translateWorkflowState(state.name, tCommon)}
                 </span>
                 
                 <span className="text-xs text-muted-foreground">

@@ -1,5 +1,9 @@
+'use client'
+
 import { cn } from '@/lib/utils'
 import { WorkflowState } from '@prisma/client'
+import { useTranslations } from 'next-intl'
+import { translateWorkflowState } from '@/lib/i18n/translate-workflow-state'
 
 interface StatusBadgeProps {
   status: WorkflowState
@@ -7,6 +11,8 @@ interface StatusBadgeProps {
 }
 
 export function StatusBadge({ status, className }: StatusBadgeProps) {
+  const tCommon = useTranslations()
+
   return (
     <div
       className={cn(
@@ -19,7 +25,7 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
         className="mr-1.5 h-2 w-2 rounded-full"
         style={{ backgroundColor: status.color }}
       />
-      {status.name}
+      {translateWorkflowState(status.name, tCommon)}
     </div>
   )
 }

@@ -23,6 +23,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { useTranslations } from 'next-intl'
 
 interface WorkspaceSelectorProps {
   currentTeamId: string
@@ -30,6 +31,7 @@ interface WorkspaceSelectorProps {
 }
 
 export function WorkspaceSelector({ currentTeamId, currentTeamName }: WorkspaceSelectorProps) {
+  const t = useTranslations('components.workspaceSelector')
   const router = useRouter()
   const [teams, setTeams] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -151,7 +153,7 @@ export function WorkspaceSelector({ currentTeamId, currentTeamName }: WorkspaceS
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56">
-            <DropdownMenuLabel>Switch Workspace</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('switchWorkspace')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {teams.map((team) => (
               <DropdownMenuItem
@@ -184,20 +186,19 @@ export function WorkspaceSelector({ currentTeamId, currentTeamName }: WorkspaceS
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Workspace?</AlertDialogTitle>
+            <AlertDialogTitle>{t('deleteWorkspaceTitle')}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete &quot;{teamToDelete?.name}&quot;? This action cannot be undone. 
-              All projects, issues, and data in this workspace will be permanently deleted.
+              {t('deleteWorkspaceDescription', { name: teamToDelete?.name })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleDeleteCancel}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={handleDeleteCancel}>{t('cancel')}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteConfirm}
               disabled={isDeleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {isDeleting ? 'Deleting...' : 'Delete'}
+              {isDeleting ? t('deleting') : t('delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

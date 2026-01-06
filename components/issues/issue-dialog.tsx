@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -46,19 +46,32 @@ import {
 import { cn } from "@/lib/utils";
 import { ISSUE_ACTION } from "@/app/[locale]/dashboard/[teamId]/issues/page";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
+import { translateWorkflowState } from "@/lib/i18n/translate-workflow-state";
+import { translateLabel } from "@/lib/i18n/translate-label";
 
-const issueSchema = z.object({
-  title: z.string().min(1, "Title is required").max(255, "Title is too long"),
+// Create schema function that accepts translation function
+const createIssueSchema = (t: any) => z.object({
+  title: z.string().min(1, t('validation.titleRequired')).max(255, t('validation.titleTooLong')),
   description: z.string().optional(),
   projectId: z.string().optional(),
-  workflowStateId: z.string().min(1, "Status is required"),
+  workflowStateId: z.string().min(1, t('validation.statusRequired')),
   assigneeId: z.string().optional(),
   priority: z.enum(["none", "low", "medium", "high", "urgent"]).optional(),
   estimate: z.number().min(0).optional(),
   labelIds: z.array(z.string()).optional(),
 });
 
-type IssueFormData = z.infer<typeof issueSchema>;
+type IssueFormData = {
+  title: string;
+  description?: string;
+  projectId?: string;
+  workflowStateId: string;
+  assigneeId?: string;
+  priority?: "none" | "low" | "medium" | "high" | "urgent";
+  estimate?: number;
+  labelIds?: string[];
+};
 
 interface IssueDialogProps {
   action: ISSUE_ACTION;
@@ -88,6 +101,8 @@ export function IssueDialog({
   teamName,
   action,
 }: IssueDialogProps) {
+  const t = useTranslations('components.issueDialog');
+  const tCommon = useTranslations();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedLabels, setSelectedLabels] = useState<string[]>(
     initialData?.labelIds || [],
@@ -100,7 +115,7 @@ export function IssueDialog({
   const [projectOpen, setProjectOpen] = useState(false);
 
   const form = useForm<IssueFormData>({
-    resolver: zodResolver(issueSchema),
+    resolver: zodResolver(createIssueSchema(t)),
     mode: "onChange",
     defaultValues: {
       title: initialData?.title || "",
@@ -116,7 +131,7 @@ export function IssueDialog({
     },
   });
 
-  const formReset: IssueFormData = {
+  const formReset: IssueFormData = useMemo(() => ({
     title: "",
     description: "",
     projectId: "",
@@ -125,7 +140,7 @@ export function IssueDialog({
     priority: "none",
     estimate: undefined,
     labelIds: [],
-  };
+  }), [workflowStates]);
 
   useEffect(() => {
     if (open && initialData && !isSubmitting && !createMore) {
@@ -165,7 +180,7 @@ export function IssueDialog({
       form.reset({ ...formReset, workflowStateId: defaultWorkflowStateId });
       setSelectedLabels([]);
     }
-  }, [isSubmitting, open, initialData, form, workflowStates]);
+  }, [isSubmitting, open, initialData, form, workflowStates, createMore, formReset]);
 
   useEffect(() => {
     if (workflowStates.length > 0) {
@@ -189,10 +204,10 @@ export function IssueDialog({
       const isUpdate = !!initialData;
 
       if (action === ISSUE_ACTION.CREATE) {
-        const result = issueSchema.safeParse(data);
+        const result = createIssueSchema(t).safeParse(data);
 
         if (!result.success) {
-          toast.error(result.error.issues[0].message || "Validation failed");
+          toast.error(result.error.issues[0].message || t('validation.validationFailed'));
           form.setFocus("title");
           return;
         }
@@ -218,7 +233,7 @@ export function IssueDialog({
         const isTrue = data.title.trim() === "";
 
         if (isTrue) {
-          toast.error("Titla is Required");
+          toast.error(t('validation.titleRequired'));
           form.setFocus("title");
           return;
         }
@@ -344,7 +359,7 @@ export function IssueDialog({
         <DialogHeader className="px-6 pt-6 pb-4 border-b">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-foreground">
-              {action === ISSUE_ACTION.EDIT ? "Edit issue" : "New issue"}
+              {action === ISSUE_ACTION.EDIT ? t('editIssue') : t('newIssue')}
             </span>
 
             {/* Action Icons */}
@@ -378,7 +393,7 @@ export function IssueDialog({
                   <FormItem>
                     <FormControl>
                       <Input
-                        placeholder="Issue title"
+                        placeholder={t('placeholders.title')}
                         className="text-lg font-medium border-0 px-0 focus-visible:ring-0 focus-visible:ring-offset-0 h-auto py-2"
                         {...field}
                       />
@@ -396,7 +411,7 @@ export function IssueDialog({
                   <FormItem>
                     <FormControl>
                       <Textarea
-                        placeholder="Add description..."
+                        placeholder={t('placeholders.description')}
                         className="border-0 px-0 focus-visible:ring-0 focus-visible:ring-offset-0 resize-none min-h-[100px] text-muted-foreground"
                         {...field}
                         onKeyDown={async (e) => {
@@ -437,7 +452,7 @@ export function IssueDialog({
                         </span>
                       ) : (
                         <span className="text-muted-foreground">
-                          No project
+                          {t('noProject')}
                         </span>
                       )}
                     </Button>
@@ -450,7 +465,7 @@ export function IssueDialog({
                       }}
                       className="flex items-center justify-between gap-2"
                     >
-                      <span className="text-muted-foreground">No project</span>
+                      <span className="text-muted-foreground">{t('noProject')}</span>
                       {!currentProjectId && (
                         <Check className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                       )}
@@ -494,7 +509,7 @@ export function IssueDialog({
                       className="h-8 px-3 gap-2"
                     >
                       {currentStatus && getStatusIcon(currentStatus.type)}
-                      <span>{currentStatus?.name || "Todo"}</span>
+                      <span>{currentStatus ? translateWorkflowState(currentStatus.name, tCommon) : t('defaultStatus')}</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56">
@@ -508,7 +523,7 @@ export function IssueDialog({
                         className="flex items-center gap-2"
                       >
                         {getStatusIcon(state.type)}
-                        <span className="flex-1">{state.name}</span>
+                        <span className="flex-1">{translateWorkflowState(state.name, tCommon)}</span>
                         {form.watch("workflowStateId") === state.id && (
                           <Check className="h-4 w-4 text-muted-foreground" />
                         )}
@@ -532,37 +547,24 @@ export function IssueDialog({
                       <PriorityIcon priority={currentPriority} />
                       <span>
                         {currentPriority === "none"
-                          ? "Priority"
-                          : Object.entries({
-                              none: "None",
-                              low: "Low",
-                              medium: "Medium",
-                              high: "High",
-                              urgent: "Urgent",
-                            }).find(([val]) => val === currentPriority)?.[1] ||
-                            "Priority"}
+                          ? t('priority')
+                          : t(`priorities.${currentPriority}`)}
                       </span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56">
-                    {Object.entries({
-                      none: "None",
-                      low: "Low",
-                      medium: "Medium",
-                      high: "High",
-                      urgent: "Urgent",
-                    }).map(([value, label]) => (
+                    {(["none", "low", "medium", "high", "urgent"] as const).map((priority) => (
                       <DropdownMenuItem
-                        key={value}
+                        key={priority}
                         onClick={() => {
-                          form.setValue("priority", value as PriorityLevel);
+                          form.setValue("priority", priority);
                           setPriorityOpen(false);
                         }}
                         className="flex items-center gap-2"
                       >
-                        <PriorityIcon priority={value as PriorityLevel} />
-                        <span className="flex-1">{label}</span>
-                        {currentPriority === value && (
+                        <PriorityIcon priority={priority} />
+                        <span className="flex-1">{t(`priorities.${priority}`)}</span>
+                        {currentPriority === priority && (
                           <Check className="h-4 w-4 text-muted-foreground" />
                         )}
                       </DropdownMenuItem>
@@ -583,7 +585,7 @@ export function IssueDialog({
                       className="h-8 px-3 gap-2 relative"
                     >
                       <User className="h-4 w-4" />
-                      <span>{assigneeName || "Assignee"}</span>
+                      <span>{assigneeName || t('assignee')}</span>
                       <Settings className="h-3 w-3 absolute -top-1 -right-1" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -602,7 +604,7 @@ export function IssueDialog({
                                 );
                                 setAssigneeOpen(false);
                               }}
-                              placeholder="Select assignee"
+                              placeholder={t('placeholders.selectAssignee')}
                               teamId={teamId}
                             />
                           </FormControl>
@@ -661,7 +663,7 @@ export function IssueDialog({
                                 isSelected && "font-medium",
                               )}
                             >
-                              {label.name}
+                              {translateLabel(label.name, tCommon)}
                             </span>
                             {isSelected && (
                               <Check className="h-4 w-4 text-primary font-bold" />
@@ -691,7 +693,7 @@ export function IssueDialog({
                 {action === ISSUE_ACTION.CREATE && (
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-muted-foreground">
-                      Create more
+                      {t('actions.createMore')}
                     </span>
                     <button
                       type="button"
@@ -721,11 +723,11 @@ export function IssueDialog({
                 >
                   {isSubmitting
                     ? action === ISSUE_ACTION.EDIT
-                      ? "Updating..."
-                      : "Creating..."
+                      ? t('actions.updating')
+                      : t('actions.creating')
                     : action === ISSUE_ACTION.EDIT
-                      ? "Update Issue"
-                      : "Create issue"}
+                      ? t('actions.updateIssue')
+                      : t('actions.createIssue')}
                 </Button>
               </div>
             </div>

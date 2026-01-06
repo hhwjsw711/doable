@@ -17,6 +17,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { ArrowUpDown, MessageSquare, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 interface IssueTableProps {
   issues: IssueWithRelations[]
@@ -39,6 +40,8 @@ export function IssueTable({
   sortDirection,
   className
 }: IssueTableProps) {
+  const t = useTranslations('components.issueTable')
+
   const formatDate = (date: Date | string) => {
     // Convert to Date object if it's a string
     const dateObj = typeof date === 'string' ? new Date(date) : date
@@ -102,27 +105,27 @@ export function IssueTable({
         <TableHeader>
           <TableRow>
             <TableHead>
-              <SortButton field="title">Title</SortButton>
+              <SortButton field="title">{t('title')}</SortButton>
             </TableHead>
             <TableHead>
-              <SortButton field="number">ID</SortButton>
+              <SortButton field="number">{t('id')}</SortButton>
             </TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Priority</TableHead>
-            <TableHead>Project</TableHead>
-            <TableHead>Assignee</TableHead>
-            <TableHead>Labels</TableHead>
+            <TableHead>{t('status')}</TableHead>
+            <TableHead>{t('priority')}</TableHead>
+            <TableHead>{t('project')}</TableHead>
+            <TableHead>{t('assignee')}</TableHead>
+            <TableHead>{t('labels')}</TableHead>
             <TableHead>
-              <SortButton field="createdAt">Created</SortButton>
+              <SortButton field="createdAt">{t('created')}</SortButton>
             </TableHead>
-            <TableHead>Comments</TableHead>
+            <TableHead>{t('comments')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {issues.length === 0 ? (
             <TableRow>
               <TableCell colSpan={9} className="text-center py-8 text-gray-500">
-                No issues found
+                {t('noIssuesFound')}
               </TableCell>
             </TableRow>
           ) : (

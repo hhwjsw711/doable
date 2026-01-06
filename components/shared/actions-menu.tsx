@@ -19,18 +19,19 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { 
-  MoreHorizontal, 
-  Edit, 
-  Trash2, 
-  Archive, 
-  Copy, 
-  UserPlus, 
+import {
+  MoreHorizontal,
+  Edit,
+  Trash2,
+  Archive,
+  Copy,
+  UserPlus,
   Move,
   Eye,
   Settings
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 export interface ActionItem {
   id: string
@@ -49,12 +50,13 @@ interface ActionsMenuProps {
   align?: 'start' | 'center' | 'end'
 }
 
-export function ActionsMenu({ 
-  actions, 
-  trigger, 
+export function ActionsMenu({
+  actions,
+  trigger,
   className,
-  align = 'end' 
+  align = 'end'
 }: ActionsMenuProps) {
+  const t = useTranslations('components.actionsMenu')
   const [open, setOpen] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [deleteAction, setDeleteAction] = useState<ActionItem | null>(null)
@@ -80,7 +82,7 @@ export function ActionsMenu({
   const defaultTrigger = (
     <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
       <MoreHorizontal className="h-4 w-4" />
-      <span className="sr-only">Open actions menu</span>
+      <span className="sr-only">{t('openMenu')}</span>
     </Button>
   )
 
@@ -116,18 +118,18 @@ export function ActionsMenu({
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>{t('areYouSure')}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the item.
+              {t('deleteWarning')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              Delete
+              {t('delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -137,73 +139,74 @@ export function ActionsMenu({
 }
 
 // Predefined action sets for common use cases
-export const projectActions = {
+// Note: These need to be wrapped in a component to access translations
+export const createProjectActions = (t: any) => ({
   edit: (onEdit: () => void): ActionItem => ({
     id: 'edit',
-    label: 'Edit Project',
+    label: t('projectActions.editProject'),
     icon: <Edit className="h-4 w-4" />,
     onClick: onEdit,
   }),
-  
+
   duplicate: (onDuplicate: () => void): ActionItem => ({
     id: 'duplicate',
-    label: 'Duplicate',
+    label: t('projectActions.duplicate'),
     icon: <Copy className="h-4 w-4" />,
     onClick: onDuplicate,
   }),
-  
+
   archive: (onArchive: () => void): ActionItem => ({
     id: 'archive',
-    label: 'Archive',
+    label: t('projectActions.archive'),
     icon: <Archive className="h-4 w-4" />,
     onClick: onArchive,
   }),
-  
+
   delete: (onDelete: () => void): ActionItem => ({
     id: 'delete',
-    label: 'Delete',
+    label: t('projectActions.delete'),
     icon: <Trash2 className="h-4 w-4" />,
     onClick: onDelete,
     variant: 'destructive',
     separator: true,
   }),
-}
+})
 
-export const issueActions = {
+export const createIssueActions = (t: any) => ({
   view: (onView: () => void): ActionItem => ({
     id: 'view',
-    label: 'View Details',
+    label: t('issueActions.viewDetails'),
     icon: <Eye className="h-4 w-4" />,
     onClick: onView,
   }),
-  
+
   edit: (onEdit: () => void): ActionItem => ({
     id: 'edit',
-    label: 'Edit Issue',
+    label: t('issueActions.editIssue'),
     icon: <Edit className="h-4 w-4" />,
     onClick: onEdit,
   }),
-  
+
   assign: (onAssign: () => void): ActionItem => ({
     id: 'assign',
-    label: 'Assign',
+    label: t('issueActions.assign'),
     icon: <UserPlus className="h-4 w-4" />,
     onClick: onAssign,
   }),
-  
+
   move: (onMove: () => void): ActionItem => ({
     id: 'move',
-    label: 'Move to Project',
+    label: t('issueActions.moveToProject'),
     icon: <Move className="h-4 w-4" />,
     onClick: onMove,
   }),
-  
+
   delete: (onDelete: () => void): ActionItem => ({
     id: 'delete',
-    label: 'Delete',
+    label: t('issueActions.delete'),
     icon: <Trash2 className="h-4 w-4" />,
     onClick: onDelete,
     variant: 'destructive',
     separator: true,
   }),
-}
+})

@@ -11,6 +11,21 @@
     "edit": "Edit",
     "back": "Back"
   },
+  "workflowStates": {
+    "Backlog": "Backlog",
+    "Todo": "Todo",
+    "In Progress": "In Progress",
+    "Done": "Done",
+    "Canceled": "Canceled"
+  },
+  "defaultLabels": {
+    "Bug": "Bug",
+    "Feature": "Feature",
+    "Enhancement": "Enhancement",
+    "Documentation": "Documentation",
+    "Performance": "Performance",
+    "Security": "Security"
+  },
   "landing": {
     "title": "Ship Faster, Work Smarter",
     "description": "The task management platform that actually works. Beautiful, intuitive, and built for teams who ship.",
@@ -179,7 +194,16 @@
     "projects": "Projects",
     "issues": "Issues",
     "people": "People",
-    "management": "Management"
+    "management": "Management",
+    "loadingTeams": "Loading teams",
+    "settingUpWorkspace": "Setting up your workspace...",
+    "redirecting": "Redirecting...",
+    "signInToContinue": "Please sign in to continue",
+    "teamNotFound": "Team not found",
+    "loadingTeam": "Loading team",
+    "fetchingTeamData": "Fetching team data...",
+    "signOut": "Sign out",
+    "openDoableAI": "Open Doable AI"
   },
   "invite": {
     "title": "Team Invitation",
@@ -216,6 +240,365 @@
       "needLogin": "You need to be logged in to accept this invitation.",
       "switchButton": "Switch Account",
       "mismatchMessage": "This invitation is for {invitedEmail}, but you're logged in as {currentEmail}"
+    }
+  },
+  "loading": {
+    "title": "Loading TheGroupFinder",
+    "message": "Setting up your workspace..."
+  },
+  "issues": {
+    "title": "Issues",
+    "subtitle": "Manage and track your team's issues",
+    "createButton": "Create Issue",
+    "createButtonShort": "Create",
+    "views": "Views",
+    "loadingDashboard": "Loading dashboard...",
+    "noIssuesFound": "No issues found",
+    "tryAdjustingFilters": "Try adjusting your search terms or filters",
+    "clearAllFilters": "Clear all filters",
+    "noIssuesYet": "No issues yet",
+    "createFirstIssue": "Create your first issue to get started",
+    "somethingWentWrong": "Something went wrong",
+    "failedToLoad": "Failed to load issues. Please try again.",
+    "refreshPage": "Refresh Page",
+    "deleteSuccess": "Issue deleted successfully",
+    "deleteFailed": "Failed to delete issue",
+    "pleaseTryAgain": "Please try again",
+    "updating": "Updating issue...",
+    "beingUpdated": "\"{title}\" is being updated",
+    "updateSuccess": "Issue updated successfully",
+    "hasBeenUpdated": "Issue {title} has been updated",
+    "updateFailed": "Failed to update issue",
+    "creating": "Creating issue...",
+    "beingCreated": "\"{title}\" is being created",
+    "createSuccess": "Issue created successfully",
+    "hasBeenCreated": "Issue \"{title}\" has been created",
+    "createFailed": "Failed to create issue",
+    "updateStatusFailed": "Failed to update issue status",
+    "createDialogTitle": "Create Issue",
+    "createDialogDescription": "Create a new issue for your team.",
+    "editDialogTitle": "Edit Issue",
+    "editDialogDescription": "Update the issue details.",
+    "assignDialogTitle": "Assign Issue",
+    "assignDialogDescription": "Assign the issue to a team member.",
+    "moveDialogTitle": "Move Issue",
+    "moveDialogDescription": "Move the issue to a different project or status."
+  },
+  "management": {
+    "title": "Management",
+    "subtitle": "Track your team's performance and productivity",
+    "loadingStatistics": "Loading statistics...",
+    "teamMembers": "Team Members",
+    "activeTeamMembers": "Active team members",
+    "activeProjects": "Active Projects",
+    "projectsInProgress": "Projects in progress",
+    "totalIssues": "Total Issues",
+    "completed": "completed",
+    "completionRate": "Completion Rate",
+    "issuesCompleted": "Issues completed",
+    "issuesByPriority": "Issues by Priority",
+    "noPriorityData": "No priority data available",
+    "issuesByStatus": "Issues by Status",
+    "noStatusData": "No status data available",
+    "recentActivity": "Recent Activity",
+    "noRecentActivity": "No recent activity",
+    "quickInsights": "Quick Insights",
+    "ofIssuesCompleted": "of issues are completed",
+    "activeMembers": "active members",
+    "projectsInProgressLower": "projects in progress"
+  },
+  "people": {
+    "title": "People",
+    "subtitle": "Manage team members and their roles",
+    "inviteButton": "Invite Developer",
+    "inviteButtonShort": "Invite",
+    "inviteDialogTitle": "Invite Team Member",
+    "inviteDialogDescription": "Send an invitation to a team member by email address.",
+    "emailAddress": "Email Address",
+    "emailPlaceholder": "developer@example.com",
+    "role": "Role",
+    "developer": "Developer",
+    "admin": "Admin",
+    "viewer": "Viewer",
+    "sendingInvitation": "Sending invitation...",
+    "cancel": "Cancel",
+    "sending": "Sending...",
+    "sendInvitation": "Send Invitation",
+    "teamMembersCard": "Team Members",
+    "loadingMembers": "Loading members...",
+    "noTeamMembers": "No team members yet",
+    "pendingInvitations": "Pending Invitations",
+    "invited": "Invited",
+    "resend": "Resend",
+    "invitationSentSuccess": "Invitation sent successfully",
+    "invitationSentTo": "An invitation has been sent to {email}",
+    "invitationSentFailed": "Failed to send invitation",
+    "invitationResentSuccess": "Invitation resent successfully",
+    "invitationResentFailed": "Failed to resend invitation",
+    "invitationRemovedSuccess": "Invitation removed successfully",
+    "invitationRemovedFailed": "Failed to remove invitation",
+    "memberRemovedSuccess": "Member removed successfully",
+    "memberRemovedFrom": "{name} has been removed from the team",
+    "memberRemovedFailed": "Failed to remove member",
+    "removeDialogTitle": "Remove Team Member",
+    "removeDialogDescription": "Are you sure you want to remove {name} from the team? This action cannot be undone.",
+    "remove": "Remove"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Manage your team's projects",
+    "filters": "Filters",
+    "createButton": "Create Project",
+    "createButtonShort": "Create",
+    "views": "Views",
+    "filterByStatus": "Filter by Status",
+    "active": "Active",
+    "completed": "Completed",
+    "canceled": "Canceled",
+    "filterByLead": "Filter by Lead",
+    "clearAllFilters": "Clear all filters",
+    "noProjectsFound": "No projects found",
+    "tryAdjustingFilters": "Try adjusting your search terms or filters",
+    "noProjectsYet": "No projects yet",
+    "createFirstProject": "Create your first project to get started",
+    "somethingWentWrong": "Something went wrong",
+    "failedToLoad": "Failed to load projects. Please try again.",
+    "refreshPage": "Refresh Page",
+    "deleteSuccess": "Project deleted successfully",
+    "deleteFailed": "Failed to delete project",
+    "pleaseTryAgain": "Please try again",
+    "duplicateSuccess": "Project duplicated successfully",
+    "duplicateFailed": "Failed to duplicate project",
+    "updateSuccess": "Project updated successfully",
+    "updateFailed": "Failed to update project",
+    "archiveSuccess": "Project archived successfully",
+    "archiveFailed": "Failed to archive project",
+    "createSuccess": "Project created successfully",
+    "projectCreated": "Project \"{name}\" has been created",
+    "createFailed": "Failed to create project",
+    "updateStatusFailed": "Failed to update project status",
+    "createDialogTitle": "Create Project",
+    "createDialogDescription": "Create a new project for your team.",
+    "editDialogTitle": "Edit Project",
+    "editDialogDescription": "Update the project details."
+  },
+  "components": {
+    "issueDialog": {
+      "newIssue": "New issue",
+      "editIssue": "Edit issue",
+      "placeholders": {
+        "title": "Issue title",
+        "description": "Add description...",
+        "selectAssignee": "Select assignee"
+      },
+      "noProject": "No project",
+      "defaultStatus": "Todo",
+      "priority": "Priority",
+      "assignee": "Assignee",
+      "priorities": {
+        "none": "None",
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "urgent": "Urgent"
+      },
+      "actions": {
+        "createMore": "Create more",
+        "creating": "Creating...",
+        "updating": "Updating...",
+        "createIssue": "Create issue",
+        "updateIssue": "Update Issue"
+      },
+      "validation": {
+        "titleRequired": "Title is required",
+        "titleTooLong": "Title is too long",
+        "statusRequired": "Status is required",
+        "validationFailed": "Validation failed"
+      }
+    },
+    "projectDialog": {
+      "newProject": "New project",
+      "editProject": "Edit project",
+      "defaultTitle": "New project",
+      "defaultDescription": "Create a new project for your team.",
+      "placeholders": {
+        "name": "Project name",
+        "description": "Add a short summary...",
+        "key": "Project key",
+        "selectLead": "Select lead",
+        "milestoneName": "Milestone name",
+        "milestoneDescription": "Add a description...",
+        "targetDate": "Target date"
+      },
+      "status": {
+        "active": "Active",
+        "completed": "Completed",
+        "canceled": "Canceled",
+        "backlog": "Backlog"
+      },
+      "lead": "Lead",
+      "members": "Members",
+      "membersCount": "{count} Members",
+      "member": "member",
+      "membersPlural": "members",
+      "saveFirstToAddMembers": "Save the project first to add members",
+      "projectMembers": "Project Members",
+      "loadingMembers": "Loading members...",
+      "addTeamMember": "Add Team Member",
+      "allMembersAdded": "All team members are already in this project",
+      "labelsComingSoon": "Labels coming soon",
+      "createMilestone": "Create milestone",
+      "addMilestone": "Add milestone",
+      "target": "Target",
+      "actions": {
+        "cancel": "Cancel",
+        "creating": "Creating...",
+        "updating": "Updating...",
+        "createProject": "Create project",
+        "updateProject": "Update Project"
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "nameTooLong": "Name is too long",
+        "keyRequired": "Key is required",
+        "keyTooLong": "Key is too long",
+        "keyFormat": "Key must be uppercase letters and numbers only",
+        "invalidColor": "Invalid color format"
+      },
+      "errors": {
+        "failedToAddMember": "Failed to add member",
+        "failedToRemoveMember": "Failed to remove member"
+      },
+      "defaultKeyPrefix": "PRO",
+      "keyHelperText": "Leave empty to auto-generate from project name. Max 10 uppercase letters/numbers.",
+      "startDate": "Start",
+      "targetDate": "Target",
+      "startDateComingSoon": "Start date selection coming soon",
+      "targetDateComingSoon": "Target date selection coming soon"
+    },
+    "viewSwitcher": {
+      "list": "List",
+      "board": "Board",
+      "table": "Table",
+      "listView": "List view",
+      "kanbanBoard": "Kanban board",
+      "tableView": "Table view"
+    },
+    "userSelector": {
+      "selectAssignee": "Select assignee",
+      "loading": "Loading...",
+      "unassigned": "Unassigned"
+    },
+    "teamSelector": {
+      "loadingTeams": "Loading teams...",
+      "noTeamsFound": "No Teams Found",
+      "noTeamsMessage": "You don't have access to any teams yet.",
+      "createFirstTeam": "Create Your First Team",
+      "selectTeam": "Select Team",
+      "chooseTeam": "Choose a team to get started",
+      "teamMembers": "Team members",
+      "createNewTeam": "Create New Team"
+    },
+    "actionsMenu": {
+      "openMenu": "Open actions menu",
+      "areYouSure": "Are you sure?",
+      "deleteWarning": "This action cannot be undone. This will permanently delete the item.",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "projectActions": {
+        "editProject": "Edit Project",
+        "duplicate": "Duplicate",
+        "archive": "Archive",
+        "delete": "Delete"
+      },
+      "issueActions": {
+        "viewDetails": "View Details",
+        "editIssue": "Edit Issue",
+        "assign": "Assign",
+        "moveToProject": "Move to Project",
+        "delete": "Delete"
+      }
+    },
+    "errorBoundary": {
+      "title": "Something went wrong",
+      "description": "We encountered an unexpected error. Please try refreshing the page.",
+      "errorDetails": "Error Details",
+      "tryAgain": "Try Again",
+      "refreshPage": "Refresh Page"
+    },
+    "teamCreator": {
+      "teamName": "Team Name",
+      "enterTeamName": "Enter team name",
+      "createTeam": "Create Team",
+      "creatingTeam": "Creating Team...",
+      "createNewTeam": "Create New Team",
+      "failedToCreate": "Failed to create team"
+    },
+    "workspaceSelector": {
+      "switchWorkspace": "Switch Workspace",
+      "deleteWorkspaceTitle": "Delete Workspace?",
+      "deleteWorkspaceDescription": "Are you sure you want to delete \"{name}\"? This action cannot be undone. All projects, issues, and data in this workspace will be permanently deleted.",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleting": "Deleting..."
+    },
+    "filterBar": {
+      "filters": "Filters",
+      "filterByStatus": "Filter by Status",
+      "filterByProject": "Filter by Project",
+      "filterByPriority": "Filter by Priority",
+      "filterByLabels": "Filter by Labels",
+      "clearAllFilters": "Clear all filters",
+      "clear": "Clear",
+      "priorities": {
+        "none": "None",
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "urgent": "Urgent"
+      }
+    },
+    "issueTable": {
+      "title": "Title",
+      "id": "ID",
+      "status": "Status",
+      "priority": "Priority",
+      "project": "Project",
+      "assignee": "Assignee",
+      "labels": "Labels",
+      "created": "Created",
+      "comments": "Comments",
+      "noIssuesFound": "No issues found"
+    },
+    "issueBoard": {
+      "addIssue": "Add issue",
+      "hideColumn": "Hide column"
+    },
+    "statusChangeDropdown": {
+      "placeholder": "Change status...",
+      "noStatusFound": "No status found"
+    },
+    "aiChatbot": {
+      "title": "Doable AI",
+      "subtitle": "Ask me anything about your team",
+      "loadingConversation": "Loading conversation...",
+      "startConversation": "Start a conversation",
+      "welcomeMessage": "I can help you create issues, manage projects, invite team members, and more. Just ask me anything!",
+      "tryAsking": "Try asking:",
+      "thinking": "AI is thinking...",
+      "thinkingProcess": "Thinking process",
+      "suggestions": {
+        "createIssue": "Create a new issue for fixing the login bug",
+        "showHighPriority": "Show me all high-priority issues",
+        "listProjects": "What projects do we have?",
+        "createProject": "Create a new project called \"Web App\"",
+        "listInProgress": "List all issues in progress",
+        "updateIssue": "Update the checkout page issue to In Progress",
+        "addMember": "Add Sarah to the Web Project",
+        "inviteMember": "Invite john@example.com to the team",
+        "showStatistics": "Show me team statistics",
+        "myIssues": "What issues are assigned to me?"
+      }
     }
   }
 }

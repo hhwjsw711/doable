@@ -44,18 +44,20 @@ import {
   Check
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTranslations, useLocale } from 'next-intl'
 
-const projectSchema = z.object({
-  name: z.string().min(1, 'Name is required').max(255, 'Name is too long'),
+// Create schema function that accepts translation function
+const createProjectSchema = (t: any) => z.object({
+  name: z.string().min(1, t('validation.nameRequired')).max(255, t('validation.nameTooLong')),
   description: z.string().optional(),
-  key: z.string().min(1, 'Key is required').max(10, 'Key is too long').regex(/^[A-Z0-9]+$/, 'Key must be uppercase letters and numbers only'),
-  color: z.string().regex(/^#[0-9A-F]{6}$/i, 'Invalid color format'),
+  key: z.string().min(1, t('validation.keyRequired')).max(10, t('validation.keyTooLong')).regex(/^[A-Z0-9]+$/, t('validation.keyFormat')),
+  color: z.string().regex(/^#[0-9A-F]{6}$/i, t('validation.invalidColor')),
   icon: z.string().optional(),
   leadId: z.string().optional(),
   status: z.enum(['active', 'completed', 'canceled']),
 })
 
-type ProjectFormData = z.infer<typeof projectSchema>
+type ProjectFormData = z.infer<ReturnType<typeof createProjectSchema>>
 
 interface ProjectDialogProps {
   open: boolean
@@ -73,11 +75,13 @@ export function ProjectDialog({
   onOpenChange,
   onSubmit,
   initialData,
-  title = 'New project',
-  description = 'Create a new project for your team.',
+  title,
+  description,
   teamId,
   projectId,
 }: ProjectDialogProps) {
+  const t = useTranslations('components.projectDialog');
+  const locale = useLocale();
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [leadOpen, setLeadOpen] = useState(false)
@@ -117,7 +121,7 @@ export function ProjectDialog({
   }>>([])
 
   const form = useForm<ProjectFormData>({
-    resolver: zodResolver(projectSchema),
+    resolver: zodResolver(createProjectSchema(t)),
     defaultValues: {
       name: initialData?.name || '',
       description: initialData?.description || '',
@@ -227,11 +231,11 @@ export function ProjectDialog({
         setProjectMembers([...projectMembers, newMember])
       } else {
         const error = await response.json()
-        setError(error.error || 'Failed to add member')
+        setError(error.error || t('errors.failedToAddMember'))
       }
     } catch (error) {
       console.error('Error adding member:', error)
-      setError('Failed to add member')
+      setError(t('errors.failedToAddMember'))
     }
   }
 
@@ -250,11 +254,11 @@ export function ProjectDialog({
         setProjectMembers(projectMembers.filter(m => m.id !== memberId))
       } else {
         const error = await response.json()
-        setError(error.error || 'Failed to remove member')
+        setError(error.error || t('errors.failedToRemoveMember'))
       }
     } catch (error) {
       console.error('Error removing member:', error)
-      setError('Failed to remove member')
+      setError(t('errors.failedToRemoveMember'))
     }
   }
 
@@ -276,7 +280,7 @@ export function ProjectDialog({
     if (!name) return ''
     // Take first 3 uppercase letters/numbers from the name
     const cleaned = name.replace(/[^A-Z0-9]/gi, '').toUpperCase()
-    return cleaned.substring(0, 3) || 'PRO'
+    return cleaned.substring(0, 3) || t('defaultKeyPrefix')
   }
 
   const handleSubmit = async (data: ProjectFormData) => {
@@ -335,9 +339,15 @@ export function ProjectDialog({
     return (day + 6) % 7 // Convert Sunday=0 to Monday=0
   }
 
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
-    'July', 'August', 'September', 'October', 'November', 'December']
-  const dayNames = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+  // Get localized month and day names
+  const monthNames = Array.from({ length: 12 }, (_, i) =>
+    new Intl.DateTimeFormat(locale, { month: 'long' }).format(new Date(2000, i, 1))
+  )
+  const dayNames = Array.from({ length: 7 }, (_, i) => {
+    // Start from Monday (i+1 because Sunday=0, Monday=1)
+    const date = new Date(2000, 0, 3 + i) // Jan 3, 2000 was a Monday
+    return new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(date).slice(0, 2)
+  })
 
   const renderCalendar = () => {
     const daysInMonth = getDaysInMonth(calendarYear, calendarMonth)
@@ -406,7 +416,7 @@ export function ProjectDialog({
         <DialogHeader className="px-6 pt-6 pb-4 border-b">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-foreground">
-              {initialData ? 'Edit project' : 'New project'}
+              {initialData ? t('editProject') : t('newProject')}
             </span>
             
             {/* Close Button */}
@@ -433,7 +443,7 @@ export function ProjectDialog({
                     <FormItem>
                       <FormControl>
                         <Input 
-                          placeholder="Project name" 
+                          placeholder={t('placeholders.name')} 
                           className="text-lg font-semibold border-0 px-0 focus-visible:ring-0 focus-visible:ring-offset-0 h-auto py-0 bg-transparent w-full placeholder:text-foreground/60"
                           {...field}
                           autoFocus={!initialData}
@@ -456,7 +466,7 @@ export function ProjectDialog({
                     <FormItem>
                       <FormControl>
                         <Textarea
-                          placeholder="Add a short summary..."
+                          placeholder={t('placeholders.description')}
                           className="text-sm border-0 px-0 focus-visible:ring-0 focus-visible:ring-offset-0 resize-none min-h-[60px] text-muted-foreground"
                           {...field}
                         />
@@ -469,12 +479,12 @@ export function ProjectDialog({
 
               {/* Project Key */}
               <div className="space-y-2">
-                <h3 className="text-sm font-medium text-muted-foreground">Project key</h3>
+                <h3 className="text-sm font-medium text-muted-foreground">{t('placeholders.key')}</h3>
                 <FormField
                   control={form.control}
                   name="key"
                   render={({ field }) => {
-                    const autoGeneratedKey = projectName ? generateProjectKey(projectName) || 'PRO' : 'PRO'
+                    const autoGeneratedKey = projectName ? generateProjectKey(projectName) || t('defaultKeyPrefix') : t('defaultKeyPrefix')
                     return (
                       <FormItem>
                         <FormControl>
@@ -494,7 +504,7 @@ export function ProjectDialog({
                         </FormControl>
                         <FormMessage />
                         <p className="text-xs text-muted-foreground">
-                          Leave empty to auto-generate from project name. Max 10 uppercase letters/numbers.
+                          {t('keyHelperText')}
                         </p>
                       </FormItem>
                     )
@@ -517,36 +527,36 @@ export function ProjectDialog({
                         <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground" />
                       </div>
                       <span>
-                        {form.watch('status') === 'active' ? 'Active' : 
-                         form.watch('status') === 'completed' ? 'Completed' : 
-                         form.watch('status') === 'canceled' ? 'Canceled' : 'Backlog'}
+                        {form.watch('status') === 'active' ? t('status.active') :
+                         form.watch('status') === 'completed' ? t('status.completed') :
+                         form.watch('status') === 'canceled' ? t('status.canceled') : t('status.backlog')}
                       </span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-48">
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       onClick={() => form.setValue('status', 'active')}
                       className="flex items-center justify-between"
                     >
-                      <span>Active</span>
+                      <span>{t('status.active')}</span>
                       {form.watch('status') === 'active' && (
                         <Check className="h-4 w-4 text-muted-foreground" />
                       )}
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       onClick={() => form.setValue('status', 'completed')}
                       className="flex items-center justify-between"
                     >
-                      <span>Completed</span>
+                      <span>{t('status.completed')}</span>
                       {form.watch('status') === 'completed' && (
                         <Check className="h-4 w-4 text-muted-foreground" />
                       )}
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       onClick={() => form.setValue('status', 'canceled')}
                       className="flex items-center justify-between"
                     >
-                      <span>Canceled</span>
+                      <span>{t('status.canceled')}</span>
                       {form.watch('status') === 'canceled' && (
                         <Check className="h-4 w-4 text-muted-foreground" />
                       )}
@@ -564,7 +574,7 @@ export function ProjectDialog({
                       className="h-8 px-3 gap-2"
                     >
                       <User className="h-4 w-4" />
-                      <span>{leadName || 'Lead'}</span>
+                      <span>{leadName || t('lead')}</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-64 p-2">
@@ -580,7 +590,7 @@ export function ProjectDialog({
                                 field.onChange(value === 'unassigned' ? '' : value)
                                 setLeadOpen(false)
                               }}
-                              placeholder="Select lead"
+                              placeholder={t('placeholders.selectLead')}
                               teamId={teamId}
                             />
                           </FormControl>
@@ -601,26 +611,26 @@ export function ProjectDialog({
                     >
                       <Users className="h-4 w-4" />
                       <span>
-                        {projectMembers.length > 0 ? `${projectMembers.length} Members` : 'Members'}
+                        {projectMembers.length > 0 ? t('membersCount', { count: projectMembers.length }) : t('members')}
                       </span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-80 p-2">
                     {!projectId ? (
                       <p className="text-sm text-muted-foreground px-2 py-1">
-                        Save the project first to add members
+                        {t('saveFirstToAddMembers')}
                       </p>
                     ) : (
                       <div className="space-y-2">
                         <div className="px-2 py-1.5 border-b">
-                          <p className="text-sm font-medium">Project Members</p>
+                          <p className="text-sm font-medium">{t('projectMembers')}</p>
                           <p className="text-xs text-muted-foreground">
-                            {projectMembers.length} {projectMembers.length === 1 ? 'member' : 'members'}
+                            {projectMembers.length} {projectMembers.length === 1 ? t('member') : t('membersPlural')}
                           </p>
                         </div>
                         {membersLoading ? (
                           <div className="px-2 py-4 text-center">
-                            <p className="text-sm text-muted-foreground">Loading members...</p>
+                            <p className="text-sm text-muted-foreground">{t('loadingMembers')}</p>
                           </div>
                         ) : (
                           <>
@@ -661,7 +671,7 @@ export function ProjectDialog({
                             )}
                             <div className="px-2 pt-2 border-t">
                               <p className="text-xs font-medium text-muted-foreground mb-2">
-                                Add Team Member
+                                {t('addTeamMember')}
                               </p>
                               <div className="space-y-1 max-h-32 overflow-y-auto">
                                 {teamMembers
@@ -693,7 +703,7 @@ export function ProjectDialog({
                                   (tm) => !projectMembers.some((pm) => pm.userId === tm.userId)
                                 ).length === 0 && (
                                   <p className="text-xs text-muted-foreground px-2 py-1">
-                                    All team members are already in this project
+                                    {t('allMembersAdded')}
                                   </p>
                                 )}
                               </div>
@@ -715,12 +725,12 @@ export function ProjectDialog({
                       className="h-8 px-3 gap-2"
                     >
                       <ArrowRight className="h-4 w-4" />
-                      <span>Start</span>
+                      <span>{t('startDate')}</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-64 p-2">
                     <p className="text-sm text-muted-foreground px-2 py-1">
-                      Start date selection coming soon
+                      {t('startDateComingSoon')}
                     </p>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -735,12 +745,12 @@ export function ProjectDialog({
                       className="h-8 px-3 gap-2"
                     >
                       <Target className="h-4 w-4" />
-                      <span>Target</span>
+                      <span>{t('targetDate')}</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-64 p-2">
                     <p className="text-sm text-muted-foreground px-2 py-1">
-                      Target date selection coming soon
+                      {t('targetDateComingSoon')}
                     </p>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -759,7 +769,7 @@ export function ProjectDialog({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-64 p-2">
                     <p className="text-sm text-muted-foreground px-2 py-1">
-                      Labels coming soon
+                      {t('labelsComingSoon')}
                     </p>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -770,7 +780,7 @@ export function ProjectDialog({
               {/* Milestones Section */}
               <div className="space-y-4 pt-4 border-t">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-base font-semibold">Create milestone</h3>
+                  <h3 className="text-base font-semibold">{t('createMilestone')}</h3>
                 </div>
 
                 {milestones.length > 0 && (
@@ -785,7 +795,7 @@ export function ProjectDialog({
                           )}
                           {milestone.targetDate && (
                             <div className="text-xs text-muted-foreground mt-1">
-                              Target: {formatDate(milestone.targetDate)}
+                              {t('target')}: {formatDate(milestone.targetDate)}
                             </div>
                           )}
                         </div>
@@ -808,7 +818,7 @@ export function ProjectDialog({
                     <div className="flex items-center gap-3">
                       <Gem className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                       <Input
-                        placeholder="Milestone name"
+                        placeholder={t('placeholders.milestoneName')}
                         value={milestoneName}
                         onChange={(e) => setMilestoneName(e.target.value)}
                         className="flex-1"
@@ -816,7 +826,7 @@ export function ProjectDialog({
                     </div>
 
                     <Textarea
-                      placeholder="Add a description..."
+                      placeholder={t('placeholders.milestoneDescription')}
                       value={milestoneDescription}
                       onChange={(e) => setMilestoneDescription(e.target.value)}
                       className="resize-none min-h-[80px]"
@@ -825,7 +835,7 @@ export function ProjectDialog({
                     <div className="flex items-center gap-4">
                       <div className="relative flex-1">
                         <Input
-                          placeholder="Target date"
+                          placeholder={t('placeholders.targetDate')}
                           value={formatDate(milestoneTargetDate)}
                           readOnly
                           onClick={() => setCalendarOpen(!calendarOpen)}
@@ -914,7 +924,7 @@ export function ProjectDialog({
                             setMilestoneTargetDate(null)
                           }}
                         >
-                          Cancel
+                          {t('actions.cancel')}
                         </Button>
                         <Button
                           type="button"
@@ -922,7 +932,7 @@ export function ProjectDialog({
                           onClick={handleAddMilestone}
                           disabled={!milestoneName.trim()}
                         >
-                          Add milestone
+                          {t('addMilestone')}
                         </Button>
                       </div>
                     </div>
@@ -936,7 +946,7 @@ export function ProjectDialog({
                     onClick={() => setShowMilestoneForm(true)}
                   >
                     <Gem className="h-4 w-4 mr-2" />
-                    Add milestone
+                    {t('addMilestone')}
                   </Button>
                 )}
               </div>
@@ -958,16 +968,16 @@ export function ProjectDialog({
                     onOpenChange(false)
                   }}
                 >
-                  Cancel
+                  {t('actions.cancel')}
                 </Button>
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   disabled={isSubmitting}
                   className="bg-primary text-primary-foreground hover:bg-primary/90"
                 >
-                  {isSubmitting 
-                    ? (initialData ? 'Updating...' : 'Creating...')
-                    : (initialData ? 'Update Project' : 'Create project')
+                  {isSubmitting
+                    ? (initialData ? t('actions.updating') : t('actions.creating'))
+                    : (initialData ? t('actions.updateProject') : t('actions.createProject'))
                   }
                 </Button>
               </div>

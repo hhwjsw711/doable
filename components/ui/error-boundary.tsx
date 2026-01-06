@@ -4,6 +4,7 @@ import React from 'react'
 import { AlertTriangle, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useTranslations } from 'next-intl'
 
 interface ErrorBoundaryState {
   hasError: boolean
@@ -48,6 +49,8 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 }
 
 function DefaultErrorFallback({ error, resetError }: { error?: Error; resetError: () => void }) {
+  const t = useTranslations('components.errorBoundary')
+
   return (
     <div className="min-h-[400px] flex items-center justify-center p-8">
       <Card className="max-w-md w-full">
@@ -55,16 +58,16 @@ function DefaultErrorFallback({ error, resetError }: { error?: Error; resetError
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
             <AlertTriangle className="h-6 w-6 text-red-600" />
           </div>
-          <CardTitle className="text-lg">Something went wrong</CardTitle>
+          <CardTitle className="text-lg">{t('title')}</CardTitle>
         </CardHeader>
         <CardContent className="text-center space-y-4">
           <p className="text-sm text-muted-foreground">
-            We encountered an unexpected error. Please try refreshing the page.
+            {t('description')}
           </p>
           {process.env.NODE_ENV === 'development' && error && (
             <details className="text-left">
               <summary className="cursor-pointer text-sm font-medium mb-2">
-                Error Details
+                {t('errorDetails')}
               </summary>
               <pre className="text-xs bg-muted p-2 rounded overflow-auto">
                 {error.message}
@@ -75,10 +78,10 @@ function DefaultErrorFallback({ error, resetError }: { error?: Error; resetError
           <div className="flex gap-2 justify-center">
             <Button onClick={resetError} variant="outline" size="sm">
               <RefreshCw className="h-4 w-4 mr-2" />
-              Try Again
+              {t('tryAgain')}
             </Button>
             <Button onClick={() => window.location.reload()} size="sm">
-              Refresh Page
+              {t('refreshPage')}
             </Button>
           </div>
         </CardContent>

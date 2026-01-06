@@ -28,6 +28,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { cn } from '@/lib/utils'
 import IconUsers from '@/components/ui/IconUsers'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 
 interface TeamMember {
   id: string
@@ -54,6 +55,7 @@ interface Invitation {
 }
 
 export default function PeoplePage() {
+  const t = useTranslations('people');
   const params = useParams<{ teamId: string }>()
   const teamId = params.teamId
   const { data: session } = authClient.useSession()
@@ -136,17 +138,17 @@ export default function PeoplePage() {
         setInviteRole('developer')
         setInviteDialogOpen(false)
         queryClient.invalidateQueries({ queryKey: ['invitations', teamId] })
-        toast.success('Invitation sent successfully', {
-          description: `An invitation has been sent to ${inviteEmail}`,
+        toast.success(t('invitationSentSuccess'), {
+          description: t('invitationSentTo', { email: inviteEmail }),
         })
       } else {
         const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to send invitation')
+        throw new Error(errorData.error || t('invitationSentFailed'))
       }
     } catch (error: any) {
       console.error('Error sending invitation:', error)
-      toast.error('Failed to send invitation', {
-        description: error.message || 'Please try again',
+      toast.error(t('invitationSentFailed'), {
+        description: error.message || t('cancel'),
       })
     } finally {
       setIsSubmitting(false)
@@ -160,14 +162,14 @@ export default function PeoplePage() {
       })
 
       if (response.ok) {
-        toast.success('Invitation resent successfully')
+        toast.success(t('invitationResentSuccess'))
       } else {
-        throw new Error('Failed to resend invitation')
+        throw new Error(t('invitationResentFailed'))
       }
     } catch (error) {
       console.error('Error resending invitation:', error)
-      toast.error('Failed to resend invitation', {
-        description: 'Please try again',
+      toast.error(t('invitationResentFailed'), {
+        description: t('cancel'),
       })
     }
   }
@@ -180,14 +182,14 @@ export default function PeoplePage() {
 
       if (response.ok) {
         queryClient.invalidateQueries({ queryKey: ['invitations', teamId] })
-        toast.success('Invitation removed successfully')
+        toast.success(t('invitationRemovedSuccess'))
       } else {
-        throw new Error('Failed to remove invitation')
+        throw new Error(t('invitationRemovedFailed'))
       }
     } catch (error) {
       console.error('Error removing invitation:', error)
-      toast.error('Failed to remove invitation', {
-        description: 'Please try again',
+      toast.error(t('invitationRemovedFailed'), {
+        description: t('cancel'),
       })
     }
   }
@@ -205,21 +207,21 @@ export default function PeoplePage() {
           setRemoveDialogOpen(false)
           setMemberToRemove(null)
           queryClient.invalidateQueries({ queryKey: ['members', teamId] })
-          toast.success('Member removed successfully', {
-            description: `${memberToRemove.name} has been removed from the team`,
+          toast.success(t('memberRemovedSuccess'), {
+            description: t('memberRemovedFrom', { name: memberToRemove.name }),
           })
         } else {
           const errorData = await response.json()
-          throw new Error(errorData.error || 'Failed to remove member')
+          throw new Error(errorData.error || t('memberRemovedFailed'))
         }
       } catch (error: any) {
         console.error('Error removing member:', error)
-        toast.error('Failed to remove member', {
-          description: error.message || 'Please try again',
+        toast.error(t('memberRemovedFailed'), {
+          description: error.message || t('cancel'),
         })
       }
     }
-    
+
     executeRemove()
   }
 
@@ -232,19 +234,19 @@ export default function PeoplePage() {
     <div className="space-y-4 sm:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-semibold mb-1 sm:mb-2">People</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold mb-1 sm:mb-2">{t('title')}</h1>
           <p className="text-muted-foreground text-xs sm:text-sm">
-            Manage team members and their roles
+            {t('subtitle')}
           </p>
         </div>
-        <Button 
-          onClick={() => setInviteDialogOpen(true)} 
+        <Button
+          onClick={() => setInviteDialogOpen(true)}
           className="font-medium"
           size="sm"
         >
           <IconUsers className="h-4 w-4 sm:mr-2" />
-          <span className="hidden sm:inline">Invite Developer</span>
-          <span className="sm:hidden">Invite</span>
+          <span className="hidden sm:inline">{t('inviteButton')}</span>
+          <span className="sm:hidden">{t('inviteButtonShort')}</span>
         </Button>
       </div>
 
@@ -252,17 +254,17 @@ export default function PeoplePage() {
       <Dialog open={inviteDialogOpen} onOpenChange={setInviteDialogOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Invite Team Member</DialogTitle>
+            <DialogTitle>{t('inviteDialogTitle')}</DialogTitle>
             <DialogDescription>
-              Send an invitation to a team member by email address.
+              {t('inviteDialogDescription')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div>
-              <label className="text-sm font-medium mb-2 block">Email Address</label>
+              <label className="text-sm font-medium mb-2 block">{t('emailAddress')}</label>
               <Input
                 type="email"
-                placeholder="developer@example.com"
+                placeholder={t('emailPlaceholder')}
                 value={inviteEmail}
                 onChange={(e) => setInviteEmail(e.target.value)}
                 className="h-11"
@@ -274,28 +276,28 @@ export default function PeoplePage() {
               />
             </div>
             <div>
-              <label className="text-sm font-medium mb-2 block">Role</label>
+              <label className="text-sm font-medium mb-2 block">{t('role')}</label>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="outline"
                     className="w-full justify-between h-11"
                   >
-                    {inviteRole === 'developer' ? 'Developer' :
-                     inviteRole === 'admin' ? 'Admin' :
-                     inviteRole === 'viewer' ? 'Viewer' : 'Developer'}
+                    {inviteRole === 'developer' ? t('developer') :
+                     inviteRole === 'admin' ? t('admin') :
+                     inviteRole === 'viewer' ? t('viewer') : t('developer')}
                     <ChevronDown className="h-4 w-4 opacity-50" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="min-w-[var(--radix-dropdown-menu-trigger-width)]">
                   <DropdownMenuItem onClick={() => setInviteRole('developer')}>
-                    Developer
+                    {t('developer')}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setInviteRole('admin')}>
-                    Admin
+                    {t('admin')}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setInviteRole('viewer')}>
-                    Viewer
+                    {t('viewer')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -303,7 +305,7 @@ export default function PeoplePage() {
             {isSubmitting && (
               <div className="flex items-center justify-center py-2">
                 <Spinner size="sm" />
-                <span className="ml-2 text-sm text-muted-foreground">Sending invitation...</span>
+                <span className="ml-2 text-sm text-muted-foreground">{t('sendingInvitation')}</span>
               </div>
             )}
           </div>
@@ -316,13 +318,13 @@ export default function PeoplePage() {
                 setInviteRole('developer')
               }}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               onClick={handleInvite}
               disabled={isSubmitting || !inviteEmail}
             >
-              {isSubmitting ? 'Sending...' : 'Send Invitation'}
+              {isSubmitting ? t('sending') : t('sendInvitation')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -331,19 +333,19 @@ export default function PeoplePage() {
       {/* Members List */}
       <Card className="border-border/50">
         <CardHeader>
-          <CardTitle>Team Members</CardTitle>
+          <CardTitle>{t('teamMembersCard')}</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
             <div className="flex items-center justify-center py-12 min-h-[200px]">
               <div className="flex flex-col items-center space-y-4">
                 <Spinner size="md" />
-                <p className="text-muted-foreground">Loading members...</p>
+                <p className="text-muted-foreground">{t('loadingMembers')}</p>
               </div>
             </div>
           ) : members.length === 0 ? (
             <div className="py-12 text-center text-muted-foreground">
-              No team members yet
+              {t('noTeamMembers')}
             </div>
           ) : (
             <div className="space-y-3">
@@ -363,17 +365,17 @@ export default function PeoplePage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                    <span 
+                    <span
                       className={cn(
                         "text-xs px-2 sm:px-3 py-1 rounded-full font-medium whitespace-nowrap",
-                        member.role === 'admin' 
+                        member.role === 'admin'
                           ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
                           : member.role === 'viewer'
                           ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
                           : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300"
                       )}
                     >
-                      {member.role.charAt(0).toUpperCase() + member.role.slice(1)}
+                      {t(member.role as any)}
                     </span>
                     {currentUser?.role === 'admin' && (
                       <Button
@@ -397,7 +399,7 @@ export default function PeoplePage() {
       {invitations.length > 0 && (
         <Card className="border-border/50">
           <CardHeader>
-            <CardTitle>Pending Invitations</CardTitle>
+            <CardTitle>{t('pendingInvitations')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -411,9 +413,9 @@ export default function PeoplePage() {
                     <div className="min-w-0 flex-1">
                       <div className="font-medium truncate">{invitation.email}</div>
                       <div className="text-xs sm:text-sm text-muted-foreground capitalize">
-                        <span className="whitespace-nowrap">{invitation.role}</span>
+                        <span className="whitespace-nowrap">{t(invitation.role as any)}</span>
                         <span className="hidden sm:inline"> • </span>
-                        <span className="block sm:inline">Invited {new Date(invitation.createdAt).toLocaleDateString()}</span>
+                        <span className="block sm:inline">{t('invited')} {new Date(invitation.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
                   </div>
@@ -424,8 +426,7 @@ export default function PeoplePage() {
                       onClick={() => handleResendInvitation(invitation.id)}
                       className="touch-manipulation text-xs sm:text-sm"
                     >
-                      <span className="hidden sm:inline">Resend</span>
-                      <span className="sm:hidden">Resend</span>
+                      {t('resend')}
                     </Button>
                     <Button
                       variant="outline"
@@ -447,9 +448,9 @@ export default function PeoplePage() {
       <Dialog open={removeDialogOpen} onOpenChange={setRemoveDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Remove Team Member</DialogTitle>
+            <DialogTitle>{t('removeDialogTitle')}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to remove {memberToRemove?.name} from the team? This action cannot be undone.
+              {t('removeDialogDescription', { name: memberToRemove?.name || '' })}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -460,13 +461,13 @@ export default function PeoplePage() {
                 setMemberToRemove(null)
               }}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               variant="destructive"
               onClick={handleRemoveMember}
             >
-              Remove
+              {t('remove')}
             </Button>
           </DialogFooter>
         </DialogContent>

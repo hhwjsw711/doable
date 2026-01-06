@@ -15,6 +15,9 @@ import { Filter, X, Check, Tag } from 'lucide-react'
 import { IssueFilters } from '@/lib/types'
 import { Project, WorkflowState, Label } from '@prisma/client'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
+import { translateWorkflowState } from '@/lib/i18n/translate-workflow-state'
+import { translateLabel } from '@/lib/i18n/translate-label'
 
 interface FilterBarProps {
   filters: IssueFilters
@@ -33,6 +36,8 @@ export function FilterBar({
   labels,
   className
 }: FilterBarProps) {
+  const t = useTranslations('components.filterBar')
+  const tCommon = useTranslations()
   const [isOpen, setIsOpen] = useState(false)
 
   const updateFilter = (key: keyof IssueFilters, value: string[]) => {
@@ -74,7 +79,7 @@ export function FilterBar({
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm">
             <Filter className="h-4 w-4 mr-2" />
-            Filters
+            {t('filters')}
             {hasActiveFilters && (
               <Badge variant="secondary" className="ml-2 h-5 w-5 rounded-full p-0 text-xs">
                 {getActiveFilterCount()}
@@ -83,7 +88,7 @@ export function FilterBar({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-64">
-          <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
+          <DropdownMenuLabel>{t('filterByStatus')}</DropdownMenuLabel>
           {workflowStates.map((state) => (
             <DropdownMenuCheckboxItem
               key={state.id}
@@ -96,12 +101,12 @@ export function FilterBar({
                 updateFilter('status', newStatuses)
               }}
             >
-              {state.name}
+              {translateWorkflowState(state.name, tCommon)}
             </DropdownMenuCheckboxItem>
           ))}
 
           <DropdownMenuSeparator />
-          <DropdownMenuLabel>Filter by Project</DropdownMenuLabel>
+          <DropdownMenuLabel>{t('filterByProject')}</DropdownMenuLabel>
           {projects.map((project) => (
             <DropdownMenuCheckboxItem
               key={project.id}
@@ -119,13 +124,13 @@ export function FilterBar({
           ))}
 
           <DropdownMenuSeparator />
-          <DropdownMenuLabel>Filter by Priority</DropdownMenuLabel>
+          <DropdownMenuLabel>{t('filterByPriority')}</DropdownMenuLabel>
           {[
-            { value: 'none', label: 'None' },
-            { value: 'low', label: 'Low' },
-            { value: 'medium', label: 'Medium' },
-            { value: 'high', label: 'High' },
-            { value: 'urgent', label: 'Urgent' },
+            { value: 'none', label: t('priorities.none') },
+            { value: 'low', label: t('priorities.low') },
+            { value: 'medium', label: t('priorities.medium') },
+            { value: 'high', label: t('priorities.high') },
+            { value: 'urgent', label: t('priorities.urgent') },
           ].map((priority) => (
             <DropdownMenuCheckboxItem
               key={priority.value}
@@ -145,7 +150,7 @@ export function FilterBar({
           <DropdownMenuSeparator />
           <DropdownMenuLabel className="flex items-center gap-2">
             <Tag className="h-4 w-4" />
-            Filter by Labels
+            {t('filterByLabels')}
             {filters.label && filters.label.length > 0 && (
               <span className="ml-auto h-4 w-4 rounded-full bg-primary text-primary-foreground text-[10px] font-medium flex items-center justify-center">
                 {filters.label.length}
@@ -180,7 +185,7 @@ export function FilterBar({
                 <span className={cn(
                   "flex-1",
                   isSelected && "font-medium"
-                )}>{label.name}</span>
+                )}>{translateLabel(label.name, tCommon)}</span>
                 {isSelected && (
                   <Check className="h-4 w-4 text-primary font-bold" />
                 )}
@@ -196,7 +201,7 @@ export function FilterBar({
                 onCheckedChange={clearAllFilters}
                 className="text-red-600 focus:text-red-600"
               >
-                Clear all filters
+                {t('clearAllFilters')}
               </DropdownMenuCheckboxItem>
             </>
           )}
@@ -211,7 +216,7 @@ export function FilterBar({
               const state = workflowStates.find(s => s.id === statusId)
               return state ? (
                 <Badge key={statusId} variant="secondary" className="text-xs">
-                  {state.name}
+                  {translateWorkflowState(state.name, tCommon)}
                   <Button
                     variant="ghost"
                     size="sm"
@@ -243,7 +248,7 @@ export function FilterBar({
 
             {filters.priority?.map((priority) => (
               <Badge key={priority} variant="secondary" className="text-xs">
-                {priority}
+                {t(`priorities.${priority}`)}
                 <Button
                   variant="ghost"
                   size="sm"
@@ -259,7 +264,7 @@ export function FilterBar({
               const label = labels.find(l => l.id === labelId)
               return label ? (
                 <Badge key={labelId} variant="secondary" className="text-xs">
-                  {label.name}
+                  {translateLabel(label.name, tCommon)}
                   <Button
                     variant="ghost"
                     size="sm"
@@ -281,7 +286,7 @@ export function FilterBar({
             className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
           >
             <Filter className="h-4 w-4 mr-2" />
-            Clear
+            {t('clear')}
           </Button>
         </>
       )}

@@ -17,6 +17,7 @@ import { Badge } from '@/components/ui/badge'
 import { useProjects, useCreateProject, useUpdateProject, useDeleteProject } from '@/lib/hooks/use-projects'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 import {
   Pagination,
   PaginationContent,
@@ -42,6 +43,7 @@ interface ProjectFilters {
 }
 
 export default function ProjectsPage() {
+  const t = useTranslations('projects');
   const params = useParams<{ teamId: string }>()
   const teamId = params.teamId
   const queryClient = useQueryClient()
@@ -99,11 +101,11 @@ export default function ProjectsPage() {
     startTransition(async () => {
       try {
         await deleteProject.mutateAsync(projectId)
-        toast.success('Project deleted successfully')
+        toast.success(t('deleteSuccess'))
       } catch (error: any) {
         console.error('Error deleting project:', error)
-        toast.error('Failed to delete project', {
-          description: error.message || 'Please try again',
+        toast.error(t('deleteFailed'), {
+          description: error.message || t('pleaseTryAgain'),
         })
       }
     })
@@ -119,22 +121,22 @@ export default function ProjectsPage() {
         icon: project.icon ?? undefined,
         leadId: project.leadId ?? undefined,
       }
-      
+
       startTransition(async () => {
         try {
           await createProject.mutateAsync(duplicateData)
-          toast.success('Project duplicated successfully')
+          toast.success(t('duplicateSuccess'))
         } catch (error: any) {
           console.error('Error duplicating project:', error)
-          toast.error('Failed to duplicate project', {
-            description: error.message || 'Please try again',
+          toast.error(t('duplicateFailed'), {
+            description: error.message || t('pleaseTryAgain'),
           })
         }
       })
     } catch (error: any) {
       console.error('Error duplicating project:', error)
-      toast.error('Failed to duplicate project', {
-        description: error.message || 'Please try again',
+      toast.error(t('duplicateFailed'), {
+        description: error.message || t('pleaseTryAgain'),
       })
     }
   }
@@ -144,11 +146,11 @@ export default function ProjectsPage() {
 
     try {
       await updateProject.mutateAsync({ projectId: currentProject.id, data })
-      toast.success('Project updated successfully')
+      toast.success(t('updateSuccess'))
     } catch (error: any) {
       console.error('Error updating project:', error)
-      toast.error('Failed to update project', {
-        description: error.message || 'Please try again',
+      toast.error(t('updateFailed'), {
+        description: error.message || t('pleaseTryAgain'),
       })
       throw error
     }
@@ -158,11 +160,11 @@ export default function ProjectsPage() {
     startTransition(async () => {
       try {
         await updateProject.mutateAsync({ projectId, data: { status: 'canceled' } })
-        toast.success('Project archived successfully')
+        toast.success(t('archiveSuccess'))
       } catch (error: any) {
         console.error('Error archiving project:', error)
-        toast.error('Failed to archive project', {
-          description: error.message || 'Please try again',
+        toast.error(t('archiveFailed'), {
+          description: error.message || t('pleaseTryAgain'),
         })
       }
     })
@@ -171,13 +173,13 @@ export default function ProjectsPage() {
   const handleCreateProject = async (data: CreateProjectData | UpdateProjectData) => {
     try {
       await createProject.mutateAsync(data as CreateProjectData)
-      toast.success('Project created successfully', {
-        description: `Project "${data.name}" has been created`,
+      toast.success(t('createSuccess'), {
+        description: t('projectCreated', { name: data.name ?? '' }),
       })
     } catch (error: any) {
       console.error('Error creating project:', error)
-      toast.error('Failed to create project', {
-        description: error.message || 'Please try again',
+      toast.error(t('createFailed'), {
+        description: error.message || t('pleaseTryAgain'),
       })
       throw error
     }
@@ -289,13 +291,13 @@ export default function ProjectsPage() {
             <div className="mb-6">
               <AlertTriangle className="h-16 w-16 text-destructive mx-auto" />
             </div>
-            <h3 className="text-xl font-medium text-foreground mb-3">Something went wrong</h3>
+            <h3 className="text-xl font-medium text-foreground mb-3">{t('somethingWentWrong')}</h3>
             <p className="text-body-medium text-muted-foreground mb-6">{error}</p>
-            <Button 
+            <Button
               onClick={() => queryClient.invalidateQueries({ queryKey: ['projects', teamId] })}
               className="font-medium"
             >
-              Refresh Page
+              {t('refreshPage')}
             </Button>
           </CardContent>
         </Card>
@@ -309,15 +311,15 @@ export default function ProjectsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="space-y-1">
-          <h1 className="text-xl sm:text-2xl font-semibold">Projects</h1>
-          <p className="text-muted-foreground text-xs sm:text-sm">Manage your team&apos;s projects</p>
+          <h1 className="text-xl sm:text-2xl font-semibold">{t('title')}</h1>
+          <p className="text-muted-foreground text-xs sm:text-sm">{t('subtitle')}</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <DropdownMenu open={isFilterOpen} onOpenChange={setIsFilterOpen}>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="font-medium" size="sm">
                 <Filter className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">Filters</span>
+                <span className="hidden sm:inline">{t('filters')}</span>
                 {hasActiveFilters && (
                   <Badge variant="secondary" className="ml-1 sm:ml-2 h-5 w-5 rounded-full p-0 text-xs flex items-center justify-center">
                     {getActiveFilterCount()}
@@ -326,7 +328,7 @@ export default function ProjectsPage() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
-              <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
+              <DropdownMenuLabel>{t('filterByStatus')}</DropdownMenuLabel>
               {['active', 'completed', 'canceled'].map((status) => (
                 <DropdownMenuCheckboxItem
                   key={status}
@@ -339,12 +341,12 @@ export default function ProjectsPage() {
                     updateFilter('status', newStatuses)
                   }}
                 >
-                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                  {t(status as any)}
                 </DropdownMenuCheckboxItem>
               ))}
 
               <DropdownMenuSeparator />
-              <DropdownMenuLabel>Filter by Lead</DropdownMenuLabel>
+              <DropdownMenuLabel>{t('filterByLead')}</DropdownMenuLabel>
               {uniqueLeads.map((lead) => (
                 <DropdownMenuCheckboxItem
                   key={lead}
@@ -369,27 +371,27 @@ export default function ProjectsPage() {
                     onCheckedChange={clearAllFilters}
                     className="text-red-600 focus:text-red-600"
                   >
-                    Clear all filters
+                    {t('clearAllFilters')}
                   </DropdownMenuCheckboxItem>
                 </>
               )}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button 
+          <Button
             onClick={() => setCreateDialogOpen(true)}
             className="font-medium"
             size="sm"
           >
             <Plus className="h-4 w-4 sm:mr-2" />
-            <span className="hidden sm:inline">Create Project</span>
-            <span className="sm:hidden">Create</span>
+            <span className="hidden sm:inline">{t('createButton')}</span>
+            <span className="sm:hidden">{t('createButtonShort')}</span>
           </Button>
         </div>
       </div>
 
       {/* View Switcher */}
       <div className="flex items-center justify-between sm:justify-end">
-        <span className="text-sm text-muted-foreground sm:hidden">Views</span>
+        <span className="text-sm text-muted-foreground sm:hidden">{t('views')}</span>
         <ViewSwitcher
           currentView={currentView}
           onViewChange={(view) => setCurrentView(view as 'list' | 'table')}
@@ -405,26 +407,26 @@ export default function ProjectsPage() {
               <div className="text-muted-foreground">
                 {hasActiveFilters ? (
                   <>
-                    <p className="text-xl font-medium text-foreground mb-2">No projects found</p>
-                    <p className="text-body-medium mb-4">Try adjusting your search terms or filters</p>
-                    <Button 
+                    <p className="text-xl font-medium text-foreground mb-2">{t('noProjectsFound')}</p>
+                    <p className="text-body-medium mb-4">{t('tryAdjustingFilters')}</p>
+                    <Button
                       variant="outline"
-                      className="font-medium" 
+                      className="font-medium"
                       onClick={clearAllFilters}
                     >
-                      Clear all filters
+                      {t('clearAllFilters')}
                     </Button>
                   </>
                 ) : (
                   <>
-                    <p className="text-xl font-medium text-foreground mb-2">No projects yet</p>
-                    <p className="text-body-medium mb-6">Create your first project to get started</p>
-                    <Button 
-                      className="font-medium" 
+                    <p className="text-xl font-medium text-foreground mb-2">{t('noProjectsYet')}</p>
+                    <p className="text-body-medium mb-6">{t('createFirstProject')}</p>
+                    <Button
+                      className="font-medium"
                       onClick={() => setCreateDialogOpen(true)}
                     >
                       <Plus className="h-4 w-4 mr-2" />
-                      Create Project
+                      {t('createButton')}
                     </Button>
                   </>
                 )}
@@ -456,14 +458,14 @@ export default function ProjectsPage() {
                         onProjectCheck={async (projectId, checked) => {
                           startTransition(async () => {
                             try {
-                              await updateProject.mutateAsync({ 
-                                projectId, 
-                                data: { status: checked ? 'completed' : 'active' } 
+                              await updateProject.mutateAsync({
+                                projectId,
+                                data: { status: checked ? 'completed' : 'active' }
                               })
                             } catch (error: any) {
                               console.error('Error updating project:', error)
-                              toast.error('Failed to update project status', {
-                                description: error.message || 'Please try again',
+                              toast.error(t('updateStatusFailed'), {
+                                description: error.message || t('pleaseTryAgain'),
                               })
                             }
                           })
@@ -481,8 +483,8 @@ export default function ProjectsPage() {
                         await updateProject.mutateAsync({ projectId, data: updates })
                       } catch (error: any) {
                         console.error('Error updating project:', error)
-                        toast.error('Failed to update project', {
-                          description: error.message || 'Please try again',
+                        toast.error(t('updateFailed'), {
+                          description: error.message || t('pleaseTryAgain'),
                         })
                       }
                     }}
@@ -551,8 +553,8 @@ export default function ProjectsPage() {
         open={createDialogOpen}
         onOpenChange={setCreateDialogOpen}
         onSubmit={handleCreateProject}
-        title="Create Project"
-        description="Create a new project for your team."
+        title={t('createDialogTitle')}
+        description={t('createDialogDescription')}
         teamId={teamId}
       />
 
@@ -575,8 +577,8 @@ export default function ProjectsPage() {
           leadId: currentProject.leadId ?? undefined,
           status: currentProject.status as any,
         } : undefined}
-        title="Edit Project"
-        description="Update the project details."
+        title={t('editDialogTitle')}
+        description={t('editDialogDescription')}
         teamId={teamId}
         projectId={currentProject?.id}
       />

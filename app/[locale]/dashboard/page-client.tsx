@@ -6,8 +6,10 @@ import { useEffect, useRef } from "react";
 import { TeamSelector } from "@/components/shared/team-selector";
 import { DashboardLoader } from "@/components/ui/dashboard-loader";
 import { authClient } from "@/lib/auth-client";
+import { useTranslations } from "next-intl";
 
 export function PageClient() {
+  const t = useTranslations('dashboard');
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
   const hasRedirected = useRef(false);
@@ -38,7 +40,7 @@ export function PageClient() {
   if (isPending) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <DashboardLoader message="Loading teams" submessage="Setting up your workspace..." />
+        <DashboardLoader message={t('loadingTeams')} submessage={t('settingUpWorkspace')} />
       </div>
     );
   }
@@ -47,7 +49,7 @@ export function PageClient() {
   if (!session) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <DashboardLoader message="Redirecting..." submessage="Please sign in to continue" />
+        <DashboardLoader message={t('redirecting')} submessage={t('signInToContinue')} />
       </div>
     );
   }

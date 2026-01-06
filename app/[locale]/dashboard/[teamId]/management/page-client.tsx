@@ -10,6 +10,7 @@ import IconFiles from "@/components/ui/IconFiles"
 import IconUsers from "@/components/ui/IconUsers"
 import IconSquareChartLine from "@/components/ui/IconSquareChartLine"
 import IconCircleCheck from "@/components/ui/IconCircleCheck"
+import { useTranslations } from "next-intl"
 
 const COLORS = {
   urgent: '#ef4444',
@@ -22,6 +23,7 @@ const COLORS = {
 const CHART_COLORS = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4']
 
 export function ManagementPageClient() {
+  const t = useTranslations('management');
   const params = useParams<{ teamId: string }>()
   const teamId = params.teamId as string
 
@@ -33,7 +35,7 @@ export function ManagementPageClient() {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center space-y-4">
           <Spinner size="lg" />
-          <p className="text-muted-foreground">Loading statistics...</p>
+          <p className="text-muted-foreground">{t('loadingStatistics')}</p>
         </div>
       </div>
     )
@@ -53,9 +55,9 @@ export function ManagementPageClient() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl sm:text-2xl font-semibold">Management</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold">{t('title')}</h1>
         <p className="text-muted-foreground text-xs sm:text-sm">
-          Track your team&apos;s performance and productivity
+          {t('subtitle')}
         </p>
       </div>
 
@@ -63,45 +65,45 @@ export function ManagementPageClient() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Team Members</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('teamMembers')}</CardTitle>
             <IconUsers className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold">{stats.stats?.members || 0}</div>
-            <p className="text-xs text-muted-foreground">Active team members</p>
+            <p className="text-xs text-muted-foreground">{t('activeTeamMembers')}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('activeProjects')}</CardTitle>
             <IconSquareChartLine className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold">{stats.stats?.projects || 0}</div>
-            <p className="text-xs text-muted-foreground">Projects in progress</p>
+            <p className="text-xs text-muted-foreground">{t('projectsInProgress')}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Issues</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('totalIssues')}</CardTitle>
             <IconFiles className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold">{stats.stats?.totalIssues || 0}</div>
-            <p className="text-xs text-muted-foreground">{stats.stats?.completedIssues || 0} completed</p>
+            <p className="text-xs text-muted-foreground">{stats.stats?.completedIssues || 0} {t('completed')}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Completion Rate</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('completionRate')}</CardTitle>
             <IconCircleCheck className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold">{stats.stats?.completionRate || 0}%</div>
-            <p className="text-xs text-muted-foreground">Issues completed</p>
+            <p className="text-xs text-muted-foreground">{t('issuesCompleted')}</p>
           </CardContent>
         </Card>
       </div>
@@ -111,7 +113,7 @@ export function ManagementPageClient() {
         {/* Issues by Priority */}
         <Card>
           <CardHeader>
-            <CardTitle>Issues by Priority</CardTitle>
+            <CardTitle>{t('issuesByPriority')}</CardTitle>
           </CardHeader>
           <CardContent>
             {priorityData.length > 0 ? (
@@ -134,7 +136,7 @@ export function ManagementPageClient() {
               </ChartContainer>
             ) : (
               <div className="flex items-center justify-center h-[250px] sm:h-[300px] text-muted-foreground">
-                No priority data available
+                {t('noPriorityData')}
               </div>
             )}
           </CardContent>
@@ -143,7 +145,7 @@ export function ManagementPageClient() {
         {/* Issues by Status */}
         <Card>
           <CardHeader>
-            <CardTitle>Issues by Status</CardTitle>
+            <CardTitle>{t('issuesByStatus')}</CardTitle>
           </CardHeader>
           <CardContent>
             {statusData.length > 0 ? (
@@ -173,7 +175,7 @@ export function ManagementPageClient() {
               </ChartContainer>
             ) : (
               <div className="flex items-center justify-center h-[250px] sm:h-[300px] text-muted-foreground">
-                No status data available
+                {t('noStatusData')}
               </div>
             )}
           </CardContent>
@@ -184,7 +186,7 @@ export function ManagementPageClient() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
+            <CardTitle>{t('recentActivity')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             {stats.recentIssues && stats.recentIssues.length > 0 ? (
@@ -200,40 +202,40 @@ export function ManagementPageClient() {
                 </div>
               ))
             ) : (
-              <p className="text-sm text-muted-foreground">No recent activity</p>
+              <p className="text-sm text-muted-foreground">{t('noRecentActivity')}</p>
             )}
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Quick Insights</CardTitle>
+            <CardTitle>{t('quickInsights')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 sm:space-y-4">
             <div className="flex items-start sm:items-center gap-2 sm:gap-3">
               <IconCircleCheck className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5 sm:mt-0" />
               <div className="min-w-0">
-                <p className="text-xs sm:text-sm font-medium">Completion Rate</p>
+                <p className="text-xs sm:text-sm font-medium">{t('completionRate')}</p>
                 <p className="text-xs text-muted-foreground">
-                  {stats.stats?.completionRate || 0}% of issues are completed
+                  {stats.stats?.completionRate || 0}% {t('ofIssuesCompleted')}
                 </p>
               </div>
             </div>
             <div className="flex items-start sm:items-center gap-2 sm:gap-3">
               <IconUsers className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5 sm:mt-0" />
               <div className="min-w-0">
-                <p className="text-xs sm:text-sm font-medium">Team Size</p>
+                <p className="text-xs sm:text-sm font-medium">{t('teamMembers')}</p>
                 <p className="text-xs text-muted-foreground">
-                  {stats.stats?.members || 0} active members
+                  {stats.stats?.members || 0} {t('activeMembers')}
                 </p>
               </div>
             </div>
             <div className="flex items-start sm:items-center gap-2 sm:gap-3">
               <IconSquareChartLine className="h-5 w-5 text-purple-600 flex-shrink-0 mt-0.5 sm:mt-0" />
               <div className="min-w-0">
-                <p className="text-xs sm:text-sm font-medium">Active Projects</p>
+                <p className="text-xs sm:text-sm font-medium">{t('activeProjects')}</p>
                 <p className="text-xs text-muted-foreground">
-                  {stats.stats?.projects || 0} projects in progress
+                  {stats.stats?.projects || 0} {t('projectsInProgressLower')}
                 </p>
               </div>
             </div>

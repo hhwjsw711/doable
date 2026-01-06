@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { List, Columns, Table } from 'lucide-react'
 import { ViewType } from '@/lib/types'
+import { useTranslations } from 'next-intl'
 
 interface ViewSwitcherProps {
   currentView: ViewType
@@ -12,25 +13,27 @@ interface ViewSwitcherProps {
   className?: string
 }
 
-const viewConfig = {
-  list: {
-    label: 'List',
-    icon: List,
-    description: 'List view'
-  },
-  board: {
-    label: 'Board',
-    icon: Columns,
-    description: 'Kanban board'
-  },
-  table: {
-    label: 'Table',
-    icon: Table,
-    description: 'Table view'
-  }
-}
-
 export function ViewSwitcher({ currentView, onViewChange, views, className }: ViewSwitcherProps) {
+  const t = useTranslations('components.viewSwitcher');
+
+  const viewConfig = {
+    list: {
+      label: t('list'),
+      icon: List,
+      description: t('listView')
+    },
+    board: {
+      label: t('board'),
+      icon: Columns,
+      description: t('kanbanBoard')
+    },
+    table: {
+      label: t('table'),
+      icon: Table,
+      description: t('tableView')
+    }
+  }
+
   const availableViews = views || Object.keys(viewConfig) as ViewType[]
   
   return (

@@ -11,6 +11,21 @@
     "edit": "编辑",
     "back": "返回"
   },
+  "workflowStates": {
+    "Backlog": "待办事项",
+    "Todo": "未开始",
+    "In Progress": "进行中",
+    "Done": "已完成",
+    "Canceled": "已取消"
+  },
+  "defaultLabels": {
+    "Bug": "错误",
+    "Feature": "功能",
+    "Enhancement": "优化",
+    "Documentation": "文档",
+    "Performance": "性能",
+    "Security": "安全"
+  },
   "landing": {
     "title": "更快交付，更智能工作",
     "description": "一个真正好用的任务管理平台。界面美观、操作直观，专为追求高效交付的团队精心打造。让团队协作更顺畅，让项目管理更简单。",
@@ -179,7 +194,16 @@
     "projects": "项目",
     "issues": "问题",
     "people": "成员",
-    "management": "管理"
+    "management": "管理",
+    "loadingTeams": "加载团队中",
+    "settingUpWorkspace": "正在设置您的工作空间...",
+    "redirecting": "跳转中...",
+    "signInToContinue": "请登录以继续",
+    "teamNotFound": "团队不存在",
+    "loadingTeam": "加载团队中",
+    "fetchingTeamData": "正在获取团队数据...",
+    "signOut": "退出登录",
+    "openDoableAI": "打开 Doable AI"
   },
   "invite": {
     "title": "团队邀请",
@@ -216,6 +240,365 @@
       "needLogin": "您需要登录才能接受此邀请。",
       "switchButton": "切换账户",
       "mismatchMessage": "此邀请发送给 {invitedEmail}，但您当前登录的是 {currentEmail}"
+    }
+  },
+  "loading": {
+    "title": "正在加载 TheGroupFinder",
+    "message": "正在设置您的工作空间..."
+  },
+  "issues": {
+    "title": "问题",
+    "subtitle": "管理和跟踪团队问题",
+    "createButton": "创建问题",
+    "createButtonShort": "创建",
+    "views": "视图",
+    "loadingDashboard": "加载仪表板中...",
+    "noIssuesFound": "未找到问题",
+    "tryAdjustingFilters": "请调整搜索条件或筛选器",
+    "clearAllFilters": "清除所有筛选",
+    "noIssuesYet": "还没有问题",
+    "createFirstIssue": "创建第一个问题开始使用",
+    "somethingWentWrong": "出错了",
+    "failedToLoad": "加载问题失败，请重试。",
+    "refreshPage": "刷新页面",
+    "deleteSuccess": "问题删除成功",
+    "deleteFailed": "删除问题失败",
+    "pleaseTryAgain": "请重试",
+    "updating": "更新问题中...",
+    "beingUpdated": "正在更新 \"{title}\"",
+    "updateSuccess": "问题更新成功",
+    "hasBeenUpdated": "问题 {title} 已更新",
+    "updateFailed": "更新问题失败",
+    "creating": "创建问题中...",
+    "beingCreated": "正在创建 \"{title}\"",
+    "createSuccess": "问题创建成功",
+    "hasBeenCreated": "问题 \"{title}\" 已创建",
+    "createFailed": "创建问题失败",
+    "updateStatusFailed": "更新问题状态失败",
+    "createDialogTitle": "创建问题",
+    "createDialogDescription": "为您的团队创建新问题。",
+    "editDialogTitle": "编辑问题",
+    "editDialogDescription": "更新问题详情。",
+    "assignDialogTitle": "分配问题",
+    "assignDialogDescription": "将问题分配给团队成员。",
+    "moveDialogTitle": "移动问题",
+    "moveDialogDescription": "将问题移动到不同的项目或状态。"
+  },
+  "management": {
+    "title": "管理",
+    "subtitle": "跟踪团队绩效和生产力",
+    "loadingStatistics": "加载统计数据中...",
+    "teamMembers": "团队成员",
+    "activeTeamMembers": "活跃团队成员",
+    "activeProjects": "活跃项目",
+    "projectsInProgress": "进行中的项目",
+    "totalIssues": "总问题数",
+    "completed": "已完成",
+    "completionRate": "完成率",
+    "issuesCompleted": "问题已完成",
+    "issuesByPriority": "按优先级分类的问题",
+    "noPriorityData": "没有优先级数据",
+    "issuesByStatus": "按状态分类的问题",
+    "noStatusData": "没有状态数据",
+    "recentActivity": "最近活动",
+    "noRecentActivity": "没有最近活动",
+    "quickInsights": "快速洞察",
+    "ofIssuesCompleted": "的问题已完成",
+    "activeMembers": "活跃成员",
+    "projectsInProgressLower": "项目进行中"
+  },
+  "people": {
+    "title": "成员",
+    "subtitle": "管理团队成员及其角色",
+    "inviteButton": "邀请开发者",
+    "inviteButtonShort": "邀请",
+    "inviteDialogTitle": "邀请团队成员",
+    "inviteDialogDescription": "通过电子邮件地址向团队成员发送邀请。",
+    "emailAddress": "邮箱地址",
+    "emailPlaceholder": "developer@example.com",
+    "role": "角色",
+    "developer": "开发者",
+    "admin": "管理员",
+    "viewer": "查看者",
+    "sendingInvitation": "发送邀请中...",
+    "cancel": "取消",
+    "sending": "发送中...",
+    "sendInvitation": "发送邀请",
+    "teamMembersCard": "团队成员",
+    "loadingMembers": "加载成员中...",
+    "noTeamMembers": "还没有团队成员",
+    "pendingInvitations": "待处理邀请",
+    "invited": "已邀请",
+    "resend": "重新发送",
+    "invitationSentSuccess": "邀请发送成功",
+    "invitationSentTo": "已向 {email} 发送邀请",
+    "invitationSentFailed": "发送邀请失败",
+    "invitationResentSuccess": "邀请重新发送成功",
+    "invitationResentFailed": "重新发送邀请失败",
+    "invitationRemovedSuccess": "邀请已删除",
+    "invitationRemovedFailed": "删除邀请失败",
+    "memberRemovedSuccess": "成员删除成功",
+    "memberRemovedFrom": "{name} 已从团队中删除",
+    "memberRemovedFailed": "删除成员失败",
+    "removeDialogTitle": "删除团队成员",
+    "removeDialogDescription": "确定要将 {name} 从团队中删除吗？此操作无法撤销。",
+    "remove": "删除"
+  },
+  "projects": {
+    "title": "项目",
+    "subtitle": "管理团队项目",
+    "filters": "筛选",
+    "createButton": "创建项目",
+    "createButtonShort": "创建",
+    "views": "视图",
+    "filterByStatus": "按状态筛选",
+    "active": "活跃",
+    "completed": "已完成",
+    "canceled": "已取消",
+    "filterByLead": "按负责人筛选",
+    "clearAllFilters": "清除所有筛选",
+    "noProjectsFound": "未找到项目",
+    "tryAdjustingFilters": "请调整搜索条件或筛选器",
+    "noProjectsYet": "还没有项目",
+    "createFirstProject": "创建第一个项目开始使用",
+    "somethingWentWrong": "出错了",
+    "failedToLoad": "加载项目失败，请重试。",
+    "refreshPage": "刷新页面",
+    "deleteSuccess": "项目删除成功",
+    "deleteFailed": "删除项目失败",
+    "pleaseTryAgain": "请重试",
+    "duplicateSuccess": "项目复制成功",
+    "duplicateFailed": "复制项目失败",
+    "updateSuccess": "项目更新成功",
+    "updateFailed": "更新项目失败",
+    "archiveSuccess": "项目归档成功",
+    "archiveFailed": "归档项目失败",
+    "createSuccess": "项目创建成功",
+    "projectCreated": "项目 \"{name}\" 已创建",
+    "createFailed": "创建项目失败",
+    "updateStatusFailed": "更新项目状态失败",
+    "createDialogTitle": "创建项目",
+    "createDialogDescription": "为您的团队创建新项目。",
+    "editDialogTitle": "编辑项目",
+    "editDialogDescription": "更新项目详情。"
+  },
+  "components": {
+    "issueDialog": {
+      "newIssue": "新建问题",
+      "editIssue": "编辑问题",
+      "placeholders": {
+        "title": "问题标题",
+        "description": "添加描述...",
+        "selectAssignee": "选择负责人"
+      },
+      "noProject": "无项目",
+      "defaultStatus": "待办",
+      "priority": "优先级",
+      "assignee": "负责人",
+      "priorities": {
+        "none": "无",
+        "low": "低",
+        "medium": "中",
+        "high": "高",
+        "urgent": "紧急"
+      },
+      "actions": {
+        "createMore": "继续创建",
+        "creating": "创建中...",
+        "updating": "更新中...",
+        "createIssue": "创建问题",
+        "updateIssue": "更新问题"
+      },
+      "validation": {
+        "titleRequired": "标题为必填项",
+        "titleTooLong": "标题过长",
+        "statusRequired": "状态为必填项",
+        "validationFailed": "验证失败"
+      }
+    },
+    "projectDialog": {
+      "newProject": "新建项目",
+      "editProject": "编辑项目",
+      "defaultTitle": "新建项目",
+      "defaultDescription": "为您的团队创建新项目。",
+      "placeholders": {
+        "name": "项目名称",
+        "description": "添加简短摘要...",
+        "key": "项目标识",
+        "selectLead": "选择负责人",
+        "milestoneName": "里程碑名称",
+        "milestoneDescription": "添加描述...",
+        "targetDate": "目标日期"
+      },
+      "status": {
+        "active": "活跃",
+        "completed": "已完成",
+        "canceled": "已取消",
+        "backlog": "待办"
+      },
+      "lead": "负责人",
+      "members": "成员",
+      "membersCount": "{count} 位成员",
+      "member": "位成员",
+      "membersPlural": "位成员",
+      "saveFirstToAddMembers": "请先保存项目再添加成员",
+      "projectMembers": "项目成员",
+      "loadingMembers": "加载成员中...",
+      "addTeamMember": "添加团队成员",
+      "allMembersAdded": "所有团队成员已在此项目中",
+      "labelsComingSoon": "标签功能即将推出",
+      "createMilestone": "创建里程碑",
+      "addMilestone": "添加里程碑",
+      "target": "目标",
+      "actions": {
+        "cancel": "取消",
+        "creating": "创建中...",
+        "updating": "更新中...",
+        "createProject": "创建项目",
+        "updateProject": "更新项目"
+      },
+      "validation": {
+        "nameRequired": "名称为必填项",
+        "nameTooLong": "名称过长",
+        "keyRequired": "标识为必填项",
+        "keyTooLong": "标识过长",
+        "keyFormat": "标识只能包含大写字母和数字",
+        "invalidColor": "颜色格式无效"
+      },
+      "errors": {
+        "failedToAddMember": "添加成员失败",
+        "failedToRemoveMember": "移除成员失败"
+      },
+      "defaultKeyPrefix": "项目",
+      "keyHelperText": "留空则根据项目名称自动生成。最多10个大写字母/数字。",
+      "startDate": "开始",
+      "targetDate": "目标",
+      "startDateComingSoon": "开始日期选择功能即将推出",
+      "targetDateComingSoon": "目标日期选择功能即将推出"
+    },
+    "viewSwitcher": {
+      "list": "列表",
+      "board": "看板",
+      "table": "表格",
+      "listView": "列表视图",
+      "kanbanBoard": "看板视图",
+      "tableView": "表格视图"
+    },
+    "userSelector": {
+      "selectAssignee": "选择负责人",
+      "loading": "加载中...",
+      "unassigned": "未分配"
+    },
+    "teamSelector": {
+      "loadingTeams": "加载团队中...",
+      "noTeamsFound": "未找到团队",
+      "noTeamsMessage": "您还没有访问任何团队的权限。",
+      "createFirstTeam": "创建您的第一个团队",
+      "selectTeam": "选择团队",
+      "chooseTeam": "选择一个团队开始使用",
+      "teamMembers": "团队成员",
+      "createNewTeam": "创建新团队"
+    },
+    "actionsMenu": {
+      "openMenu": "打开操作菜单",
+      "areYouSure": "确定要执行此操作吗？",
+      "deleteWarning": "此操作无法撤销。这将永久删除该项目。",
+      "cancel": "取消",
+      "delete": "删除",
+      "projectActions": {
+        "editProject": "编辑项目",
+        "duplicate": "复制",
+        "archive": "归档",
+        "delete": "删除"
+      },
+      "issueActions": {
+        "viewDetails": "查看详情",
+        "editIssue": "编辑问题",
+        "assign": "分配",
+        "moveToProject": "移动到项目",
+        "delete": "删除"
+      }
+    },
+    "errorBoundary": {
+      "title": "出错了",
+      "description": "我们遇到了一个意外错误。请尝试刷新页面。",
+      "errorDetails": "错误详情",
+      "tryAgain": "重试",
+      "refreshPage": "刷新页面"
+    },
+    "teamCreator": {
+      "teamName": "团队名称",
+      "enterTeamName": "输入团队名称",
+      "createTeam": "创建团队",
+      "creatingTeam": "创建团队中...",
+      "createNewTeam": "创建新团队",
+      "failedToCreate": "创建团队失败"
+    },
+    "workspaceSelector": {
+      "switchWorkspace": "切换工作空间",
+      "deleteWorkspaceTitle": "删除工作空间？",
+      "deleteWorkspaceDescription": "确定要删除「{name}」吗？此操作无法撤销。该工作空间中的所有项目、问题和数据都将被永久删除。",
+      "cancel": "取消",
+      "delete": "删除",
+      "deleting": "删除中..."
+    },
+    "filterBar": {
+      "filters": "筛选",
+      "filterByStatus": "按状态筛选",
+      "filterByProject": "按项目筛选",
+      "filterByPriority": "按优先级筛选",
+      "filterByLabels": "按标签筛选",
+      "clearAllFilters": "清除所有筛选",
+      "clear": "清除",
+      "priorities": {
+        "none": "无",
+        "low": "低",
+        "medium": "中",
+        "high": "高",
+        "urgent": "紧急"
+      }
+    },
+    "issueTable": {
+      "title": "标题",
+      "id": "ID",
+      "status": "状态",
+      "priority": "优先级",
+      "project": "项目",
+      "assignee": "负责人",
+      "labels": "标签",
+      "created": "创建时间",
+      "comments": "评论",
+      "noIssuesFound": "未找到问题"
+    },
+    "issueBoard": {
+      "addIssue": "添加问题",
+      "hideColumn": "隐藏列"
+    },
+    "statusChangeDropdown": {
+      "placeholder": "更改状态...",
+      "noStatusFound": "未找到状态"
+    },
+    "aiChatbot": {
+      "title": "Doable AI",
+      "subtitle": "向我询问关于您团队的任何问题",
+      "loadingConversation": "加载对话中...",
+      "startConversation": "开始对话",
+      "welcomeMessage": "我可以帮助您创建问题、管理项目、邀请团队成员等。请随时向我提问！",
+      "tryAsking": "试试问：",
+      "thinking": "AI 正在思考...",
+      "thinkingProcess": "思考过程",
+      "suggestions": {
+        "createIssue": "创建一个修复登录错误的问题",
+        "showHighPriority": "显示所有高优先级问题",
+        "listProjects": "我们有哪些项目？",
+        "createProject": "创建一个名为「Web 应用」的新项目",
+        "listInProgress": "列出所有进行中的问题",
+        "updateIssue": "将结账页面问题更新为进行中",
+        "addMember": "将 Sarah 添加到 Web 项目",
+        "inviteMember": "邀请 john@example.com 加入团队",
+        "showStatistics": "显示团队统计信息",
+        "myIssues": "有哪些问题分配给了我？"
+      }
     }
   }
 }

@@ -1,8 +1,11 @@
+'use client'
+
 import { cn } from '@/lib/utils'
 import { ProjectWithRelations } from '@/lib/types'
 import { Card } from '@/components/ui/card'
-import { ActionsMenu, projectActions } from '@/components/shared/actions-menu'
+import { ActionsMenu, createProjectActions } from '@/components/shared/actions-menu'
 import { UserAvatar } from '@/components/shared/user-avatar'
+import { useTranslations } from 'next-intl'
 
 interface ProjectCardProps {
   project: ProjectWithRelations
@@ -15,16 +18,19 @@ interface ProjectCardProps {
   isDragging?: boolean
 }
 
-export function ProjectCard({ 
-  project, 
-  onClick, 
+export function ProjectCard({
+  project,
+  onClick,
   onEdit,
   onDelete,
   onDuplicate,
   onArchive,
-  className, 
-  isDragging 
+  className,
+  isDragging
 }: ProjectCardProps) {
+  const t = useTranslations('components.actionsMenu')
+  const projectActions = createProjectActions(t)
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
