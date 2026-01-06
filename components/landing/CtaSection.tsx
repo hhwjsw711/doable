@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { TextAnimate } from '@/components/ui/text-animate';
 import { Ripple } from '@/components/ui/ripple';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 const GitHubIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -18,6 +19,8 @@ interface CtaSectionProps {
 }
 
 export const CtaSection: React.FC<CtaSectionProps> = ({ className = '' }) => {
+  const t = useTranslations();
+
   return (
     <div className={`CtaSection py-16 md:py-24 lg:py-32 overflow-hidden ${className}`} style={{ position: 'relative' }} data-cta-section>
       {/* Dot Pattern Background - Square Container */}
@@ -44,10 +47,10 @@ export const CtaSection: React.FC<CtaSectionProps> = ({ className = '' }) => {
             duration={0.8}
             className="inline text-primary"
           >
-            Ready to get things done?
+            {t('landing.ctaSection.title')}
           </TextAnimate>
         </h1>
-        
+
         {/* Subtitle */}
         <h2 className="text-xl sm:text-2xl md:text-3xl font-medium text-center text-muted-foreground mb-8 sm:mb-12 max-w-3xl mx-auto px-4 leading-relaxed">
           <TextAnimate
@@ -57,10 +60,10 @@ export const CtaSection: React.FC<CtaSectionProps> = ({ className = '' }) => {
             duration={0.6}
             className="inline"
           >
-            Join thousands of teams already using TheGroupFinder to manage their tasks and boost productivity.
+            {t('landing.ctaSection.subtitle')}
           </TextAnimate>
         </h2>
-        
+
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4">
           <Button
@@ -69,7 +72,7 @@ export const CtaSection: React.FC<CtaSectionProps> = ({ className = '' }) => {
             asChild
           >
             <Link href="/dashboard">
-              Get Started Free
+              {t('landing.ctaSection.button')}
             </Link>
           </Button>
         </div>

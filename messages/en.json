@@ -1,0 +1,221 @@
+{
+  "common": {
+    "appName": "TheGroupFinder",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back"
+  },
+  "landing": {
+    "title": "Ship Faster, Work Smarter",
+    "description": "The task management platform that actually works. Beautiful, intuitive, and built for teams who ship.",
+    "cta": "Get Started",
+    "navbar": {
+      "getStarted": "Get Started"
+    },
+    "hero": {
+      "tagline": "Finally, a task manager that doesn't suck.",
+      "title": "Modern Team Task Management",
+      "highlightText": "Modern",
+      "description": "Built for teams who want to get things done. Clean, fast, and powerful task management with Swiss design principles.",
+      "primaryButton": "Get Started Free",
+      "secondaryButton": "View on GitHub"
+    },
+    "demo": {
+      "title": "See TheGroupFinder in Action",
+      "description": "Watch how teams use TheGroupFinder to manage tasks and collaborate effectively.",
+      "cta": "Try TheGroupFinder free today. No credit card required.",
+      "videoNotSupported": "Your browser does not support the video tag."
+    },
+    "ctaSection": {
+      "title": "Ready to get things done?",
+      "subtitle": "Join thousands of teams already using TheGroupFinder to manage their tasks and boost productivity.",
+      "button": "Get Started Free"
+    },
+    "howToUse": {
+      "title": "How to Get Started",
+      "subtitle": "Get started with TheGroupFinder in just three simple steps. No complex setup required!",
+      "steps": {
+        "step1": {
+          "number": "01",
+          "title": "Sign Up for Free",
+          "description": "Create your account in seconds. No credit card required, no hidden fees."
+        },
+        "step2": {
+          "number": "02",
+          "title": "Create Your First Team",
+          "description": "Set up your team workspace and invite your colleagues to collaborate."
+        },
+        "step3": {
+          "number": "03",
+          "title": "Start Managing Tasks",
+          "description": "Create projects, add tasks, and watch your team's productivity soar."
+        }
+      }
+    },
+    "features": {
+      "title": "Powerful features, beautiful design",
+      "subtitle": "Everything you need to manage tasks efficiently, collaborate effectively, and ship faster.",
+      "bottomCta": "All features included in the free plan",
+      "featureCounter": "Feature {current} of {total}",
+      "videoNotSupported": "Your browser does not support the video tag.",
+      "doableAI": {
+        "title": "Doable AI",
+        "description": "Create an issue using Doable AI. Our AI assistant understands context and helps you get things done faster."
+      },
+      "assignIssues": {
+        "title": "Assign issues to team members",
+        "description": "You can list all issues and assign them to team members."
+      },
+      "deleteIssues": {
+        "title": "Delete issues",
+        "description": "You can delete issues using Doable AI."
+      },
+      "createProjects": {
+        "title": "Create projects",
+        "description": "You can create your projects using Doable AI"
+      },
+      "inviteTeam": {
+        "title": "Invite team members",
+        "description": "You can invite team members using Doable AI."
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Everything you need to know about TheGroupFinder",
+      "questions": {
+        "whoIsItFor": {
+          "question": "Who is TheGroupFinder for?",
+          "answer": "TheGroupFinder is built for individuals and indie hackers who want to get things done instead of wasting time on complicated tools. If you're building something solo or with a small team, and you want a simple, fast way to manage tasks without all the bloat, TheGroupFinder is for you."
+        },
+        "whatIsIt": {
+          "question": "What is TheGroupFinder?",
+          "answer": "TheGroupFinder is a simple, AI-powered task management tool. You can create tasks, organize projects, and manage your work through natural language. No need to learn complex interfaces - just tell the AI what you need and it handles the rest."
+        },
+        "howAIWorks": {
+          "question": "How does the AI assistant work?",
+          "answer": "Just chat with it naturally. Say things like 'Create a task for fixing the login bug' or 'Show me all high-priority tasks' and the AI does it. No clicking through menus or filling out forms - just talk to it like a teammate."
+        },
+        "isFree": {
+          "question": "Is TheGroupFinder free?",
+          "answer": "Yes! TheGroupFinder is completely free and open source. All features including AI-powered task management are available at no cost. You can also self-host it on your own server."
+        },
+        "needTeam": {
+          "question": "Do I need a team to use it?",
+          "answer": "Nope. While TheGroupFinder supports teams, it works great for solo projects too. Create your workspace, add projects, and start managing tasks. Invite others later if you want."
+        },
+        "howToStart": {
+          "question": "How do I get started?",
+          "answer": "Sign up with Google or Email (we'll send you a verification code), create a workspace, and start chatting with the AI. That's it. The AI will help you create your first project and tasks. No tutorial needed."
+        },
+        "dataSafety": {
+          "question": "Is my data safe?",
+          "answer": "Yes. TheGroupFinder uses secure authentication and you can self-host it to keep your data on your own server. The code is open source, so you can verify everything yourself."
+        }
+      }
+    },
+    "testimonials": {
+      "title": "What People Are Saying",
+      "subtitle": "See what developers and teams are saying about TheGroupFinder"
+    },
+    "contributors": {
+      "title": "Contributors",
+      "subtitle": "The amazing people who make TheGroupFinder possible",
+      "contribution": "contribution",
+      "contributions": "contributions"
+    },
+    "footer": {
+      "copyright": "© {year} TheGroupFinder. Built for teams who ship."
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account to continue your journey with TheGroupFinder",
+      "googleButton": "Sign in with Google",
+      "emailButton": "Sign in with Email",
+      "signingIn": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up",
+      "backToOptions": "Back to other options",
+      "or": "Or"
+    },
+    "signUp": {
+      "title": "Create an account",
+      "subtitle": "Join thousands of teams already using TheGroupFinder",
+      "googleButton": "Sign up with Google",
+      "emailButton": "Sign up with Email",
+      "signingUp": "Signing up...",
+      "hasAccount": "Already have an account?",
+      "signInLink": "Sign in"
+    },
+    "email": {
+      "label": "Email address",
+      "placeholder": "your@email.com",
+      "sendCode": "Send verification code",
+      "sending": "Sending...",
+      "verifyTitle": "Verification code",
+      "verifyPlaceholder": "Enter 6-digit code",
+      "verifyButton": "Verify and sign in",
+      "verifying": "Verifying...",
+      "changeEmail": "Change email",
+      "resendCode": "Resend code",
+      "codeSent": "We sent a verification code to"
+    },
+    "errors": {
+      "googleFailed": "Failed to sign in with Google",
+      "sendOtpFailed": "Failed to send verification code",
+      "invalidCode": "Invalid verification code"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "overview": "Overview",
+    "projects": "Projects",
+    "issues": "Issues",
+    "people": "People",
+    "management": "Management"
+  },
+  "invite": {
+    "title": "Team Invitation",
+    "loading": "Loading invitation...",
+    "accepting": "Accepting invitation...",
+    "success": {
+      "title": "Invitation Accepted!",
+      "message": "Redirecting to your dashboard..."
+    },
+    "notFound": {
+      "title": "Invitation Not Found",
+      "message": "This invitation link is invalid or has been removed."
+    },
+    "expired": {
+      "title": "Invitation Expired",
+      "message": "This invitation has expired. Please ask for a new invitation."
+    },
+    "error": {
+      "title": "Error",
+      "failedToLoad": "Failed to load invitation",
+      "failedToAccept": "Failed to accept invitation",
+      "tryAgain": "Try Again"
+    },
+    "ready": {
+      "title": "You've been invited!",
+      "message": "Click the button below to join the team.",
+      "acceptButton": "Accept Invitation"
+    },
+    "wrongAccount": {
+      "title": "Wrong Account",
+      "invitationFor": "This invitation is for:",
+      "currentlyLoggedIn": "You're currently logged in as:",
+      "switchPrompt": "Please log out and sign in with the correct email to accept this invitation.",
+      "needLogin": "You need to be logged in to accept this invitation.",
+      "switchButton": "Switch Account",
+      "mismatchMessage": "This invitation is for {invitedEmail}, but you're logged in as {currentEmail}"
+    }
+  }
+}

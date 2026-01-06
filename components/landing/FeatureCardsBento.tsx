@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState, useEffect } from 'react';
 import { getVideoUrl } from '@/lib/cloudinary';
+import { useTranslations } from 'next-intl';
 
 interface FeatureCard {
   title: string;
@@ -8,35 +9,37 @@ interface FeatureCard {
   videoSrc: string;
 }
 
-const features: FeatureCard[] = [
-  {
-    title: "Doable AI",
-    description: "Create an issue using Doable AI. Our AI assistant understands context and helps you get things done faster.",
-    videoSrc: "feature-1-doable",
-  },
-  {
-    title: "Assign issues to team members",
-    description: "You can list all issues and assign them to team members.",
-    videoSrc: "feature-2-doable",
-  },
-  {
-    title: "Delete issues",
-    description: "You can delete issues using Doable AI.",
-    videoSrc: "feature-3-doable",
-  },
-  {
-    title: "Create projects",
-    description: "You can create your projects using Doable AI",
-    videoSrc: "feature-5-doable",
-  },
-  {
-    title: "Invite team members",
-    description: "You can invite team members using Doable AI.",
-    videoSrc: "feature-4-doable",
-  },
-];
-
 export const FeatureCardsBento: React.FC = () => {
+  const t = useTranslations();
+
+  const features: FeatureCard[] = [
+    {
+      title: t('landing.features.doableAI.title'),
+      description: t('landing.features.doableAI.description'),
+      videoSrc: "feature-1-doable",
+    },
+    {
+      title: t('landing.features.assignIssues.title'),
+      description: t('landing.features.assignIssues.description'),
+      videoSrc: "feature-2-doable",
+    },
+    {
+      title: t('landing.features.deleteIssues.title'),
+      description: t('landing.features.deleteIssues.description'),
+      videoSrc: "feature-3-doable",
+    },
+    {
+      title: t('landing.features.createProjects.title'),
+      description: t('landing.features.createProjects.description'),
+      videoSrc: "feature-5-doable",
+    },
+    {
+      title: t('landing.features.inviteTeam.title'),
+      description: t('landing.features.inviteTeam.description'),
+      videoSrc: "feature-4-doable",
+    },
+  ];
+
   const [activeIndex, setActiveIndex] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -174,10 +177,10 @@ export const FeatureCardsBento: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-            Powerful features, beautiful design
+            {t('landing.features.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Everything you need to manage tasks efficiently, collaborate effectively, and ship faster.
+            {t('landing.features.subtitle')}
           </p>
         </div>
         
@@ -219,7 +222,7 @@ export const FeatureCardsBento: React.FC = () => {
                         : getVideoUrl(feature.videoSrc, `/${feature.videoSrc}.mp4`)
                       }
                     >
-                      Your browser does not support the video tag.
+                      {t('landing.features.videoNotSupported')}
                     </video>
                     
                     {/* Subtle border glow effect */}
@@ -230,7 +233,7 @@ export const FeatureCardsBento: React.FC = () => {
                   <div className="flex flex-col justify-center w-full md:w-2/5 p-8 md:p-12 bg-card/50 backdrop-blur-sm min-h-[450px] md:min-h-[550px] lg:min-h-[650px]">
                     <div className="mb-4">
                       <span className="text-sm font-medium text-primary/60 mb-2 block">
-                        Feature {index + 1} of {features.length}
+                        {t('landing.features.featureCounter', { current: index + 1, total: features.length })}
                       </span>
                     </div>
                     <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-4 text-foreground group-hover:text-primary transition-colors duration-300">
@@ -266,7 +269,7 @@ export const FeatureCardsBento: React.FC = () => {
         <div className="text-center mt-20">
           <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border bg-card/50 backdrop-blur-sm text-sm font-medium text-muted-foreground">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span>All features included in the free plan</span>
+            <span>{t('landing.features.bottomCta')}</span>
           </div>
         </div>
       </div>

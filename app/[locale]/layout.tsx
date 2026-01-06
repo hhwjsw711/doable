@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { Provider } from "./provider";
+import "../globals.css";
+import { Provider } from "../provider";
 import { HydrationBoundary } from "@/components/hydration-boundary";
 import { ErrorBoundaryWrapper } from "@/components/error-boundary-wrapper";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import { routing } from '@/i18n/routing';
+import { notFound } from 'next/navigation';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -56,24 +60,38 @@ export const metadata: Metadata = {
   category: "productivity",
 };
 
-export default function RootLayout({
+export default async function LocaleLayout({
   children,
+  params
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+
+  // Ensure that the incoming `locale` is valid
+  if (!routing.locales.includes(locale as any)) {
+    notFound();
+  }
+
+  // Providing all messages to the client side
+  const messages = await getMessages();
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <meta name="google-site-verification" content="Tt-T3oOKSZ7mMbdBRswKjFzxP2Okmgt4sSHK9BXt8jo" />
         <script defer src="https://cloud.umami.is/script.js" data-website-id="158d23fd-3fec-46cb-a533-9f1136de3fe7"></script>
       </head>
       <body className={inter.className}>
-        <ErrorBoundaryWrapper>
-          <HydrationBoundary>
-            <Provider>{children}</Provider>
-          </HydrationBoundary>
-        </ErrorBoundaryWrapper>
+        <NextIntlClientProvider messages={messages}>
+          <ErrorBoundaryWrapper>
+            <HydrationBoundary>
+              <Provider>{children}</Provider>
+            </HydrationBoundary>
+          </ErrorBoundaryWrapper>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

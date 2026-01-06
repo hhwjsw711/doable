@@ -1,12 +1,15 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { authClient } from "@/lib/auth-client"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "@/i18n/routing"
+import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ChevronLeft, Mail } from "lucide-react"
-import Link from "next/link"
+import { Link } from "@/i18n/routing"
+import { useTranslations } from "next-intl"
+import { LanguageSwitcher } from "@/components/language-switcher"
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -17,7 +20,8 @@ const GoogleIcon = () => (
   </svg>
 );
 
-export default function SignInPage() {
+export default function SignUpPage() {
+  const t = useTranslations()
   const router = useRouter()
   const searchParams = useSearchParams()
   const [error, setError] = useState("")
@@ -27,26 +31,9 @@ export default function SignInPage() {
   const [email, setEmail] = useState("")
   const [otp, setOtp] = useState("")
   const [otpSent, setOtpSent] = useState(false)
-  const [showEmailLogin, setShowEmailLogin] = useState(false)
+  const [showEmailSignUp, setShowEmailSignUp] = useState(false)
 
-  // Check if user is already logged in and redirect if needed
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const { data: session } = await authClient.getSession()
-        if (session?.user) {
-          const redirectUrl = searchParams.get("redirect") || "/dashboard"
-          router.push(redirectUrl)
-        }
-      } catch (error) {
-        // Session check failed, allow user to stay on sign-in page
-        console.error("Session check error:", error)
-      }
-    }
-    checkSession()
-  }, [router, searchParams])
-
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignUp = async () => {
     setError("")
     setLoading(true)
 
@@ -57,7 +44,7 @@ export default function SignInPage() {
         callbackURL: redirectUrl
       })
     } catch (err) {
-      setError("Failed to sign in with Google")
+      setError(t('auth.errors.googleFailed'))
       setLoading(false)
     }
   }
@@ -76,7 +63,7 @@ export default function SignInPage() {
       setLoading(false)
     } catch (err: any) {
       console.error("Error sending OTP:", err)
-      setError(err?.message || "Failed to send verification code")
+      setError(err?.message || t('auth.errors.sendOtpFailed'))
       setLoading(false)
     }
   }
@@ -96,12 +83,12 @@ export default function SignInPage() {
         const redirectUrl = searchParams.get("redirect") || "/dashboard"
         router.push(redirectUrl)
       } else {
-        setError("Invalid verification code")
+        setError(t('auth.errors.invalidCode'))
         setLoading(false)
       }
     } catch (err: any) {
       console.error("Error verifying OTP:", err)
-      setError(err?.message || "Invalid verification code")
+      setError(err?.message || t('auth.errors.invalidCode'))
       setLoading(false)
     }
   }
@@ -122,21 +109,24 @@ export default function SignInPage() {
 
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-between p-8 h-full">
-          {/* Back Button */}
-          <Link href="/">
-            <Button
-              variant="outline"
-              className="bg-card/50 border-border/50 text-foreground hover:bg-card/80 hover:border-border backdrop-blur-sm w-fit"
-            >
-              <ChevronLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
-          </Link>
+          {/* Back Button and Language Switcher */}
+          <div className="flex items-center justify-between gap-4">
+            <Link href="/">
+              <Button
+                variant="outline"
+                className="bg-card/50 border-border/50 text-foreground hover:bg-card/80 hover:border-border backdrop-blur-sm w-fit"
+              >
+                <ChevronLeft className="w-4 h-4 mr-2" />
+                {t('common.back')}
+              </Button>
+            </Link>
+            <LanguageSwitcher />
+          </div>
 
           {/* Bottom Text */}
           <div className="text-foreground space-y-4">
-            <h2 className="text-3xl font-light tracking-tight">Ship Faster, Work Smarter</h2>
-            <p className="text-base text-muted-foreground">The task management platform that actually works. Beautiful, intuitive, and built for teams who ship.</p>
+            <h2 className="text-3xl font-light tracking-tight">{t('landing.title')}</h2>
+            <p className="text-base text-muted-foreground">{t('landing.description')}</p>
           </div>
         </div>
       </div>
@@ -144,15 +134,18 @@ export default function SignInPage() {
       {/* Right Section - Main Form */}
       <div className="flex-1 lg:w-[60%] bg-background flex items-center justify-center p-8">
         <div className="w-full max-w-md space-y-8">
-          {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <span className="text-foreground text-xl font-medium tracking-tight">TheGroupFinder</span>
+          {/* Logo and Language Switcher */}
+          <div className="flex items-center justify-between">
+            <span className="text-foreground text-xl font-medium tracking-tight">{t('common.appName')}</span>
+            <div className="lg:hidden">
+              <LanguageSwitcher />
+            </div>
           </div>
 
           {/* Welcome Message */}
           <div className="space-y-2">
-            <h1 className="text-3xl font-light tracking-tight text-foreground">Welcome back</h1>
-            <p className="text-base text-muted-foreground">Sign in to your account to continue your journey with TheGroupFinder</p>
+            <h1 className="text-3xl font-light tracking-tight text-foreground">{t('auth.signUp.title')}</h1>
+            <p className="text-base text-muted-foreground">{t('auth.signUp.subtitle')}</p>
           </div>
 
           {error && (
@@ -161,17 +154,17 @@ export default function SignInPage() {
             </div>
           )}
 
-          {!showEmailLogin ? (
+          {!showEmailSignUp ? (
             <>
-              {/* Google Sign In Button */}
+              {/* Google Sign Up Button */}
               <Button
                 type="button"
                 className="w-full bg-primary text-primary-foreground hover:bg-primary/90 justify-center"
-                onClick={handleGoogleSignIn}
+                onClick={handleGoogleSignUp}
                 disabled={loading}
               >
                 <GoogleIcon />
-                <span className="ml-2">{loading ? "Signing in..." : "Sign in with Google"}</span>
+                <span className="ml-2">{loading ? t('auth.signUp.signingUp') : t('auth.signUp.googleButton')}</span>
               </Button>
 
               {/* Divider */}
@@ -180,19 +173,19 @@ export default function SignInPage() {
                   <span className="w-full border-t border-border" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">Or</span>
+                  <span className="bg-background px-2 text-muted-foreground">{t('auth.signIn.or')}</span>
                 </div>
               </div>
 
-              {/* Email Login Button */}
+              {/* Email Sign Up Button */}
               <Button
                 type="button"
                 variant="outline"
                 className="w-full"
-                onClick={() => setShowEmailLogin(true)}
+                onClick={() => setShowEmailSignUp(true)}
               >
                 <Mail className="w-4 h-4 mr-2" />
-                Sign in with Email
+                {t('auth.signUp.emailButton')}
               </Button>
             </>
           ) : (
@@ -202,12 +195,12 @@ export default function SignInPage() {
                 <form onSubmit={handleSendOTP} className="space-y-4">
                   <div className="space-y-2">
                     <label htmlFor="email" className="text-sm font-medium text-foreground">
-                      Email address
+                      {t('auth.email.label')}
                     </label>
                     <Input
                       id="email"
                       type="email"
-                      placeholder="your@email.com"
+                      placeholder={t('auth.email.placeholder')}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -220,30 +213,30 @@ export default function SignInPage() {
                     className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                     disabled={loading || !email}
                   >
-                    {loading ? "Sending..." : "Send verification code"}
+                    {loading ? t('auth.email.sending') : t('auth.email.sendCode')}
                   </Button>
                   <Button
                     type="button"
                     variant="ghost"
                     className="w-full"
-                    onClick={() => setShowEmailLogin(false)}
+                    onClick={() => setShowEmailSignUp(false)}
                   >
-                    Back to other options
+                    {t('auth.signIn.backToOptions')}
                   </Button>
                 </form>
               ) : (
                 <form onSubmit={handleVerifyOTP} className="space-y-4">
                   <div className="space-y-2">
                     <p className="text-sm text-muted-foreground">
-                      We sent a verification code to <strong>{email}</strong>
+                      {t('auth.email.codeSent')} <strong>{email}</strong>
                     </p>
                     <label htmlFor="otp" className="text-sm font-medium text-foreground">
-                      Verification code
+                      {t('auth.email.verifyTitle')}
                     </label>
                     <Input
                       id="otp"
                       type="text"
-                      placeholder="Enter 6-digit code"
+                      placeholder={t('auth.email.verifyPlaceholder')}
                       value={otp}
                       onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
                       required
@@ -258,7 +251,7 @@ export default function SignInPage() {
                     className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                     disabled={loading || otp.length !== 6}
                   >
-                    {loading ? "Verifying..." : "Verify and sign in"}
+                    {loading ? t('auth.email.verifying') : t('auth.email.verifyButton')}
                   </Button>
                   <div className="flex gap-2">
                     <Button
@@ -270,7 +263,7 @@ export default function SignInPage() {
                         setOtp("")
                       }}
                     >
-                      Change email
+                      {t('auth.email.changeEmail')}
                     </Button>
                     <Button
                       type="button"
@@ -279,7 +272,7 @@ export default function SignInPage() {
                       onClick={handleSendOTP}
                       disabled={loading}
                     >
-                      Resend code
+                      {t('auth.email.resendCode')}
                     </Button>
                   </div>
                 </form>
@@ -287,14 +280,14 @@ export default function SignInPage() {
             </>
           )}
 
-          {/* Sign Up Link */}
+          {/* Sign In Link */}
           <div className="text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
+            {t('auth.signUp.hasAccount')}{" "}
             <Link
-              href={`/sign-up${searchParams.get("redirect") ? `?redirect=${searchParams.get("redirect")}` : ""}`}
+              href={`/sign-in${searchParams.get("redirect") ? `?redirect=${searchParams.get("redirect")}` : ""}`}
               className="text-primary hover:text-primary/80 hover:underline font-medium"
             >
-              Sign up
+              {t('auth.signUp.signInLink')}
             </Link>
           </div>
         </div>

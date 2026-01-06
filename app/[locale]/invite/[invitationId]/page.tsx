@@ -1,14 +1,16 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AlertCircle, CheckCircle } from 'lucide-react'
 import { Spinner } from '@/components/ui/spinner'
 import { authClient } from '@/lib/auth-client'
+import { useTranslations } from 'next-intl'
 
 export default function InvitePage({ params }: { params: Promise<{ invitationId: string }> }) {
+  const t = useTranslations();
   const [status, setStatus] = useState<'loading' | 'ready' | 'accepting' | 'success' | 'error' | 'not-found' | 'expired' | 'need-login'>('loading')
   const [error, setError] = useState<string>('')
   const [teamId, setTeamId] = useState<string>('')
@@ -37,7 +39,7 @@ export default function InvitePage({ params }: { params: Promise<{ invitationId:
             setStatus('not-found')
           } else {
             setStatus('error')
-            setError('Failed to load invitation')
+            setError(t('invite.error.failedToLoad'))
           }
           return
         }
@@ -66,7 +68,7 @@ export default function InvitePage({ params }: { params: Promise<{ invitationId:
         // Check if email matches
         if (session.user.email !== data.email) {
           setStatus('need-login')
-          setError(`This invitation is for ${data.email}, but you're logged in as ${session.user.email}`)
+          setError(t('invite.wrongAccount.mismatchMessage', { invitedEmail: data.email, currentEmail: session.user.email }))
           return
         }
 
@@ -75,7 +77,7 @@ export default function InvitePage({ params }: { params: Promise<{ invitationId:
       } catch (error) {
         console.error('Error fetching invitation:', error)
         setStatus('error')
-        setError('Failed to load invitation')
+        setError(t('invite.error.failedToLoad'))
       }
     }
 
@@ -99,12 +101,12 @@ export default function InvitePage({ params }: { params: Promise<{ invitationId:
       } else {
         const errorData = await response.json()
         setStatus('error')
-        setError(errorData.error || 'Failed to accept invitation')
+        setError(errorData.error || t('invite.error.failedToAccept'))
       }
     } catch (error) {
       console.error('Error accepting invitation:', error)
       setStatus('error')
-      setError('Failed to accept invitation')
+      setError(t('invite.error.failedToAccept'))
     }
   }
 
@@ -112,14 +114,14 @@ export default function InvitePage({ params }: { params: Promise<{ invitationId:
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl">Team Invitation</CardTitle>
+          <CardTitle className="text-2xl">{t('invite.title')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {status === 'loading' && (
             <div className="text-center py-8">
               <div className="flex flex-col items-center space-y-4">
                 <Spinner size="md" />
-                <p className="text-muted-foreground">Loading invitation...</p>
+                <p className="text-muted-foreground">{t('invite.loading')}</p>
               </div>
             </div>
           )}
@@ -128,7 +130,7 @@ export default function InvitePage({ params }: { params: Promise<{ invitationId:
             <div className="text-center py-8">
               <div className="flex flex-col items-center space-y-4">
                 <Spinner size="md" />
-                <p className="text-muted-foreground">Accepting invitation...</p>
+                <p className="text-muted-foreground">{t('invite.accepting')}</p>
               </div>
             </div>
           )}
@@ -136,17 +138,17 @@ export default function InvitePage({ params }: { params: Promise<{ invitationId:
           {status === 'success' && (
             <div className="text-center py-8 space-y-4">
               <CheckCircle className="h-12 w-12 mx-auto text-green-600" />
-              <h3 className="text-xl font-semibold">Invitation Accepted!</h3>
-              <p className="text-muted-foreground">Redirecting to your dashboard...</p>
+              <h3 className="text-xl font-semibold">{t('invite.success.title')}</h3>
+              <p className="text-muted-foreground">{t('invite.success.message')}</p>
             </div>
           )}
 
           {status === 'not-found' && (
             <div className="text-center py-8 space-y-4">
               <AlertCircle className="h-12 w-12 mx-auto text-yellow-600" />
-              <h3 className="text-xl font-semibold">Invitation Not Found</h3>
+              <h3 className="text-xl font-semibold">{t('invite.notFound.title')}</h3>
               <p className="text-muted-foreground">
-                This invitation link is invalid or has been removed.
+                {t('invite.notFound.message')}
               </p>
             </div>
           )}
@@ -154,9 +156,9 @@ export default function InvitePage({ params }: { params: Promise<{ invitationId:
           {status === 'expired' && (
             <div className="text-center py-8 space-y-4">
               <AlertCircle className="h-12 w-12 mx-auto text-red-600" />
-              <h3 className="text-xl font-semibold">Invitation Expired</h3>
+              <h3 className="text-xl font-semibold">{t('invite.expired.title')}</h3>
               <p className="text-muted-foreground">
-                This invitation has expired. Please ask for a new invitation.
+                {t('invite.expired.message')}
               </p>
             </div>
           )}
@@ -164,19 +166,19 @@ export default function InvitePage({ params }: { params: Promise<{ invitationId:
           {status === 'error' && (
             <div className="text-center py-8 space-y-4">
               <AlertCircle className="h-12 w-12 mx-auto text-red-600" />
-              <h3 className="text-xl font-semibold">Error</h3>
+              <h3 className="text-xl font-semibold">{t('invite.error.title')}</h3>
               <p className="text-muted-foreground">{error}</p>
-              <Button onClick={() => window.location.reload()}>Try Again</Button>
+              <Button onClick={() => window.location.reload()}>{t('invite.error.tryAgain')}</Button>
             </div>
           )}
 
           {status === 'ready' && (
             <div className="text-center py-8 space-y-4">
               <CheckCircle className="h-12 w-12 mx-auto text-blue-600" />
-              <h3 className="text-xl font-semibold">You've been invited!</h3>
-              <p className="text-muted-foreground">Click the button below to join the team.</p>
+              <h3 className="text-xl font-semibold">{t('invite.ready.title')}</h3>
+              <p className="text-muted-foreground">{t('invite.ready.message')}</p>
               <Button onClick={handleAccept} className="w-full" size="lg">
-                Accept Invitation
+                {t('invite.ready.acceptButton')}
               </Button>
             </div>
           )}
@@ -184,26 +186,26 @@ export default function InvitePage({ params }: { params: Promise<{ invitationId:
           {status === 'need-login' && (
             <div className="text-center py-8 space-y-4">
               <AlertCircle className="h-12 w-12 mx-auto text-blue-600" />
-              <h3 className="text-xl font-semibold">Wrong Account</h3>
+              <h3 className="text-xl font-semibold">{t('invite.wrongAccount.title')}</h3>
               {error ? (
                 <div className="space-y-3">
                   <p className="text-muted-foreground">{error}</p>
                   <div className="bg-muted/50 rounded-lg p-4 space-y-2">
                     <p className="text-sm font-medium">
-                      This invitation is for:
+                      {t('invite.wrongAccount.invitationFor')}
                     </p>
                     <p className="text-sm text-primary font-semibold">{invitationEmail}</p>
                     <p className="text-sm text-muted-foreground">
-                      You're currently logged in as: {session?.user?.email}
+                      {t('invite.wrongAccount.currentlyLoggedIn')} {session?.user?.email}
                     </p>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Please log out and sign in with the correct email to accept this invitation.
+                    {t('invite.wrongAccount.switchPrompt')}
                   </p>
                 </div>
               ) : (
                 <p className="text-muted-foreground">
-                  You need to be logged in to accept this invitation.
+                  {t('invite.wrongAccount.needLogin')}
                 </p>
               )}
               <div className="flex gap-2 justify-center pt-4">
@@ -223,7 +225,7 @@ export default function InvitePage({ params }: { params: Promise<{ invitationId:
                   size="lg"
                   className="min-w-[140px]"
                 >
-                  Switch Account
+                  {t('invite.wrongAccount.switchButton')}
                 </Button>
               </div>
             </div>

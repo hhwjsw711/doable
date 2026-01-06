@@ -1,27 +1,30 @@
 "use client";
 
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 interface HowToUseSectionProps {
   className?: string;
 }
 
 export const HowToUseSection: React.FC<HowToUseSectionProps> = ({ className = '' }) => {
+  const t = useTranslations();
+
   const steps = [
     {
-      number: "01",
-      title: "Sign Up for Free",
-      description: "Create your account in seconds. No credit card required, no hidden fees."
+      number: t('landing.howToUse.steps.step1.number'),
+      title: t('landing.howToUse.steps.step1.title'),
+      description: t('landing.howToUse.steps.step1.description')
     },
     {
-      number: "02", 
-      title: "Create Your First Team",
-      description: "Set up your team workspace and invite your colleagues to collaborate."
+      number: t('landing.howToUse.steps.step2.number'),
+      title: t('landing.howToUse.steps.step2.title'),
+      description: t('landing.howToUse.steps.step2.description')
     },
     {
-      number: "03",
-      title: "Start Managing Tasks",
-      description: "Create projects, add tasks, and watch your team's productivity soar."
+      number: t('landing.howToUse.steps.step3.number'),
+      title: t('landing.howToUse.steps.step3.title'),
+      description: t('landing.howToUse.steps.step3.description')
     }
   ];
 
@@ -31,10 +34,10 @@ export const HowToUseSection: React.FC<HowToUseSectionProps> = ({ className = ''
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-            How to Get Started
+            {t('landing.howToUse.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Get started with TheGroupFinder in just three simple steps. No complex setup required!
+            {t('landing.howToUse.subtitle')}
           </p>
         </div>
 

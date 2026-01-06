@@ -1,0 +1,221 @@
+{
+  "common": {
+    "appName": "TheGroupFinder",
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "back": "返回"
+  },
+  "landing": {
+    "title": "更快交付，更智能工作",
+    "description": "一个真正好用的任务管理平台。界面美观、操作直观，专为追求高效交付的团队精心打造。让团队协作更顺畅，让项目管理更简单。",
+    "cta": "开始使用",
+    "navbar": {
+      "getStarted": "开始使用"
+    },
+    "hero": {
+      "tagline": "终于，一个不让你抓狂的任务管理工具。",
+      "title": "现代化团队任务管理",
+      "highlightText": "现代化",
+      "description": "专为追求高效的团队打造。简洁、快速、强大的任务管理工具，秉承瑞士设计原则。",
+      "primaryButton": "免费开始使用",
+      "secondaryButton": "在 GitHub 查看"
+    },
+    "demo": {
+      "title": "看看 TheGroupFinder 的实际效果",
+      "description": "观看团队如何使用 TheGroupFinder 管理任务和高效协作。",
+      "cta": "立即免费试用 TheGroupFinder。无需信用卡。",
+      "videoNotSupported": "您的浏览器不支持视频播放。"
+    },
+    "ctaSection": {
+      "title": "准备好开始高效工作了吗？",
+      "subtitle": "加入数千个已经在使用 TheGroupFinder 管理任务、提升生产力的团队。",
+      "button": "免费开始使用"
+    },
+    "howToUse": {
+      "title": "如何开始使用",
+      "subtitle": "只需三个简单步骤即可开始使用 TheGroupFinder。无需复杂的设置流程，让您快速上手，立即体验高效的任务管理！",
+      "steps": {
+        "step1": {
+          "number": "01",
+          "title": "免费注册",
+          "description": "几秒钟即可创建账户，开始您的高效工作之旅。完全免费，无需信用卡，没有任何隐藏费用，立即开始使用所有功能。"
+        },
+        "step2": {
+          "number": "02",
+          "title": "创建您的第一个团队",
+          "description": "轻松设置您的团队工作空间，邀请您的同事加入协作。通过简单的邀请链接，让团队成员快速加入，开始高效协作。"
+        },
+        "step3": {
+          "number": "03",
+          "title": "开始管理任务",
+          "description": "创建项目、添加任务，使用 AI 助手智能管理工作流程。见证团队生产力飙升，让每个任务都能高效完成，项目进度一目了然。"
+        }
+      }
+    },
+    "features": {
+      "title": "强大功能，精美设计",
+      "subtitle": "高效管理任务、有效协作、快速交付所需的一切功能。",
+      "bottomCta": "所有功能均包含在免费计划中",
+      "featureCounter": "功能 {current} / {total}",
+      "videoNotSupported": "您的浏览器不支持视频播放。",
+      "doableAI": {
+        "title": "Doable AI",
+        "description": "使用 Doable AI 创建问题。我们的 AI 助手能够理解上下文，帮助您更快完成工作。"
+      },
+      "assignIssues": {
+        "title": "分配问题给团队成员",
+        "description": "您可以列出所有问题并将其分配给团队成员。"
+      },
+      "deleteIssues": {
+        "title": "删除问题",
+        "description": "您可以使用 Doable AI 删除问题。"
+      },
+      "createProjects": {
+        "title": "创建项目",
+        "description": "您可以使用 Doable AI 创建项目。"
+      },
+      "inviteTeam": {
+        "title": "邀请团队成员",
+        "description": "您可以使用 Doable AI 邀请团队成员。"
+      }
+    },
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "关于 TheGroupFinder 您需要了解的一切",
+      "questions": {
+        "whoIsItFor": {
+          "question": "TheGroupFinder 适合谁使用？",
+          "answer": "TheGroupFinder 专为个人开发者和独立创业者打造，帮助您高效完成工作而不是浪费时间在复杂的工具上。如果您正在独自或与小团队一起开发项目，并希望用简单快速的方式管理任务而不需要臃肿的功能，TheGroupFinder 就是为您准备的。"
+        },
+        "whatIsIt": {
+          "question": "TheGroupFinder 是什么？",
+          "answer": "TheGroupFinder 是一个简单的 AI 驱动任务管理工具。您可以通过自然语言创建任务、组织项目和管理工作。无需学习复杂的界面 - 只需告诉 AI 您需要什么，它就会为您处理。"
+        },
+        "howAIWorks": {
+          "question": "AI 助手如何工作？",
+          "answer": "只需自然地与它对话。说「为修复登录错误创建一个任务」或「显示所有高优先级任务」，AI 就会完成。无需点击菜单或填写表单 - 就像与队友交谈一样。"
+        },
+        "isFree": {
+          "question": "TheGroupFinder 是免费的吗？",
+          "answer": "是的！TheGroupFinder 完全免费且开源。包括 AI 驱动的任务管理在内的所有功能都完全免费。您还可以在自己的服务器上自托管。"
+        },
+        "needTeam": {
+          "question": "我需要一个团队才能使用吗？",
+          "answer": "不需要。虽然 TheGroupFinder 支持团队协作，但它对于个人项目也非常好用。创建您的工作空间，添加项目，然后开始管理任务。如果需要，以后可以邀请其他人。"
+        },
+        "howToStart": {
+          "question": "如何开始使用？",
+          "answer": "使用 Google 或邮箱注册（我们会发送验证码），创建一个工作空间，然后开始与 AI 对话。就这么简单。AI 会帮助您创建第一个项目和任务。无需教程。"
+        },
+        "dataSafety": {
+          "question": "我的数据安全吗？",
+          "answer": "是的。TheGroupFinder 使用安全的身份验证，您可以自托管以将数据保存在自己的服务器上。代码是开源的，因此您可以自己验证一切。"
+        }
+      }
+    },
+    "testimonials": {
+      "title": "大家的评价",
+      "subtitle": "看看开发者和团队对 TheGroupFinder 的评价"
+    },
+    "contributors": {
+      "title": "贡献者",
+      "subtitle": "让 TheGroupFinder 成为可能的优秀人才",
+      "contribution": "次贡献",
+      "contributions": "次贡献"
+    },
+    "footer": {
+      "copyright": "© {year} TheGroupFinder. 为追求高效交付的团队打造。"
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "欢迎回来",
+      "subtitle": "登录您的账户，继续使用 TheGroupFinder",
+      "googleButton": "使用 Google 登录",
+      "emailButton": "使用邮箱登录",
+      "signingIn": "登录中...",
+      "noAccount": "还没有账户？",
+      "signUpLink": "注册",
+      "backToOptions": "返回其他选项",
+      "or": "或"
+    },
+    "signUp": {
+      "title": "创建账户",
+      "subtitle": "加入已经在使用 TheGroupFinder 的数千个团队",
+      "googleButton": "使用 Google 注册",
+      "emailButton": "使用邮箱注册",
+      "signingUp": "注册中...",
+      "hasAccount": "已有账户？",
+      "signInLink": "登录"
+    },
+    "email": {
+      "label": "邮箱地址",
+      "placeholder": "your@email.com",
+      "sendCode": "发送验证码",
+      "sending": "发送中...",
+      "verifyTitle": "验证码",
+      "verifyPlaceholder": "输入 6 位验证码",
+      "verifyButton": "验证并登录",
+      "verifying": "验证中...",
+      "changeEmail": "更换邮箱",
+      "resendCode": "重新发送",
+      "codeSent": "我们已向以下邮箱发送验证码"
+    },
+    "errors": {
+      "googleFailed": "Google 登录失败",
+      "sendOtpFailed": "发送验证码失败",
+      "invalidCode": "验证码无效"
+    }
+  },
+  "dashboard": {
+    "title": "仪表板",
+    "overview": "概览",
+    "projects": "项目",
+    "issues": "问题",
+    "people": "成员",
+    "management": "管理"
+  },
+  "invite": {
+    "title": "团队邀请",
+    "loading": "加载邀请信息...",
+    "accepting": "正在接受邀请...",
+    "success": {
+      "title": "邀请已接受！",
+      "message": "正在跳转到您的仪表板..."
+    },
+    "notFound": {
+      "title": "邀请不存在",
+      "message": "此邀请链接无效或已被删除。"
+    },
+    "expired": {
+      "title": "邀请已过期",
+      "message": "此邀请已过期，请申请新的邀请。"
+    },
+    "error": {
+      "title": "错误",
+      "failedToLoad": "加载邀请失败",
+      "failedToAccept": "接受邀请失败",
+      "tryAgain": "重试"
+    },
+    "ready": {
+      "title": "您收到了邀请！",
+      "message": "点击下方按钮加入团队。",
+      "acceptButton": "接受邀请"
+    },
+    "wrongAccount": {
+      "title": "账户不匹配",
+      "invitationFor": "此邀请发送给：",
+      "currentlyLoggedIn": "您当前登录的账户：",
+      "switchPrompt": "请退出当前账户，使用正确的邮箱登录以接受此邀请。",
+      "needLogin": "您需要登录才能接受此邀请。",
+      "switchButton": "切换账户",
+      "mismatchMessage": "此邀请发送给 {invitedEmail}，但您当前登录的是 {currentEmail}"
+    }
+  }
+}

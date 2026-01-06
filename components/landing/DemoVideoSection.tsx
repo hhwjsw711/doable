@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { getVideoUrl, getCloudinaryVideoPoster } from '@/lib/cloudinary';
+import { useTranslations } from 'next-intl';
 
 interface DemoVideoSectionProps {
   videoSrc: string;
@@ -17,6 +18,7 @@ export const DemoVideoSection: React.FC<DemoVideoSectionProps> = ({
   className = '',
   poster
 }) => {
+  const t = useTranslations();
   // Determine local fallback path
   const localPath = videoSrc.startsWith('/') ? videoSrc : `/${videoSrc}.mp4`;
   // Get Cloudinary URL or fallback to local path
@@ -62,7 +64,7 @@ export const DemoVideoSection: React.FC<DemoVideoSectionProps> = ({
             onError={handleVideoError}
             src={videoSrcUrl}
           >
-            Your browser does not support the video tag.
+            {t('landing.demo.videoNotSupported')}
           </video>
           
           {/* Gradient overlays for better video integration */}
@@ -72,7 +74,7 @@ export const DemoVideoSection: React.FC<DemoVideoSectionProps> = ({
         {/* Optional CTA or additional content can go here */}
         <div className="mt-12 text-center">
           <p className="text-sm text-muted-foreground">
-            Try TheGroupFinder free today. No credit card required.
+            {t('landing.demo.cta')}
           </p>
         </div>
       </div>

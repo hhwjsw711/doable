@@ -2,12 +2,14 @@
 
 import { animate, motion, useMotionValue, useSpring } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslations } from 'next-intl';
 
 interface FooterProps {
   className?: string;
 }
 
 export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
+  const t = useTranslations();
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -177,7 +179,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
         {/* Footer Info */}
         <div className="mt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} TheGroupFinder. Built for teams who ship.
+            {t('landing.footer.copyright', { year: new Date().getFullYear() })}
           </p>
         </div>
       </div>

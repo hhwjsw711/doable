@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Github } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 interface Contributor {
   login: string;
@@ -18,6 +19,7 @@ interface ContributorsProps {
 }
 
 export const Contributors: React.FC<ContributorsProps> = ({ className = '' }) => {
+  const t = useTranslations();
   const [contributors, setContributors] = useState<Contributor[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -48,10 +50,10 @@ export const Contributors: React.FC<ContributorsProps> = ({ className = '' }) =>
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-light tracking-tight bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-3 md:mb-4">
-              Contributors
+              {t('landing.contributors.title')}
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-              The amazing people who make TheGroupFinder possible
+              {t('landing.contributors.subtitle')}
             </p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
@@ -77,10 +79,10 @@ export const Contributors: React.FC<ContributorsProps> = ({ className = '' }) =>
         {/* Section Header */}
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-light tracking-tight bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-3 md:mb-4">
-            Contributors
+            {t('landing.contributors.title')}
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-            The amazing people who make TheGroupFinder possible
+            {t('landing.contributors.subtitle')}
           </p>
         </div>
 
@@ -121,7 +123,9 @@ export const Contributors: React.FC<ContributorsProps> = ({ className = '' }) =>
               <div className="mt-auto pt-2 text-xs text-muted-foreground">
                 <span className="font-medium text-primary">{contributor.contributions}</span>
                 <span className="ml-1">
-                  {contributor.contributions === 1 ? 'contribution' : 'contributions'}
+                  {contributor.contributions === 1
+                    ? t('landing.contributors.contribution')
+                    : t('landing.contributors.contributions')}
                 </span>
               </div>
 

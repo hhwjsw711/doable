@@ -44,7 +44,7 @@ import {
   Check,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ISSUE_ACTION } from "@/app/dashboard/[teamId]/issues/page";
+import { ISSUE_ACTION } from "@/app/[locale]/dashboard/[teamId]/issues/page";
 import { toast } from "sonner";
 
 const issueSchema = z.object({

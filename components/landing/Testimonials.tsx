@@ -2,12 +2,14 @@
 import React from 'react';
 import { Marquee } from '@/components/ui/marquee';
 import { Tweet } from 'react-tweet';
+import { useTranslations } from 'next-intl';
 
 interface TestimonialsProps {
   className?: string;
 }
 
 export const Testimonials: React.FC<TestimonialsProps> = ({ className = '' }) => {
+  const t = useTranslations();
   // Array of relevant Twitter/X tweet IDs that you can customize
   // Replace these with actual tweet IDs about your product
   const tweetIds = [
@@ -38,10 +40,10 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ className = '' }) =>
         {/* Section Header */}
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-light tracking-tight bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-3 md:mb-4">
-            What People Are Saying
+            {t('landing.testimonials.title')}
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-            See what developers and teams are saying about TheGroupFinder
+            {t('landing.testimonials.subtitle')}
           </p>
         </div>
 
