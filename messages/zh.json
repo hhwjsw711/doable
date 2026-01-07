@@ -13,8 +13,8 @@
   },
   "metadata": {
     "title": "TheGroupFinder - 现代化团队任务管理",
-    "description": "专为追求高效的团队打造。简洁、快速、强大的任务管理工具。永久免费，开源。",
-    "keywords": "任务管理, 团队协作, 项目管理, 看板, 敏捷开发, 生产力工具, 开源",
+    "description": "专为追求高效的团队打造。简洁、快速、强大的任务管理工具，配备 AI 智能助手。",
+    "keywords": "任务管理, 团队协作, 项目管理, 看板, 敏捷开发, 生产力工具, AI 助手, 开源",
     "openGraph": {
       "title": "TheGroupFinder",
       "description": "专为追求高效的团队打造。简洁、快速、强大的任务管理工具。",
@@ -63,49 +63,49 @@
       "getStarted": "开始使用"
     },
     "hero": {
-      "tagline": "终于，一个不让你抓狂的任务管理工具。",
+      "tagline": "为现代团队和组织打造。",
       "title": "现代化团队任务管理",
       "highlightText": "现代化",
-      "description": "专为追求高效的团队打造。简洁、快速、强大的任务管理工具，秉承瑞士设计原则。",
-      "primaryButton": "免费开始使用",
+      "description": "专为追求高效的团队打造。简洁、快速、强大的任务管理工具，配备 AI 智能助手。",
+      "primaryButton": "开始使用",
       "secondaryButton": "在 GitHub 查看"
     },
     "demo": {
       "title": "看看 TheGroupFinder 的实际效果",
       "description": "观看团队如何使用 TheGroupFinder 管理任务和高效协作。",
-      "cta": "立即免费试用 TheGroupFinder。无需信用卡。",
+      "cta": "体验 AI 辅助任务管理的强大功能。",
       "videoNotSupported": "您的浏览器不支持视频播放。"
     },
     "ctaSection": {
-      "title": "准备好开始高效工作了吗？",
-      "subtitle": "加入数千个已经在使用 TheGroupFinder 管理任务、提升生产力的团队。",
-      "button": "免费开始使用"
+      "title": "准备好改变您的团队工作流程了吗？",
+      "subtitle": "加入已经在使用 TheGroupFinder 优化任务管理、提升团队生产力的组织。",
+      "button": "开始使用"
     },
     "howToUse": {
       "title": "如何开始使用",
-      "subtitle": "只需三个简单步骤即可开始使用 TheGroupFinder。无需复杂的设置流程，让您快速上手，立即体验高效的任务管理！",
+      "subtitle": "三个简单步骤，让您的团队快速上手 TheGroupFinder。",
       "steps": {
         "step1": {
           "number": "01",
-          "title": "免费注册",
-          "description": "几秒钟即可创建账户，开始您的高效工作之旅。完全免费，无需信用卡，没有任何隐藏费用，立即开始使用所有功能。"
+          "title": "创建您的账户",
+          "description": "几秒钟内完成组织账户设置并配置您的工作空间，根据团队需求定制工作流程和偏好设置。"
         },
         "step2": {
           "number": "02",
-          "title": "创建您的第一个团队",
-          "description": "轻松设置您的团队工作空间，邀请您的同事加入协作。通过简单的邀请链接，让团队成员快速加入，开始高效协作。"
+          "title": "组建您的团队",
+          "description": "邀请团队成员、创建项目并组织工作流程，让团队从第一天起就保持一致并高效协作。"
         },
         "step3": {
           "number": "03",
-          "title": "开始管理任务",
-          "description": "创建项目、添加任务，使用 AI 助手智能管理工作流程。见证团队生产力飙升，让每个任务都能高效完成，项目进度一目了然。"
+          "title": "开始团队协作",
+          "description": "创建项目、添加任务，利用 AI 智能助手高效协作，全面提升您的团队生产力和工作效率。"
         }
       }
     },
     "features": {
       "title": "强大功能，精美设计",
       "subtitle": "高效管理任务、有效协作、快速交付所需的一切功能。",
-      "bottomCta": "所有功能均包含在免费计划中",
+      "bottomCta": "为现代团队提供全面的功能支持",
       "featureCounter": "功能 {current} / {total}",
       "videoNotSupported": "您的浏览器不支持视频播放。",
       "doableAI": {
@@ -135,31 +135,31 @@
       "questions": {
         "whoIsItFor": {
           "question": "TheGroupFinder 适合谁使用？",
-          "answer": "TheGroupFinder 专为个人开发者和独立创业者打造，帮助您高效完成工作而不是浪费时间在复杂的工具上。如果您正在独自或与小团队一起开发项目，并希望用简单快速的方式管理任务而不需要臃肿的功能，TheGroupFinder 就是为您准备的。"
+          "answer": "TheGroupFinder 专为希望优化任务管理的团队和组织打造。无论您是初创公司、成长型企业还是大型组织，TheGroupFinder 都能为您的团队提供保持高效和有序所需的工具。"
         },
         "whatIsIt": {
           "question": "TheGroupFinder 是什么？",
-          "answer": "TheGroupFinder 是一个简单的 AI 驱动任务管理工具。您可以通过自然语言创建任务、组织项目和管理工作。无需学习复杂的界面 - 只需告诉 AI 您需要什么，它就会为您处理。"
+          "answer": "TheGroupFinder 是一个现代化的 AI 驱动任务管理平台。您可以通过自然语言创建任务、组织项目和管理团队工作。AI 助手帮助自动化日常任务并提供智能洞察，提升团队生产力。"
         },
         "howAIWorks": {
           "question": "AI 助手如何工作？",
-          "answer": "只需自然地与它对话。说「为修复登录错误创建一个任务」或「显示所有高优先级任务」，AI 就会完成。无需点击菜单或填写表单 - 就像与队友交谈一样。"
+          "answer": "只需自然地与 AI 交流。说「为修复登录错误创建一个任务」或「显示所有分配给张三的高优先级任务」，AI 就会立即处理。无需复杂的表单或手动数据输入 - AI 理解上下文并自动化您的工作流程。"
         },
-        "isFree": {
-          "question": "TheGroupFinder 是免费的吗？",
-          "answer": "是的！TheGroupFinder 完全免费且开源。包括 AI 驱动的任务管理在内的所有功能都完全免费。您还可以在自己的服务器上自托管。"
+        "whatFeatures": {
+          "question": "TheGroupFinder 提供哪些核心功能？",
+          "answer": "TheGroupFinder 包含 AI 驱动的任务创建、智能任务分配、项目组织、团队协作工具、工作流自动化、实时更新和全面的报告功能。为您的团队提供保持高效和快速交付所需的一切。"
         },
         "needTeam": {
-          "question": "我需要一个团队才能使用吗？",
-          "answer": "不需要。虽然 TheGroupFinder 支持团队协作，但它对于个人项目也非常好用。创建您的工作空间，添加项目，然后开始管理任务。如果需要，以后可以邀请其他人。"
+          "question": "可以用于团队协作吗？",
+          "answer": "当然可以。TheGroupFinder 专为团队协作设计。创建您的组织工作空间，设置项目，邀请团队成员，即可立即开始协作。平台支持基于角色的权限管理和无缝的团队沟通。"
         },
         "howToStart": {
           "question": "如何开始使用？",
-          "answer": "使用 Google 或邮箱注册（我们会发送验证码），创建一个工作空间，然后开始与 AI 对话。就这么简单。AI 会帮助您创建第一个项目和任务。无需教程。"
+          "answer": "使用您的工作邮箱或 Google 账户注册，创建您的组织工作空间，然后邀请您的团队成员。AI 助手将引导您创建第一个项目和任务，让入门过程快速简单。"
         },
         "dataSafety": {
-          "question": "我的数据安全吗？",
-          "answer": "是的。TheGroupFinder 使用安全的身份验证，您可以自托管以将数据保存在自己的服务器上。代码是开源的，因此您可以自己验证一切。"
+          "question": "我们组织的数据安全吗？",
+          "answer": "是的。TheGroupFinder 使用企业级安全保护，包括加密数据存储和安全身份验证。我们遵循行业最佳实践进行数据保护和合规性管理。您团队的数据始终受到保护且私密。"
         }
       }
     },
@@ -670,6 +670,216 @@
     "chatMessage": {
       "you": "您",
       "ai": "Doable AI"
+    }
+  },
+  "api": {
+    "chat": {
+      "errors": {
+        "messagesRequired": "消息为必填项且不能为空数组",
+        "unauthorized": "未授权",
+        "conversationNotFound": "对话不存在",
+        "noApiKey": "未配置 Groq API 密钥。请添加您的 API 密钥。",
+        "failedToProcess": "处理消息失败：{error}",
+        "failedToSave": "处理聊天请求失败"
+      },
+      "systemPrompt": {
+        "intro": "您是一个项目管理系统的智能助手。\n您的职责是通过自然对话帮助用户管理任务、项目和团队成员。",
+        "teamContext": "当前团队信息",
+        "availableProjects": "可用项目",
+        "workflowStates": "工作流状态",
+        "availableLabels": "可用标签",
+        "teamMembers": "团队成员",
+        "none": "无",
+        "rules": "创建问题的重要规则",
+        "rulesIntro": "创建问题时，在调用 createIssue 工具之前，您必须收集以下所有信息：",
+        "ruleTitle": "标题（必填）- 必须有清晰、描述性的标题",
+        "ruleStatus": "状态/工作流状态（必填）- 必须是上述列表中的有效工作流状态名称",
+        "rulePriority": "优先级（必填）- 必须明确询问用户:「该问题的优先级应该是什么?(低、中、高、紧急或无)」",
+        "ruleProject": "项目（必填）- 必须询问用户:「该问题应该添加到哪个项目?」并显示可用项目",
+        "criticalRules": "关键规则:",
+        "criticalRule1": "如果缺少任何必填字段（标题、状态、优先级或项目），请勿调用 createIssue 或 createIssues 工具",
+        "criticalRule2": "请勿猜测、推断或使用默认值 - 始终明确询问用户",
+        "criticalRule3": "除非用户明确说「无」，否则请勿将优先级默认为「无」",
+        "criticalRule4": "请勿使用默认工作流状态 - 始终询问用户想要什么状态",
+        "criticalRule5": "一次只问一个问题，避免让用户不知所措",
+        "criticalRule6": "如果用户只提供标题就说「创建问题」，请回复:「好的！要创建该问题，我需要更多详细信息。首先，该问题的优先级应该是什么?(低、中、高、紧急或无)」",
+        "listIssuesRule": "当用户要求查看问题或列出任务时，始终调用 listIssues 工具且不带 limit 参数以获取所有问题。\n以清晰的项目符号列表格式显示结果。",
+        "minimalInfoRule": "当用户提供的信息很少时，一次只问一个后续问题。",
+        "useToolsRule": "始终使用提供的工具来执行操作。"
+      },
+      "tools": {
+        "createIssue": {
+          "description": "创建单个新问题。要一次创建多个问题（2个以上），请使用 createIssues。您可以使用工作流状态名称（如「待办」、「进行中」、「已完成」），它们将自动匹配到ID。项目名称、负责人名称和标签名称也是如此。关键:如果缺少任何必需信息（标题、状态/工作流状态、优先级或项目），请勿调用此工具。相反，一次向用户询问一个缺失信息的问题。不要将优先级默认为「无」- 始终要求用户明确指定优先级。如果未提供，请始终询问应将问题添加到哪个项目。如果未提供，请始终询问问题应处于什么状态/工作流状态。",
+          "title": "问题的标题（必填）",
+          "descriptionField": "问题的详细描述",
+          "projectId": "此问题所属的项目ID、标识或名称（例如「testing」或项目名称）（必填）。不要在项目缺失的情况下调用此工具 - 始终要求用户指定要将问题添加到哪个项目。",
+          "workflowStateId": "工作流状态ID或名称（例如「待办」、「进行中」、「已完成」）（必填）",
+          "assigneeId": "要分配此问题的用户ID或名称（例如「kartik」）",
+          "priority": "优先级（必填 - 必须是以下之一:低、中、高、紧急或无）。不要在优先级缺失或默认为「无」的情况下调用此工具 - 始终要求用户首先指定优先级。",
+          "estimate": "故事点或小时估算",
+          "labelIds": "标签名称或ID数组（例如 [\"Bug\", \"Feature\", \"Documentation\", \"Enhancement\"]）",
+          "duplicateError": "标题为 \"{title}\" 的问题已存在（问题 #{number}{project}）。请使用不同的标题或更新现有问题。",
+          "validationError": "我需要以下信息来创建问题:{missingFields}。请提供 {fieldCount} 以继续。{projectsInfo}",
+          "workflowStateError": "无法解析工作流状态 \"{state}\"。可用状态:{availableStates}。请指定有效的状态/工作流名称。",
+          "projectError": "未找到项目 \"{project}\"。{projectsInfo}",
+          "projectsAvailable": "可用项目:{projects}。请指定有效的项目名称、标识或ID。",
+          "noProjects": "请先创建项目或指定现有项目。",
+          "createError": "创建问题失败",
+          "success": "问题 #{number} \"{title}\" 已成功创建。"
+        },
+        "createIssues": {
+          "description": "一次创建多个问题。接受问题对象数组。每个问题需要:标题、状态（工作流状态）、优先级和项目。重要提示:如果任何问题缺少标题、状态、优先级或项目，请勿调用此工具 - 而是先向用户询问缺失的信息。当用户要求创建多个问题时使用此工具（例如「创建10个问题」、「为任务X、Y、Z创建问题」）。",
+          "atLeastOne": "至少需要一个问题",
+          "duplicateError": "以下问题标题已存在:{duplicates}。请使用不同的标题或更新现有问题。",
+          "validationError": "我需要以下信息来创建问题:{missingFields}。请提供 {fieldCount} 以继续。{projectsInfo}",
+          "projectError": "未找到项目 \"{project}\"。可用项目:{projects}",
+          "workflowStateError": "无法解析工作流状态 \"{state}\"。可用状态:{availableStates}",
+          "success": "成功创建了 {count} 个问题 {plural}:{issues}",
+          "failure": "创建 {count} 个问题 {plural} 失败:{errors}",
+          "mixed": "{successMsg}。{errorMsg}"
+        },
+        "updateIssue": {
+          "description": "通过标题或ID更新现有问题。使用工作流状态名称（如「待办」、「待办事项」、「进行中」、「已完成」）、负责人名称和标签名称。",
+          "notFound": "未找到标题为 \"{title}\" 的问题",
+          "multiple": "找到多个匹配 \"{title}\" 的问题:{matches}。请更具体一些。",
+          "idOrTitleRequired": "必须提供 issueId 或 title",
+          "issueNotFound": "问题不存在",
+          "success": "问题 #{number} \"{title}\" 已成功更新。"
+        },
+        "listIssues": {
+          "description": "获取团队的所有问题列表。默认返回所有问题，除非请求特定限制。使用此工具获取所有任务的完整概览。",
+          "allIssues": "找到所有 {count} 个问题",
+          "limitedIssues": "显示 {shown} 个，共 {total} 个问题"
+        },
+        "getIssue": {
+          "description": "通过ID获取特定问题的详细信息",
+          "notFound": "问题不存在"
+        },
+        "deleteIssue": {
+          "description": "通过标题或ID删除问题。如果提供标题，将搜索匹配的问题。",
+          "notFound": "未找到标题为 \"{title}\" 的问题",
+          "multiple": "找到多个匹配 \"{title}\" 的问题:{matches}。请更具体一些。",
+          "idOrTitleRequired": "必须提供 title 或 issueId",
+          "issueNotFound": "问题不存在",
+          "success": "问题 #{number} \"{title}\" 已成功删除。"
+        },
+        "updateIssues": {
+          "description": "一次更新多个问题。接受更新数组。当用户要求更新多个问题时使用此工具（例如「将问题 #1、#2、#3 的状态更改为已完成」、「将项目X中的所有问题分配给John」）。",
+          "atLeastOne": "至少需要一个问题更新",
+          "notFound": "问题不存在",
+          "multiple": "找到多个匹配 \"{title}\" 的问题",
+          "idOrTitleRequired": "必须提供 issueId 或 title",
+          "success": "成功更新了 {count} 个问题 {plural}:{issues}",
+          "failure": "更新 {count} 个问题 {plural} 失败:{errors}"
+        },
+        "deleteIssues": {
+          "description": "一次删除多个问题。接受问题ID或标题数组。当用户要求删除多个问题时使用此工具（例如「删除问题 #1、#2、#3」、「删除项目X中的所有问题」）。",
+          "atLeastOne": "至少需要一个问题",
+          "notFound": "问题不存在",
+          "multiple": "找到多个匹配 \"{title}\" 的问题",
+          "idOrTitleRequired": "必须提供 issueId 或 title",
+          "issueNotFound": "问题不存在",
+          "success": "成功删除了 {count} 个问题 {plural}:{issues}",
+          "failure": "删除 {count} 个问题 {plural} 失败:{errors}"
+        },
+        "createProject": {
+          "description": "创建单个新项目。要一次创建多个项目（2个以上），请使用 createProjects。名称和标识是必需的。如果缺少任何必需信息（名称或标识），请向用户询问。颜色参数是可选的，如果未提供则默认为 #6366f1。状态参数是可选的，如果未提供则默认为 active。",
+          "missingName": "要创建项目，我需要项目名称。请指定您想要命名此项目的名称。",
+          "missingKey": "要创建项目，我需要一个3字母的项目标识（key）。请提供此项目的简短3字母代码（例如 WEB、API、MOB）。",
+          "missingBoth": "要创建项目，我需要:(1) 项目名称，和 (2) 3字母的项目标识（key）。请提供 {fieldCount} 以继续。",
+          "keyLengthError": "项目标识必须正好是3个字母。您提供的 \"{key}\" 有 {length} 个字符 {plural}。请提供3字母的标识（例如 WEB、API、MOB）。",
+          "success": "项目 \"{name}\" 已成功创建。"
+        },
+        "createProjects": {
+          "description": "一次创建多个项目。接受项目对象数组。每个项目需要:名称和标识（3字母标识符）。当用户要求创建多个项目时使用此工具（例如「创建5个项目」、「为前端、后端和API创建项目」）。",
+          "atLeastOne": "至少需要一个项目",
+          "validationError": "我需要以下信息来创建项目:{missingFields}。请提供 {fieldCount} 以继续。",
+          "keyLengthError": "标识 \"{key}\" 必须正好是3个字母",
+          "keyExistsError": "项目标识 \"{key}\" 已存在",
+          "success": "成功创建了 {count} 个项目 {plural}:{projects}",
+          "failure": "创建 {count} 个项目 {plural} 失败:{errors}"
+        },
+        "listProjects": {
+          "description": "获取团队的所有项目"
+        },
+        "updateProject": {
+          "description": "通过名称或ID更新现有项目。您可以更新属性，如状态、名称、描述、颜色、图标或负责人。",
+          "notFound": "未找到名称为 \"{name}\" 的项目",
+          "multiple": "找到多个匹配 \"{name}\" 的项目:{matches}。请更具体一些。",
+          "idOrNameRequired": "必须提供 projectId 或 name",
+          "projectNotFound": "项目不存在",
+          "success": "项目 \"{name}\" 已成功更新。"
+        },
+        "deleteProject": {
+          "description": "通过名称或ID删除项目。这将永久删除项目及所有关联的问题。",
+          "notFound": "未找到名称为 \"{name}\" 的项目",
+          "multiple": "找到多个匹配 \"{name}\" 的项目:{matches}。请更具体地说明项目名称或使用项目ID。",
+          "idOrNameRequired": "必须提供 projectId 或 name",
+          "projectNotFound": "项目不存在",
+          "success": "项目 \"{name}\" 已成功删除。"
+        },
+        "inviteTeamMember": {
+          "description": "通过电子邮件邀请单个新团队成员。要一次邀请多个团队成员（2个以上），请使用 inviteTeamMembers。",
+          "alreadyInvited": "已向此邮箱发送邀请",
+          "success": "已向 {email} 发送邀请"
+        },
+        "inviteTeamMembers": {
+          "description": "一次邀请多个团队成员。接受带有可选角色的电子邮件地址数组。当用户要求邀请多人时使用此工具（例如「邀请10个团队成员」、「邀请 john@example.com、jane@example.com 和 bob@example.com」）。",
+          "atLeastOne": "至少需要一个邀请",
+          "invalidEmail": "邮箱格式无效",
+          "alreadyInvited": "已向此邮箱发送邀请",
+          "success": "成功向以下地址发送了 {count} 个邀请 {plural}:{emails}",
+          "failure": "发送 {count} 个邀请 {plural} 失败:{errors}"
+        },
+        "listTeamMembers": {
+          "description": "获取所有团队成员"
+        },
+        "getTeamStats": {
+          "description": "获取团队统计信息和摘要"
+        },
+        "addProjectMember": {
+          "description": "将团队成员添加到项目。成员必须已经是团队成员。使用项目名称或ID，以及成员名称或邮箱。",
+          "projectNotFound": "未找到名称为 \"{name}\" 的项目",
+          "multipleProjects": "找到多个匹配 \"{name}\" 的项目:{matches}。请更具体一些。",
+          "idOrNameRequired": "必须提供 projectId 或 projectName",
+          "memberNotFound": "未找到团队成员。可用团队成员:{members}",
+          "alreadyMember": "{member} 已经是此项目的成员",
+          "success": "已将 {member} 添加到项目 \"{project}\"。"
+        },
+        "removeProjectMember": {
+          "description": "从项目中移除团队成员。使用项目名称或ID，以及成员名称或邮箱。",
+          "projectNotFound": "未找到名称为 \"{name}\" 的项目",
+          "multipleProjects": "找到多个匹配 \"{name}\" 的项目:{matches}。请更具体一些。",
+          "idOrNameRequired": "必须提供 projectId 或 projectName",
+          "memberNotFound": "未找到项目成员",
+          "success": "已从项目 \"{project}\" 中移除 {member}。"
+        },
+        "listProjectMembers": {
+          "description": "列出特定项目的所有成员。使用项目名称或ID。",
+          "projectNotFound": "未找到名称为 \"{name}\" 的项目",
+          "multipleProjects": "找到多个匹配 \"{name}\" 的项目:{matches}。请更具体一些。",
+          "idOrNameRequired": "必须提供 projectId 或 projectName",
+          "noMembers": "项目 \"{project}\" 还没有成员。",
+          "success": "项目 \"{project}\" 有 {count} 位成员 {plural}:{members}"
+        },
+        "revokeInvitation": {
+          "description": "通过邮箱或邀请ID撤销或取消待处理的团队邀请",
+          "notFound": "未找到邮箱 \"{email}\" 的待处理邀请",
+          "notPending": "邮箱 \"{email}\" 的邀请不是待处理状态（状态:{status}）",
+          "idOrEmailRequired": "必须提供 invitationId 或 email",
+          "invitationNotFound": "邀请不存在",
+          "success": "邮箱 \"{email}\" 的邀请已成功撤销。"
+        },
+        "removeTeamMember": {
+          "description": "通过用户ID、邮箱或名称从工作空间中移除团队成员。只有管理员可以移除团队成员。",
+          "notFound": "未找到团队成员",
+          "idRequired": "必须提供 memberId、userId、email 或 name",
+          "notAdmin": "只有管理员可以移除团队成员",
+          "memberNotFound": "未找到团队成员",
+          "cannotRemoveSelf": "无法将自己从团队中移除",
+          "success": "团队成员 \"{member}\" 已成功移除。"
+        }
+      }
     }
   }
 }

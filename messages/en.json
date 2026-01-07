@@ -13,8 +13,8 @@
   },
   "metadata": {
     "title": "TheGroupFinder - Modern Team Task Management",
-    "description": "Built for teams who want to get things done. Clean, fast, and powerful task management. Free forever, open source.",
-    "keywords": "task management, team collaboration, project management, kanban, agile, productivity, open source",
+    "description": "Built for teams who want to get things done. Clean, fast, and powerful task management with AI-powered assistance.",
+    "keywords": "task management, team collaboration, project management, kanban, agile, productivity, AI assistant, open source",
     "openGraph": {
       "title": "TheGroupFinder",
       "description": "Built for teams who want to get things done. Clean, fast, and powerful task management.",
@@ -63,49 +63,49 @@
       "getStarted": "Get Started"
     },
     "hero": {
-      "tagline": "Finally, a task manager that doesn't suck.",
+      "tagline": "Built for modern teams and organizations.",
       "title": "Modern Team Task Management",
       "highlightText": "Modern",
-      "description": "Built for teams who want to get things done. Clean, fast, and powerful task management with Swiss design principles.",
-      "primaryButton": "Get Started Free",
+      "description": "Built for teams who want to get things done. Clean, fast, and powerful task management with AI-powered assistance.",
+      "primaryButton": "Get Started",
       "secondaryButton": "View on GitHub"
     },
     "demo": {
       "title": "See TheGroupFinder in Action",
       "description": "Watch how teams use TheGroupFinder to manage tasks and collaborate effectively.",
-      "cta": "Try TheGroupFinder free today. No credit card required.",
+      "cta": "Experience the power of AI-assisted task management.",
       "videoNotSupported": "Your browser does not support the video tag."
     },
     "ctaSection": {
-      "title": "Ready to get things done?",
-      "subtitle": "Join thousands of teams already using TheGroupFinder to manage their tasks and boost productivity.",
-      "button": "Get Started Free"
+      "title": "Ready to transform your team's workflow?",
+      "subtitle": "Join organizations already using TheGroupFinder to streamline task management and boost team productivity.",
+      "button": "Get Started"
     },
     "howToUse": {
       "title": "How to Get Started",
-      "subtitle": "Get started with TheGroupFinder in just three simple steps. No complex setup required!",
+      "subtitle": "Get your team up and running with TheGroupFinder in three simple steps.",
       "steps": {
         "step1": {
           "number": "01",
-          "title": "Sign Up for Free",
-          "description": "Create your account in seconds. No credit card required, no hidden fees."
+          "title": "Create Your Account",
+          "description": "Set up your organization account in seconds and configure your workspace to match your team's workflow and preferences."
         },
         "step2": {
           "number": "02",
-          "title": "Create Your First Team",
-          "description": "Set up your team workspace and invite your colleagues to collaborate."
+          "title": "Build Your Team",
+          "description": "Invite team members, set up projects, and organize your workflow to get everyone aligned and productive from day one."
         },
         "step3": {
           "number": "03",
-          "title": "Start Managing Tasks",
-          "description": "Create projects, add tasks, and watch your team's productivity soar."
+          "title": "Start Team Collaboration",
+          "description": "Create projects, add tasks, and leverage AI-powered assistance to collaborate efficiently and boost your team's productivity."
         }
       }
     },
     "features": {
       "title": "Powerful features, beautiful design",
       "subtitle": "Everything you need to manage tasks efficiently, collaborate effectively, and ship faster.",
-      "bottomCta": "All features included in the free plan",
+      "bottomCta": "Comprehensive features for modern teams",
       "featureCounter": "Feature {current} of {total}",
       "videoNotSupported": "Your browser does not support the video tag.",
       "doableAI": {
@@ -135,31 +135,31 @@
       "questions": {
         "whoIsItFor": {
           "question": "Who is TheGroupFinder for?",
-          "answer": "TheGroupFinder is built for individuals and indie hackers who want to get things done instead of wasting time on complicated tools. If you're building something solo or with a small team, and you want a simple, fast way to manage tasks without all the bloat, TheGroupFinder is for you."
+          "answer": "TheGroupFinder is built for teams and organizations who want to streamline their task management. Whether you're a startup, a growing company, or an established enterprise, TheGroupFinder provides the tools you need to keep your team organized and productive."
         },
         "whatIsIt": {
           "question": "What is TheGroupFinder?",
-          "answer": "TheGroupFinder is a simple, AI-powered task management tool. You can create tasks, organize projects, and manage your work through natural language. No need to learn complex interfaces - just tell the AI what you need and it handles the rest."
+          "answer": "TheGroupFinder is a modern, AI-powered task management platform. You can create tasks, organize projects, and manage your team's work through natural language. The AI assistant helps automate routine tasks and provides intelligent insights to boost productivity."
         },
         "howAIWorks": {
           "question": "How does the AI assistant work?",
-          "answer": "Just chat with it naturally. Say things like 'Create a task for fixing the login bug' or 'Show me all high-priority tasks' and the AI does it. No clicking through menus or filling out forms - just talk to it like a teammate."
+          "answer": "Simply communicate naturally with the AI. Say things like 'Create a task for fixing the login bug' or 'Show me all high-priority tasks assigned to John' and the AI handles it instantly. No complex forms or manual data entry - the AI understands context and automates your workflow."
         },
-        "isFree": {
-          "question": "Is TheGroupFinder free?",
-          "answer": "Yes! TheGroupFinder is completely free and open source. All features including AI-powered task management are available at no cost. You can also self-host it on your own server."
+        "whatFeatures": {
+          "question": "What key features does TheGroupFinder offer?",
+          "answer": "TheGroupFinder includes AI-powered task creation, intelligent task assignment, project organization, team collaboration tools, workflow automation, real-time updates, and comprehensive reporting. Everything your team needs to stay organized and ship faster."
         },
         "needTeam": {
-          "question": "Do I need a team to use it?",
-          "answer": "Nope. While TheGroupFinder supports teams, it works great for solo projects too. Create your workspace, add projects, and start managing tasks. Invite others later if you want."
+          "question": "Can I use it for team collaboration?",
+          "answer": "Absolutely. TheGroupFinder is designed for team collaboration. Create your organization workspace, set up projects, invite team members, and start collaborating immediately. The platform supports role-based permissions and seamless team communication."
         },
         "howToStart": {
           "question": "How do I get started?",
-          "answer": "Sign up with Google or Email (we'll send you a verification code), create a workspace, and start chatting with the AI. That's it. The AI will help you create your first project and tasks. No tutorial needed."
+          "answer": "Sign up with your work email or Google account, create your organization workspace, and invite your team members. The AI assistant will guide you through creating your first project and tasks, making onboarding quick and straightforward."
         },
         "dataSafety": {
-          "question": "Is my data safe?",
-          "answer": "Yes. TheGroupFinder uses secure authentication and you can self-host it to keep your data on your own server. The code is open source, so you can verify everything yourself."
+          "question": "Is my organization's data secure?",
+          "answer": "Yes. TheGroupFinder uses enterprise-grade security with encrypted data storage and secure authentication. We follow industry best practices for data protection and compliance. Your team's data is always protected and private."
         }
       }
     },
@@ -670,6 +670,216 @@
     "chatMessage": {
       "you": "You",
       "ai": "Doable AI"
+    }
+  },
+  "api": {
+    "chat": {
+      "errors": {
+        "messagesRequired": "Messages are required and must be a non-empty array",
+        "unauthorized": "Unauthorized",
+        "conversationNotFound": "Conversation not found",
+        "noApiKey": "No Groq API key configured. Please add your API key.",
+        "failedToProcess": "Failed to process messages: {error}",
+        "failedToSave": "Failed to process chat request"
+      },
+      "systemPrompt": {
+        "intro": "You are a helpful AI assistant for a project management system.\nYour role is to help users manage their tasks, projects, and team members through natural conversation.",
+        "teamContext": "Current Team Context",
+        "availableProjects": "Available Projects",
+        "workflowStates": "Workflow States",
+        "availableLabels": "Available Labels",
+        "teamMembers": "Team Members",
+        "none": "None",
+        "rules": "Important Rules for Creating Issues",
+        "rulesIntro": "When creating an issue, you MUST collect ALL of these BEFORE calling the createIssue tool:",
+        "ruleTitle": "Title (required) - Must have a clear, descriptive title",
+        "ruleStatus": "Status/Workflow State (required) - Must be a valid workflow state name from the list above",
+        "rulePriority": "Priority level (required) - MUST ask the user explicitly: \"What should be the priority level? (low, medium, high, urgent, or none)\"",
+        "ruleProject": "Project (required) - MUST ask the user: \"Which project should this issue be added to?\" and show available projects",
+        "criticalRules": "CRITICAL RULES:",
+        "criticalRule1": "DO NOT call createIssue or createIssues tools if ANY required field is missing (title, status, priority, or project)",
+        "criticalRule2": "DO NOT guess, infer, or default values - ALWAYS ask the user explicitly",
+        "criticalRule3": "DO NOT default priority to \"none\" unless the user explicitly says \"none\"",
+        "criticalRule4": "DO NOT use a default workflow state - always ask the user what status they want",
+        "criticalRule5": "Ask ONE question at a time to avoid overwhelming the user",
+        "criticalRule6": "If the user says \"create an issue\" with only a title, respond with: \"Sure! To create the issue, I need a few more details. First, what should be the priority level for this issue? (low, medium, high, urgent, or none)\"",
+        "listIssuesRule": "When user asks to see issues or lists tasks, ALWAYS call the listIssues tool WITHOUT a limit parameter to get ALL issues.\nDisplay the results as a bullet list with clear formatting.",
+        "minimalInfoRule": "When user provides minimal information, ask ONE follow-up question at a time.",
+        "useToolsRule": "Always use the provided tools for actions."
+      },
+      "tools": {
+        "createIssue": {
+          "description": "Create a single new issue. For creating multiple issues at once (2+), use createIssues instead. You can use workflow state names (like \"Todo\", \"In Progress\", \"Done\") and they will be automatically matched to IDs. Same for project names, assignee names, and label names. CRITICAL: Do NOT call this tool if ANY required information is missing (title, status/workflow state, priority, or project). Instead, ask the user ONE question at a time for the missing information. Do not default priority to \"none\" - always ask the user to specify a priority level explicitly. Always ask which project the issue should be added to if not provided. Always ask what status/workflow state the issue should be in if not provided.",
+          "title": "The title of the issue (REQUIRED)",
+          "descriptionField": "A detailed description of the issue",
+          "projectId": "The project ID, key, or name (e.g., \"testing\" or project name) this issue belongs to (REQUIRED). Do not call this tool with project missing - always ask the user to specify which project to add the issue to.",
+          "workflowStateId": "The workflow state ID or name (e.g., \"Todo\", \"In Progress\", \"Done\") (REQUIRED)",
+          "assigneeId": "The user ID or name (e.g., \"kartik\") to assign this issue to",
+          "priority": "The priority level (REQUIRED - must be one of: low, medium, high, urgent, or none). Do not call this tool with priority missing or defaulted to \"none\" - always ask the user to specify a priority first.",
+          "estimate": "Story points or hours estimate",
+          "labelIds": "Array of label names or IDs (e.g., [\"Bug\", \"Feature\", \"Documentation\", \"Enhancement\"])",
+          "duplicateError": "An issue with the title \"{title}\" already exists (Issue #{number}{project}). Please use a different title or update the existing issue.",
+          "validationError": "I need the following information to create the issue: {missingFields}. Please provide {fieldCount} to proceed. {projectsInfo}",
+          "workflowStateError": "Could not resolve workflow state \"{state}\". Available states: {availableStates}. Please specify a valid status/state name.",
+          "projectError": "The project \"{project}\" was not found. {projectsInfo}",
+          "projectsAvailable": "Available projects: {projects}. Please specify a valid project name, key, or ID.",
+          "noProjects": "Please create a project first or specify an existing project.",
+          "createError": "Failed to create issue",
+          "success": "Issue #{number} \"{title}\" has been created successfully."
+        },
+        "createIssues": {
+          "description": "Create multiple issues at once. Accepts an array of issue objects. Each issue needs: title, status (workflow state), priority, and project. IMPORTANT: Do NOT call this tool if any issue is missing title, status, priority, or project - instead, ask the user for the missing information first. Use this when the user asks to create multiple issues (e.g., \"create 10 issues\", \"create issues for tasks X, Y, Z\").",
+          "atLeastOne": "At least one issue is required",
+          "duplicateError": "The following issue titles already exist: {duplicates}. Please use different titles or update the existing issues.",
+          "validationError": "I need the following information to create the issues: {missingFields}. Please provide {fieldCount} to proceed. {projectsInfo}",
+          "projectError": "Project \"{project}\" not found. Available projects: {projects}",
+          "workflowStateError": "Could not resolve workflow state \"{state}\". Available states: {availableStates}",
+          "success": "Successfully created {count} issue{plural}: {issues}",
+          "failure": "Failed to create {count} issue{plural}: {errors}",
+          "mixed": "{successMsg}. {errorMsg}"
+        },
+        "updateIssue": {
+          "description": "Update an existing issue by title or ID. Use workflow state names (like \"Todo\", \"Backlog\", \"In Progress\", \"Done\"), assignee names, and label names.",
+          "notFound": "No issue found with title \"{title}\"",
+          "multiple": "Multiple issues found matching \"{title}\": {matches}. Please be more specific.",
+          "idOrTitleRequired": "Either issueId or title must be provided",
+          "issueNotFound": "Issue not found",
+          "success": "Issue #{number} \"{title}\" has been updated successfully."
+        },
+        "listIssues": {
+          "description": "Get a list of ALL issues for the team. Returns all issues by default unless a specific limit is requested. Use this to get a complete overview of all tasks.",
+          "allIssues": "Found all {count} issues",
+          "limitedIssues": "Showing {shown} of {total} total issues"
+        },
+        "getIssue": {
+          "description": "Get details of a specific issue by ID",
+          "notFound": "Issue not found"
+        },
+        "deleteIssue": {
+          "description": "Delete an issue by its title or ID. If title is provided, it will search for matching issues.",
+          "notFound": "No issue found with title \"{title}\"",
+          "multiple": "Multiple issues found matching \"{title}\": {matches}. Please be more specific.",
+          "idOrTitleRequired": "Either title or issueId must be provided",
+          "issueNotFound": "Issue not found",
+          "success": "Issue #{number} \"{title}\" has been deleted successfully."
+        },
+        "updateIssues": {
+          "description": "Update multiple issues at once. Accepts an array of updates. Use this when the user asks to update multiple issues (e.g., \"change status of issues #1, #2, #3 to Done\", \"assign all issues in project X to John\").",
+          "atLeastOne": "At least one issue update is required",
+          "notFound": "Issue not found",
+          "multiple": "Multiple issues found matching \"{title}\"",
+          "idOrTitleRequired": "Either issueId or title must be provided",
+          "success": "Successfully updated {count} issue{plural}: {issues}",
+          "failure": "Failed to update {count} issue{plural}: {errors}"
+        },
+        "deleteIssues": {
+          "description": "Delete multiple issues at once. Accepts an array of issue IDs or titles. Use this when the user asks to delete multiple issues (e.g., \"delete issues #1, #2, #3\", \"delete all issues in project X\").",
+          "atLeastOne": "At least one issue is required",
+          "notFound": "Issue not found",
+          "multiple": "Multiple issues found matching \"{title}\"",
+          "idOrTitleRequired": "Either issueId or title must be provided",
+          "issueNotFound": "Issue not found",
+          "success": "Successfully deleted {count} issue{plural}: {issues}",
+          "failure": "Failed to delete {count} issue{plural}: {errors}"
+        },
+        "createProject": {
+          "description": "Create a single new project. For creating multiple projects at once (2+), use createProjects instead. The name and key are REQUIRED. If any required information is missing (name or key), ask the user for it. The color parameter is optional and defaults to #6366f1 if not provided. The status parameter is optional and defaults to \"active\" if not provided.",
+          "missingName": "To create a project, I need the project name. Please specify what you would like to name this project.",
+          "missingKey": "To create a project, I need a 3-letter project identifier (key). Please provide a short 3-letter code for this project (e.g., \"WEB\", \"API\", \"MOB\").",
+          "missingBoth": "To create a project, I need both: (1) the project name, and (2) a 3-letter project identifier (key). Please provide {fieldCount} to proceed.",
+          "keyLengthError": "The project key must be exactly 3 letters. You provided \"{key}\" which is {length} character{plural}. Please provide a 3-letter key (e.g., \"WEB\", \"API\", \"MOB\").",
+          "success": "Project \"{name}\" has been created successfully."
+        },
+        "createProjects": {
+          "description": "Create multiple projects at once. Accepts an array of project objects. Each project needs: name and key (3-letter identifier). Use this when the user asks to create multiple projects (e.g., \"create 5 projects\", \"create projects for frontend, backend, and API\").",
+          "atLeastOne": "At least one project is required",
+          "validationError": "I need the following information to create the projects: {missingFields}. Please provide {fieldCount} to proceed.",
+          "keyLengthError": "Key \"{key}\" must be exactly 3 letters",
+          "keyExistsError": "Project key \"{key}\" already exists",
+          "success": "Successfully created {count} project{plural}: {projects}",
+          "failure": "Failed to create {count} project{plural}: {errors}"
+        },
+        "listProjects": {
+          "description": "Get all projects for the team"
+        },
+        "updateProject": {
+          "description": "Update an existing project by name or ID. You can update properties like status, name, description, color, icon, or lead.",
+          "notFound": "No project found with name \"{name}\"",
+          "multiple": "Multiple projects found matching \"{name}\": {matches}. Please be more specific.",
+          "idOrNameRequired": "Either projectId or name must be provided",
+          "projectNotFound": "Project not found",
+          "success": "Project \"{name}\" has been updated successfully."
+        },
+        "deleteProject": {
+          "description": "Delete a project by name or ID. This will permanently remove the project and all associated issues.",
+          "notFound": "No project found with name \"{name}\"",
+          "multiple": "Multiple projects found matching \"{name}\": {matches}. Please be more specific with the project name or use the project ID.",
+          "idOrNameRequired": "Either projectId or name must be provided",
+          "projectNotFound": "Project not found",
+          "success": "Project \"{name}\" has been deleted successfully."
+        },
+        "inviteTeamMember": {
+          "description": "Invite a single new team member via email. For inviting multiple team members at once (2+), use inviteTeamMembers instead.",
+          "alreadyInvited": "Invitation already sent to this email",
+          "success": "Invitation sent to {email}"
+        },
+        "inviteTeamMembers": {
+          "description": "Invite multiple team members at once. Accepts an array of email addresses with optional roles. Use this when the user asks to invite multiple people (e.g., \"invite 10 team members\", \"invite john@example.com, jane@example.com, and bob@example.com\").",
+          "atLeastOne": "At least one invitation is required",
+          "invalidEmail": "Invalid email format",
+          "alreadyInvited": "Invitation already sent to this email",
+          "success": "Successfully sent {count} invitation{plural} to: {emails}",
+          "failure": "Failed to send {count} invitation{plural}: {errors}"
+        },
+        "listTeamMembers": {
+          "description": "Get all team members"
+        },
+        "getTeamStats": {
+          "description": "Get team statistics and summary"
+        },
+        "addProjectMember": {
+          "description": "Add a team member to a project. The member must already be a team member. Use project name or ID, and member name or email.",
+          "projectNotFound": "No project found with name \"{name}\"",
+          "multipleProjects": "Multiple projects found matching \"{name}\": {matches}. Please be more specific.",
+          "idOrNameRequired": "Either projectId or projectName must be provided",
+          "memberNotFound": "Team member not found. Available team members: {members}",
+          "alreadyMember": "{member} is already a member of this project",
+          "success": "Added {member} to project \"{project}\"."
+        },
+        "removeProjectMember": {
+          "description": "Remove a team member from a project. Use project name or ID, and member name or email.",
+          "projectNotFound": "No project found with name \"{name}\"",
+          "multipleProjects": "Multiple projects found matching \"{name}\": {matches}. Please be more specific.",
+          "idOrNameRequired": "Either projectId or projectName must be provided",
+          "memberNotFound": "Project member not found",
+          "success": "Removed {member} from project \"{project}\"."
+        },
+        "listProjectMembers": {
+          "description": "List all members of a specific project. Use project name or ID.",
+          "projectNotFound": "No project found with name \"{name}\"",
+          "multipleProjects": "Multiple projects found matching \"{name}\": {matches}. Please be more specific.",
+          "idOrNameRequired": "Either projectId or projectName must be provided",
+          "noMembers": "Project \"{project}\" has no members yet.",
+          "success": "Project \"{project}\" has {count} member{plural}: {members}"
+        },
+        "revokeInvitation": {
+          "description": "Revoke or cancel a pending team invitation by email or invitation ID",
+          "notFound": "No pending invitation found for email \"{email}\"",
+          "notPending": "Invitation for \"{email}\" is not pending (status: {status})",
+          "idOrEmailRequired": "Either invitationId or email must be provided",
+          "invitationNotFound": "Invitation not found",
+          "success": "Invitation for \"{email}\" has been revoked successfully."
+        },
+        "removeTeamMember": {
+          "description": "Remove a team member from the workspace by user ID, email, or name. Only admins can remove team members.",
+          "notFound": "Team member not found",
+          "idRequired": "Either memberId, userId, email, or name must be provided",
+          "notAdmin": "Only admins can remove team members",
+          "memberNotFound": "Team member not found",
+          "cannotRemoveSelf": "Cannot remove yourself from the team",
+          "success": "Team member \"{member}\" has been removed successfully."
+        }
+      }
     }
   }
 }

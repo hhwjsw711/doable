@@ -30,8 +30,8 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ className = '' }) => {
       answer: t('landing.faq.questions.howAIWorks.answer')
     },
     {
-      question: t('landing.faq.questions.isFree.question'),
-      answer: t('landing.faq.questions.isFree.answer')
+      question: t('landing.faq.questions.whatFeatures.question'),
+      answer: t('landing.faq.questions.whatFeatures.answer')
     },
     {
       question: t('landing.faq.questions.needTeam.question'),

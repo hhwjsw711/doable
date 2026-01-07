@@ -67,9 +67,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ className = '' }) => {
       <HorizontalLine />
       
       {/* Testimonials Section */}
-      <Testimonials />
+      {/* <Testimonials /> */}
       
-      <HorizontalLine />
+      {/* <HorizontalLine /> */}
       
       {/* FAQ Section */}
       <FAQSection />
@@ -77,9 +77,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ className = '' }) => {
       <HorizontalLine />
       
       {/* Contributors Section */}
-      <Contributors />
+      {/* <Contributors /> */}
       
-      <HorizontalLine />
+      {/* <HorizontalLine /> */}
       
       {/* CTA Section */}
       <CtaSection />

@@ -13,6 +13,7 @@ import { deleteIssue } from '@/lib/api/issues'
 import { createProject, updateProject, deleteProject } from '@/lib/api/projects'
 import { sendInvitationEmail, getLocaleFromRequest } from '@/lib/email'
 import { stepCountIs } from 'ai'
+import { getTranslations } from 'next-intl/server'
 import {
   resolveWorkflowState,
   resolveProject,
@@ -32,10 +33,14 @@ export async function POST(
     const { teamId } = await params
     const { messages, apiKey: clientApiKey, conversationId: existingConversationId } = await request.json()
 
+    // Get user's locale preference from request
+    const locale = getLocaleFromRequest(request)
+    const t = await getTranslations({ locale, namespace: 'api.chat' })
+
     // Validate messages
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json(
-        { error: 'Messages are required and must be a non-empty array' },
+        { error: t('errors.messagesRequired') },
         { status: 400 }
       )
     }
@@ -45,23 +50,20 @@ export async function POST(
 
     if (!userId || !user) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { error: t('errors.unauthorized') },
         { status: 401 }
       )
     }
-
-    // Get user's locale preference from request
-    const locale = getLocaleFromRequest(request)
 
     // Get or create conversation
     let conversationId = existingConversationId
     if (!conversationId) {
       // Create new conversation with title from first user message
       const firstUserMessage = messages.find((m: any) => m.role === 'user')
-      const title = firstUserMessage 
+      const title = firstUserMessage
         ? generateConversationTitle(firstUserMessage.content || firstUserMessage.text || '')
         : undefined
-      
+
       const conversation = await createChatConversation({
         teamId,
         userId,
@@ -73,7 +75,7 @@ export async function POST(
       const conversation = await getChatConversation(conversationId)
       if (!conversation || conversation.userId !== userId || conversation.teamId !== teamId) {
         return NextResponse.json(
-          { error: 'Conversation not found' },
+          { error: t('errors.conversationNotFound') },
           { status: 404 }
         )
       }
@@ -87,45 +89,44 @@ export async function POST(
 
     if (!apiKey) {
       return NextResponse.json(
-        { error: 'No Groq API key configured. Please add your API key.' },
+        { error: t('errors.noApiKey') },
         { status: 400 }
       )
     }
 
-    // Get first workflow state for defaults
-    const defaultWorkflowState = teamContext.workflowStates[0]
+    // Get translations for system prompt
+    const tSystemPrompt = await getTranslations({ locale, namespace: 'api.chat.systemPrompt' })
+    const tTools = await getTranslations({ locale, namespace: 'api.chat.tools' })
 
     // Build system prompt from team context
-    const systemPrompt = `You are a helpful AI assistant for a project management system.
-Your role is to help users manage their tasks, projects, and team members through natural conversation.
+    const systemPrompt = `${tSystemPrompt('intro')}
 
-## Current Team Context
+## ${tSystemPrompt('teamContext')}
 
-Available Projects: ${teamContext.projects.map(p => `${p.name} (${p.key})`).join(', ') || 'None'}
-Workflow States: ${teamContext.workflowStates.map(s => s.name).join(', ')}
-Available Labels: ${teamContext.labels.map(l => l.name).join(', ')}
-Team Members: ${teamContext.members.map(m => m.userName).join(', ') || 'None'}
+${tSystemPrompt('availableProjects')}: ${teamContext.projects.map(p => `${p.name} (${p.key})`).join(', ') || tSystemPrompt('none')}
+${tSystemPrompt('workflowStates')}: ${teamContext.workflowStates.map(s => s.name).join(', ')}
+${tSystemPrompt('availableLabels')}: ${teamContext.labels.map(l => l.name).join(', ')}
+${tSystemPrompt('teamMembers')}: ${teamContext.members.map(m => m.userName).join(', ') || tSystemPrompt('none')}
 
-## Important Rules for Creating Issues
+## ${tSystemPrompt('rules')}
 
-When creating an issue, you MUST collect ALL of these BEFORE calling the createIssue tool:
-1. Title (required) - Must have a clear, descriptive title
-2. Status/Workflow State (required) - Must be a valid workflow state name from the list above
-3. Priority level (required) - MUST ask the user explicitly: "What should be the priority level? (low, medium, high, urgent, or none)"
-4. Project (required) - MUST ask the user: "Which project should this issue be added to?" and show available projects
+${tSystemPrompt('rulesIntro')}
+1. ${tSystemPrompt('ruleTitle')}
+2. ${tSystemPrompt('ruleStatus')}
+3. ${tSystemPrompt('rulePriority')}
+4. ${tSystemPrompt('ruleProject')}
 
-CRITICAL RULES:
-- DO NOT call createIssue or createIssues tools if ANY required field is missing (title, status, priority, or project)
-- DO NOT guess, infer, or default values - ALWAYS ask the user explicitly
-- DO NOT default priority to "none" unless the user explicitly says "none"
-- DO NOT use a default workflow state - always ask the user what status they want
-- Ask ONE question at a time to avoid overwhelming the user
-- If the user says "create an issue" with only a title, respond with: "Sure! To create the issue, I need a few more details. First, what should be the priority level for this issue? (low, medium, high, urgent, or none)"
+${tSystemPrompt('criticalRules')}
+- ${tSystemPrompt('criticalRule1')}
+- ${tSystemPrompt('criticalRule2')}
+- ${tSystemPrompt('criticalRule3')}
+- ${tSystemPrompt('criticalRule4')}
+- ${tSystemPrompt('criticalRule5')}
+- ${tSystemPrompt('criticalRule6')}
 
-When user asks to see issues or lists tasks, ALWAYS call the listIssues tool WITHOUT a limit parameter to get ALL issues. 
-Display the results as a bullet list with clear formatting.
-When user provides minimal information, ask ONE follow-up question at a time.
-Always use the provided tools for actions.`
+${tSystemPrompt('listIssuesRule')}
+${tSystemPrompt('minimalInfoRule')}
+${tSystemPrompt('useToolsRule')}`
 
     // Define tools for the AI
     const tools = {
@@ -187,9 +188,14 @@ Always use the provided tools for actions.`
             })
 
             if (existingIssue) {
+              const projectInfo = existingIssue.project ? ` in project ${existingIssue.project.name} (${existingIssue.project.key})` : ''
               return {
                 success: false,
-                error: `An issue with the title "${title}" already exists (Issue #${existingIssue.number}${existingIssue.project ? ` in project ${existingIssue.project.name} (${existingIssue.project.key})` : ''}). Please use a different title or update the existing issue.`,
+                error: tTools('createIssue.duplicateError', {
+                  title: title || '',
+                  number: existingIssue.number,
+                  project: projectInfo
+                }),
               }
             }
 
@@ -213,18 +219,24 @@ Always use the provided tools for actions.`
               const availableStates = teamContext.workflowStates.map(ws => ws.name).join(', ')
               return {
                 success: false,
-                error: `Could not resolve workflow state "${workflowStateId}". Available states: ${availableStates}. Please specify a valid status/state name.`,
+                error: tTools('createIssue.workflowStateError', {
+                  state: workflowStateId || '',
+                  availableStates
+                }),
               }
             }
 
             // Validate project was found
             if (!resolvedProject) {
-              const availableProjects = teamContext.projects.length > 0 
+              const availableProjects = teamContext.projects.length > 0
                 ? teamContext.projects.map(p => `${p.name} (${p.key})`).join(', ')
-                : 'No projects available'
+                : ''
+              const projectsInfo = teamContext.projects.length > 0
+                ? tTools('createIssue.projectsAvailable', { projects: availableProjects })
+                : tTools('createIssue.noProjects')
               return {
                 success: false,
-                error: `The project "${projectId}" was not found. ${teamContext.projects.length > 0 ? `Available projects: ${availableProjects}. Please specify a valid project name, key, or ID.` : 'Please create a project first or specify an existing project.'}`,
+                error: tTools('createIssue.projectError', { project: projectId || '', projectsInfo }),
               }
             }
 
@@ -246,7 +258,7 @@ Always use the provided tools for actions.`
             )
 
             if (!issue) {
-              return { success: false, error: 'Failed to create issue' }
+              return { success: false, error: tTools('createIssue.createError') }
             }
 
             return {
@@ -258,7 +270,7 @@ Always use the provided tools for actions.`
                 description: issue.description,
                 priority: issue.priority,
               },
-              message: `Issue #${issue.number} "${issue.title}" has been created successfully.`,
+              message: tTools('createIssue.success', { number: issue.number, title: issue.title }),
             }
           } catch (error: any) {
             return { success: false, error: error.message || 'Failed to create issue' }
@@ -1890,8 +1902,9 @@ Always use the provided tools for actions.`
     } catch (error: any) {
       console.error('Error converting messages:', error)
       console.error('Messages received:', JSON.stringify(messages, null, 2))
+      const t = await getTranslations({ locale, namespace: 'api.chat' })
       return NextResponse.json(
-        { error: `Failed to process messages: ${error.message || 'Unknown error'}` },
+        { error: t('errors.failedToProcess', { error: error.message || 'Unknown error' }) },
         { status: 400 }
       )
     }
@@ -1955,8 +1968,16 @@ Always use the provided tools for actions.`
     return response
   } catch (error) {
     console.error('Error in chat route:', error)
+    // Try to get locale for error message
+    let locale = 'en'
+    try {
+      locale = getLocaleFromRequest(request)
+    } catch (e) {
+      // Use default locale if unable to get from request
+    }
+    const t = await getTranslations({ locale, namespace: 'api.chat' })
     return NextResponse.json(
-      { error: 'Failed to process chat request' },
+      { error: t('errors.failedToSave') },
       { status: 500 }
     )
   }
