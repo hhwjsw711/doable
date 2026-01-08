@@ -334,7 +334,21 @@
     "quickInsights": "快速洞察",
     "ofIssuesCompleted": "的问题已完成",
     "activeMembers": "活跃成员",
-    "projectsInProgressLower": "项目进行中"
+    "projectsInProgressLower": "项目进行中",
+    "priorities": {
+      "none": "无",
+      "low": "低",
+      "medium": "中",
+      "high": "高",
+      "urgent": "紧急"
+    },
+    "statuses": {
+      "Backlog": "待办事项",
+      "Todo": "未开始",
+      "In Progress": "进行中",
+      "Done": "已完成",
+      "Canceled": "已取消"
+    }
   },
   "people": {
     "title": "成员",
@@ -708,7 +722,6 @@
         "noMembers": "没有成员"
       },
       "systemPrompt": {
-        "languageInstruction": "重要提示：你必须使用中文进行回复和思考。你的所有回复、推理和内部思考都应该使用中文。在使用工具和生成响应时，所有文本内容都应使用中文。",
         "intro": "您是一个项目管理系统的智能助手。\n您的职责是通过自然对话帮助用户管理任务、项目和团队成员。",
         "teamContext": "当前团队信息",
         "availableProjects": "可用项目",

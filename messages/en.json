@@ -334,7 +334,21 @@
     "quickInsights": "Quick Insights",
     "ofIssuesCompleted": "of issues are completed",
     "activeMembers": "active members",
-    "projectsInProgressLower": "projects in progress"
+    "projectsInProgressLower": "projects in progress",
+    "priorities": {
+      "none": "None",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "statuses": {
+      "Backlog": "Backlog",
+      "Todo": "Todo",
+      "In Progress": "In Progress",
+      "Done": "Done",
+      "Canceled": "Canceled"
+    }
   },
   "people": {
     "title": "People",
@@ -708,7 +722,6 @@
         "noMembers": "No members"
       },
       "systemPrompt": {
-        "languageInstruction": "IMPORTANT: You MUST respond and think in English. All your responses, reasoning, and internal thoughts should be in English. When using tools and generating responses, use English for all text content.",
         "intro": "You are a helpful AI assistant for a project management system.\nYour role is to help users manage their tasks, projects, and team members through natural conversation.",
         "teamContext": "Current Team Context",
         "availableProjects": "Available Projects",

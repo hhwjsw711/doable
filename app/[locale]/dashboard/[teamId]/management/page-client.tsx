@@ -42,7 +42,7 @@ export function ManagementPageClient() {
   }
 
   const priorityData = stats.priorityBreakdown?.map((item: any) => ({
-    name: item.priority === 'none' ? 'None' : item.priority.charAt(0).toUpperCase() + item.priority.slice(1),
+    name: t(`priorities.${item.priority}`),
     value: item.count,
     color: COLORS[item.priority as keyof typeof COLORS] || COLORS.none
   })) || []
@@ -161,7 +161,7 @@ export function ManagementPageClient() {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={({ name, percent }: any) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    label={({ name, percent }: any) => `${t(`statuses.${name}`)}: ${(percent * 100).toFixed(0)}%`}
                     outerRadius={70}
                     fill="#8884d8"
                     dataKey="value"

@@ -104,9 +104,7 @@ export async function POST(
     const translatedWorkflowStates = teamContext.workflowStates.map(s => tWorkflowStates(s.name)).join(', ')
 
     // Build system prompt from team context
-    const systemPrompt = `${tSystemPrompt('languageInstruction')}
-
-${tSystemPrompt('intro')}
+    const systemPrompt = `${tSystemPrompt('intro')}
 
 ## ${tSystemPrompt('teamContext')}
 
