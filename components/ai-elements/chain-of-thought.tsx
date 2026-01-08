@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import type { ComponentProps } from "react";
 import { createContext, memo, useContext, useMemo } from "react";
+import { useTranslations } from "next-intl";
 
 type ChainOfThoughtContextValue = {
   isOpen: boolean;
@@ -82,6 +83,7 @@ export type ChainOfThoughtHeaderProps = ComponentProps<
 export const ChainOfThoughtHeader = memo(
   ({ className, children, ...props }: ChainOfThoughtHeaderProps) => {
     const { isOpen, setIsOpen } = useChainOfThought();
+    const t = useTranslations("components.chainOfThought");
 
     return (
       <Collapsible onOpenChange={setIsOpen} open={isOpen}>
@@ -94,7 +96,7 @@ export const ChainOfThoughtHeader = memo(
         >
           <BrainIcon className="size-4" />
           <span className="flex-1 text-left">
-            {children ?? "Chain of Thought"}
+            {children ?? t("title")}
           </span>
           <ChevronDownIcon
             className={cn(

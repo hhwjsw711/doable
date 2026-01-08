@@ -97,14 +97,21 @@ export async function POST(
     // Get translations for system prompt
     const tSystemPrompt = await getTranslations({ locale, namespace: 'api.chat.systemPrompt' })
     const tTools = await getTranslations({ locale, namespace: 'api.chat.tools' })
+    const tCommon = await getTranslations({ locale, namespace: 'api.chat.common' })
+    const tWorkflowStates = await getTranslations({ locale, namespace: 'workflowStates' })
+
+    // Translate workflow state names for AI context
+    const translatedWorkflowStates = teamContext.workflowStates.map(s => tWorkflowStates(s.name)).join(', ')
 
     // Build system prompt from team context
-    const systemPrompt = `${tSystemPrompt('intro')}
+    const systemPrompt = `${tSystemPrompt('languageInstruction')}
+
+${tSystemPrompt('intro')}
 
 ## ${tSystemPrompt('teamContext')}
 
 ${tSystemPrompt('availableProjects')}: ${teamContext.projects.map(p => `${p.name} (${p.key})`).join(', ') || tSystemPrompt('none')}
-${tSystemPrompt('workflowStates')}: ${teamContext.workflowStates.map(s => s.name).join(', ')}
+${tSystemPrompt('workflowStates')}: ${translatedWorkflowStates}
 ${tSystemPrompt('availableLabels')}: ${teamContext.labels.map(l => l.name).join(', ')}
 ${tSystemPrompt('teamMembers')}: ${teamContext.members.map(m => m.userName).join(', ') || tSystemPrompt('none')}
 
@@ -216,7 +223,7 @@ ${tSystemPrompt('useToolsRule')}`
 
             // Validate that required entities were successfully resolved (more strict than just "provided")
             if (!resolvedWorkflowStateId) {
-              const availableStates = teamContext.workflowStates.map(ws => ws.name).join(', ')
+              const availableStates = teamContext.workflowStates.map(ws => tWorkflowStates(ws.name)).join(', ')
               return {
                 success: false,
                 error: tTools('createIssue.workflowStateError', {
@@ -254,7 +261,7 @@ ${tSystemPrompt('useToolsRule')}`
                 labelIds: resolvedLabelIds.length > 0 ? resolvedLabelIds : undefined,
               },
               userId,
-              user.name || user.email || 'Unknown'
+              user.name || user.email || tCommon('unknown')
             )
 
             if (!issue) {
@@ -273,7 +280,7 @@ ${tSystemPrompt('useToolsRule')}`
               message: tTools('createIssue.success', { number: issue.number, title: issue.title }),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to create issue' }
+            return { success: false, error: error.message || tTools('createIssue.failed') }
           }
         },
       }),
@@ -298,7 +305,7 @@ ${tSystemPrompt('useToolsRule')}`
         execute: async ({ issues }) => {
           try {
             if (!issues || issues.length === 0) {
-              return { success: false, error: 'At least one issue is required' }
+              return { success: false, error: tCommon('atLeastOneRequired', { item: tCommon('issue') }) }
             }
 
             // Check for duplicate titles across all issues before proceeding
@@ -339,7 +346,7 @@ ${tSystemPrompt('useToolsRule')}`
 
                 return {
                   success: false,
-                  error: `The following issue titles already exist: ${duplicates}. Please use different titles or update the existing issues.`,
+                  error: tTools('createIssues.duplicateError', { duplicates }),
                 }
               }
             }
@@ -363,13 +370,17 @@ ${tSystemPrompt('useToolsRule')}`
             }
 
             if (missingFields.length > 0) {
-              const availableProjects = teamContext.projects.length > 0 
+              const availableProjects = teamContext.projects.length > 0
                 ? teamContext.projects.map(p => `${p.name} (${p.key})`).join(', ')
-                : 'No projects available'
-              
+                : tCommon('noProjectsAvailable')
+
               return {
                 success: false,
-                error: `I need the following information to create the issues: ${missingFields.join(', ')}. Please provide ${missingFields.length === 1 ? 'this' : 'these'} to proceed. ${teamContext.projects.length > 0 && missingFields.some(f => f.includes('project')) ? `Available projects: ${availableProjects}.` : ''}`,
+                error: tTools('createIssues.validationError', {
+                  missingFields: missingFields.join(', '),
+                  fieldCount: missingFields.length === 1 ? 'this' : 'these',
+                  projectsInfo: teamContext.projects.length > 0 && missingFields.some(f => f.includes('project')) ? availableProjects : ''
+                }),
               }
             }
 
@@ -390,13 +401,13 @@ ${tSystemPrompt('useToolsRule')}`
                   const resolvedProject = resolveProject(teamContext, issueProjectId!)
                   
                   if (!resolvedProject) {
-                    const availableProjects = teamContext.projects.length > 0 
+                    const availableProjects = teamContext.projects.length > 0
                       ? teamContext.projects.map(p => `${p.name} (${p.key})`).join(', ')
-                      : 'No projects available'
+                      : tCommon('noProjectsAvailable')
                     return {
-                      error: { 
-                        issue: issueData.title || 'Unknown', 
-                        error: `Project "${issueProjectId}" not found. Available projects: ${availableProjects}`
+                      error: {
+                        issue: issueData.title || tCommon('unknown'),
+                        error: tTools('createIssues.projectError', { project: issueProjectId, projects: availableProjects })
                       },
                     }
                   }
@@ -405,11 +416,11 @@ ${tSystemPrompt('useToolsRule')}`
                   const resolvedLabelIds = resolveLabelIds(teamContext, issueData.labelIds)
 
                   if (!resolvedWorkflowStateId) {
-                    const availableStates = teamContext.workflowStates.map(ws => ws.name).join(', ')
+                    const availableStates = teamContext.workflowStates.map(ws => tWorkflowStates(ws.name)).join(', ')
                     return {
-                      error: { 
-                        issue: issueData.title || 'Unknown', 
-                        error: `Could not resolve workflow state "${issueWorkflowStateId}". Available states: ${availableStates}`
+                      error: {
+                        issue: issueData.title || tCommon('unknown'),
+                        error: tTools('createIssues.workflowStateError', { state: issueWorkflowStateId, availableStates })
                       },
                     }
                   }
@@ -428,7 +439,7 @@ ${tSystemPrompt('useToolsRule')}`
                       labelIds: resolvedLabelIds.length > 0 ? resolvedLabelIds : undefined,
                     },
                     userId,
-                    user.name || user.email || 'Unknown'
+                    user.name || user.email || tCommon('unknown')
                   )
 
                   if (issue) {
@@ -441,12 +452,12 @@ ${tSystemPrompt('useToolsRule')}`
                     }
                   } else {
                     return {
-                      error: { issue: issueData.title || 'Unknown', error: 'Failed to create issue' },
+                      error: { issue: issueData.title || tCommon('unknown'), error: tTools('createIssues.failed') },
                     }
                   }
                 } catch (error: any) {
                   return {
-                    error: { issue: issueData.title || 'Unknown', error: error.message || 'Failed to create issue' },
+                    error: { issue: issueData.title || tCommon('unknown'), error: error.message || tTools('createIssues.failed') },
                   }
                 }
               })()
@@ -460,11 +471,11 @@ ${tSystemPrompt('useToolsRule')}`
             const errors = results.filter((r) => r.error).map((r) => r.error!)
 
             const successMessage = createdIssues.length > 0
-              ? `Successfully created ${createdIssues.length} issue${createdIssues.length !== 1 ? 's' : ''}: ${createdIssues.map(i => `#${i.number} "${i.title}"`).join(', ')}`
+              ? tTools('createIssues.success', { count: createdIssues.length, plural: createdIssues.length !== 1 ? 's' : '', issues: createdIssues.map(i => `#${i.number} "${i.title}"`).join(', ') })
               : ''
 
             const errorMessage = errors.length > 0
-              ? `Failed to create ${errors.length} issue${errors.length !== 1 ? 's' : ''}: ${errors.map(e => `"${e.issue}" (${e.error})`).join(', ')}`
+              ? tTools('createIssues.failure', { count: errors.length, plural: errors.length !== 1 ? 's' : '', errors: errors.map(e => `"${e.issue}" (${e.error})`).join(', ') })
               : ''
 
             return {
@@ -475,7 +486,7 @@ ${tSystemPrompt('useToolsRule')}`
               failedCount: errors.length,
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to create issues' }
+            return { success: false, error: error.message || tTools('createIssues.failed') }
           }
         },
       }),
@@ -505,13 +516,13 @@ ${tSystemPrompt('useToolsRule')}`
               )
 
               if (matchingIssues.length === 0) {
-                return { success: false, error: `No issue found with title "${title}"` }
+                return { success: false, error: tTools('updateIssue.notFound', { title }) }
               }
 
               if (matchingIssues.length > 1) {
                 return {
                   success: false,
-                  error: `Multiple issues found matching "${title}": ${matchingIssues.map(i => `#${i.number} "${i.title}"`).join(', ')}. Please be more specific.`,
+                  error: tTools('updateIssue.multiple', { title, matches: matchingIssues.map(i => `#${i.number} "${i.title}"`).join(', ') }),
                 }
               }
 
@@ -519,7 +530,7 @@ ${tSystemPrompt('useToolsRule')}`
             }
 
             if (!resolvedIssueId) {
-              return { success: false, error: 'Either issueId or title must be provided' }
+              return { success: false, error: tTools('updateIssue.idOrTitleRequired') }
             }
 
             // Resolve entities using helper functions
@@ -556,7 +567,7 @@ ${tSystemPrompt('useToolsRule')}`
             })
 
             if (!issue) {
-              return { success: false, error: 'Issue not found' }
+              return { success: false, error: tTools('updateIssue.notFound') }
             }
 
             return {
@@ -566,10 +577,10 @@ ${tSystemPrompt('useToolsRule')}`
                 title: issue.title,
                 number: issue.number,
               },
-              message: `Issue #${issue.number} "${issue.title}" has been updated successfully.`,
+              message: tTools('updateIssue.success', { number: issue.number, title: issue.title }),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to update issue' }
+            return { success: false, error: error.message || tTools('updateIssue.failed') }
           }
         },
       }),
@@ -598,12 +609,12 @@ ${tSystemPrompt('useToolsRule')}`
               })),
               count: limited.length,
               total: issues.length,
-              message: limited.length === issues.length 
-                ? `Found all ${issues.length} issues`
-                : `Showing ${limited.length} of ${issues.length} total issues`
+              message: limited.length === issues.length
+                ? tTools('listIssues.allIssues', { count: issues.length })
+                : tTools('listIssues.limitedIssues', { shown: limited.length, total: issues.length })
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to list issues' }
+            return { success: false, error: error.message || tTools('listIssues.failed') }
           }
         },
       }),
@@ -617,7 +628,7 @@ ${tSystemPrompt('useToolsRule')}`
           try {
             const issue = await getIssueById(teamId, issueId)
             if (!issue) {
-              return { success: false, error: 'Issue not found' }
+              return { success: false, error: tTools('getIssue.notFound') }
             }
 
             return {
@@ -635,7 +646,7 @@ ${tSystemPrompt('useToolsRule')}`
               },
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to get issue' }
+            return { success: false, error: error.message || tTools('getIssue.failed') }
           }
         },
       }),
@@ -656,13 +667,13 @@ ${tSystemPrompt('useToolsRule')}`
               )
 
               if (matchingIssues.length === 0) {
-                return { success: false, error: `No issue found with title "${title}"` }
+                return { success: false, error: tTools('deleteIssue.notFound', { title }) }
               }
 
               if (matchingIssues.length > 1) {
                 return {
                   success: false,
-                  error: `Multiple issues found matching "${title}": ${matchingIssues.map(i => `#${i.number} "${i.title}"`).join(', ')}. Please be more specific.`,
+                  error: tTools('deleteIssue.multiple', { title, matches: matchingIssues.map(i => `#${i.number} "${i.title}"`).join(', ') }),
                   matches: matchingIssues.map(i => ({ id: i.id, title: i.title, number: i.number })),
                 }
               }
@@ -671,22 +682,22 @@ ${tSystemPrompt('useToolsRule')}`
             }
 
             if (!issueId) {
-              return { success: false, error: 'Either title or issueId must be provided' }
+              return { success: false, error: tTools('deleteIssue.idOrTitleRequired') }
             }
 
             const issue = await getIssueById(teamId, issueId)
             if (!issue) {
-              return { success: false, error: 'Issue not found' }
+              return { success: false, error: tTools('deleteIssue.notFound') }
             }
 
             await deleteIssue(teamId, issueId)
 
             return {
               success: true,
-              message: `Issue #${issue.number} "${issue.title}" has been deleted successfully.`,
+              message: tTools('deleteIssue.success', { number: issue.number, title: issue.title }),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to delete issue' }
+            return { success: false, error: error.message || tTools('deleteIssue.failed') }
           }
         },
       }),
@@ -709,7 +720,7 @@ ${tSystemPrompt('useToolsRule')}`
         execute: async ({ updates }) => {
           try {
             if (!updates || updates.length === 0) {
-              return { success: false, error: 'At least one issue update is required' }
+              return { success: false, error: tCommon('atLeastOneRequired', { item: tCommon('issueUpdate') }) }
             }
 
             const updatedIssues = []
@@ -727,12 +738,12 @@ ${tSystemPrompt('useToolsRule')}`
                   )
 
                   if (matchingIssues.length === 0) {
-                    errors.push({ issue: updateData.title, error: 'Issue not found' })
+                    errors.push({ issue: updateData.title, error: tTools('updateIssues.notFound') })
                     continue
                   }
 
                   if (matchingIssues.length > 1) {
-                    errors.push({ issue: updateData.title, error: `Multiple issues found matching "${updateData.title}"` })
+                    errors.push({ issue: updateData.title, error: tTools('updateIssues.multiple', { title: updateData.title }) })
                     continue
                   }
 
@@ -740,7 +751,7 @@ ${tSystemPrompt('useToolsRule')}`
                 }
 
                 if (!resolvedIssueId) {
-                  errors.push({ issue: updateData.title || 'unknown', error: 'Either issueId or title must be provided' })
+                  errors.push({ issue: updateData.title || tCommon('unknown'), error: tTools('updateIssues.idOrTitleRequired') })
                   continue
                 }
 
@@ -783,7 +794,7 @@ ${tSystemPrompt('useToolsRule')}`
                 })
 
                 if (!issue) {
-                  errors.push({ issue: updateData.title || updateData.issueId || 'unknown', error: 'Failed to update issue' })
+                  errors.push({ issue: updateData.title || updateData.issueId || tCommon('unknown'), error: tTools('updateIssues.updateFailed') })
                   continue
                 }
 
@@ -793,16 +804,16 @@ ${tSystemPrompt('useToolsRule')}`
                   title: issue.title,
                 })
               } catch (error: any) {
-                errors.push({ issue: updateData.title || updateData.issueId || 'unknown', error: error.message || 'Failed to update issue' })
+                errors.push({ issue: updateData.title || updateData.issueId || tCommon('unknown'), error: error.message || tTools('updateIssues.updateFailed') })
               }
             }
 
             const successMessage = updatedIssues.length > 0
-              ? `Successfully updated ${updatedIssues.length} issue${updatedIssues.length !== 1 ? 's' : ''}: ${updatedIssues.map(i => `#${i.number} "${i.title}"`).join(', ')}`
+              ? tTools('updateIssues.success', { count: updatedIssues.length, plural: updatedIssues.length !== 1 ? 's' : '', issues: updatedIssues.map(i => `#${i.number} "${i.title}"`).join(', ') })
               : ''
 
             const errorMessage = errors.length > 0
-              ? `Failed to update ${errors.length} issue${errors.length !== 1 ? 's' : ''}: ${errors.map(e => `"${e.issue}" (${e.error})`).join(', ')}`
+              ? tTools('updateIssues.failure', { count: errors.length, plural: errors.length !== 1 ? 's' : '', errors: errors.map(e => `"${e.issue}" (${e.error})`).join(', ') })
               : ''
 
             return {
@@ -813,7 +824,7 @@ ${tSystemPrompt('useToolsRule')}`
               failedCount: errors.length,
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to update issues' }
+            return { success: false, error: error.message || tTools('updateIssues.failed') }
           }
         },
       }),
@@ -829,7 +840,7 @@ ${tSystemPrompt('useToolsRule')}`
         execute: async ({ issues }) => {
           try {
             if (!issues || issues.length === 0) {
-              return { success: false, error: 'At least one issue is required' }
+              return { success: false, error: tCommon('atLeastOneRequired', { item: tCommon('issue') }) }
             }
 
             const deletedIssues = []
@@ -847,12 +858,12 @@ ${tSystemPrompt('useToolsRule')}`
                   )
 
                   if (matchingIssues.length === 0) {
-                    errors.push({ issue: issueData.title, error: 'Issue not found' })
+                    errors.push({ issue: issueData.title, error: tTools('deleteIssues.notFound') })
                     continue
                   }
 
                   if (matchingIssues.length > 1) {
-                    errors.push({ issue: issueData.title, error: `Multiple issues found matching "${issueData.title}"` })
+                    errors.push({ issue: issueData.title, error: tTools('deleteIssues.multiple', { title: issueData.title }) })
                     continue
                   }
 
@@ -860,13 +871,13 @@ ${tSystemPrompt('useToolsRule')}`
                 }
 
                 if (!resolvedIssueId) {
-                  errors.push({ issue: issueData.title || 'unknown', error: 'Either issueId or title must be provided' })
+                  errors.push({ issue: issueData.title || tCommon('unknown'), error: tTools('deleteIssues.idOrTitleRequired') })
                   continue
                 }
 
                 const issue = await getIssueById(teamId, resolvedIssueId)
                 if (!issue) {
-                  errors.push({ issue: resolvedIssueId, error: 'Issue not found' })
+                  errors.push({ issue: resolvedIssueId, error: tTools('deleteIssues.issueNotFound') })
                   continue
                 }
 
@@ -878,16 +889,16 @@ ${tSystemPrompt('useToolsRule')}`
                   title: issue.title,
                 })
               } catch (error: any) {
-                errors.push({ issue: issueData.title || issueData.issueId || 'unknown', error: error.message || 'Failed to delete issue' })
+                errors.push({ issue: issueData.title || issueData.issueId || tCommon('unknown'), error: error.message || tTools('deleteIssues.failed') })
               }
             }
 
             const successMessage = deletedIssues.length > 0
-              ? `Successfully deleted ${deletedIssues.length} issue${deletedIssues.length !== 1 ? 's' : ''}: ${deletedIssues.map(i => `#${i.number} "${i.title}"`).join(', ')}`
+              ? tTools('deleteIssues.success', { count: deletedIssues.length, plural: deletedIssues.length !== 1 ? 's' : '', issues: deletedIssues.map(i => `#${i.number} "${i.title}"`).join(', ') })
               : ''
 
             const errorMessage = errors.length > 0
-              ? `Failed to delete ${errors.length} issue${errors.length !== 1 ? 's' : ''}: ${errors.map(e => `"${e.issue}" (${e.error})`).join(', ')}`
+              ? tTools('deleteIssues.failure', { count: errors.length, plural: errors.length !== 1 ? 's' : '', errors: errors.map(e => `"${e.issue}" (${e.error})`).join(', ') })
               : ''
 
             return {
@@ -898,7 +909,7 @@ ${tSystemPrompt('useToolsRule')}`
               failedCount: errors.length,
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to delete issues' }
+            return { success: false, error: error.message || tTools('deleteIssues.failed') }
           }
         },
       }),
@@ -932,22 +943,22 @@ ${tSystemPrompt('useToolsRule')}`
               if (missingFields.includes('key (3-letter project identifier)') && missingFields.length === 1) {
                 return {
                   success: false,
-                  error: 'To create a project, I need a 3-letter project identifier (key). Please provide a short 3-letter code for this project (e.g., "WEB", "API", "MOB").',
+                  error: tTools('createProject.missingKey'),
                 }
               }
-              
+
               // Special message for name
               if (missingFields.includes('name') && missingFields.length === 1) {
                 return {
                   success: false,
-                  error: 'To create a project, I need the project name. Please specify what you would like to name this project.',
+                  error: tTools('createProject.missingName'),
                 }
               }
-              
+
               // Combined message
               return {
                 success: false,
-                error: `To create a project, I need both: (1) the project name, and (2) a 3-letter project identifier (key). Please provide ${missingFields.length === 1 ? 'this' : 'these'} to proceed.`,
+                error: tTools('createProject.missingBoth', { fieldCount: missingFields.length === 1 ? 'this' : 'these' }),
               }
             }
 
@@ -955,7 +966,7 @@ ${tSystemPrompt('useToolsRule')}`
             if (key && key.length !== 3) {
               return {
                 success: false,
-                error: `The project key must be exactly 3 letters. You provided "${key}" which is ${key.length} character${key.length !== 1 ? 's' : ''}. Please provide a 3-letter key (e.g., "WEB", "API", "MOB").`,
+                error: tTools('createProject.keyLengthError', { key, length: key.length, plural: key.length !== 1 ? 's' : '' }),
               }
             }
             
@@ -983,10 +994,10 @@ ${tSystemPrompt('useToolsRule')}`
                 key: project.key,
                 description: project.description,
               },
-              message: `Project "${project.name}" has been created successfully.`,
+              message: tTools('createProject.success', { name: project.name }),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to create project' }
+            return { success: false, error: error.message || tTools('createProject.failed') }
           }
         },
       }),
@@ -1007,7 +1018,7 @@ ${tSystemPrompt('useToolsRule')}`
         execute: async ({ projects }) => {
           try {
             if (!projects || projects.length === 0) {
-              return { success: false, error: 'At least one project is required' }
+              return { success: false, error: tTools('createProjects.atLeastOne') }
             }
 
             // Check for missing required fields across all projects
@@ -1025,7 +1036,7 @@ ${tSystemPrompt('useToolsRule')}`
             if (missingFields.length > 0) {
               return {
                 success: false,
-                error: `I need the following information to create the projects: ${missingFields.join(', ')}. Please provide ${missingFields.length === 1 ? 'this' : 'these'} to proceed.`,
+                error: tTools('createProjects.validationError', { missingFields: missingFields.join(', '), fieldCount: missingFields.length === 1 ? 'this' : 'these' }),
               }
             }
 
@@ -1037,14 +1048,14 @@ ${tSystemPrompt('useToolsRule')}`
                 // Validate key length
                 const projectKey = projectData.key! // Safe after validation
                 if (projectKey.length !== 3) {
-                  errors.push({ project: projectData.name || 'Unknown', error: `Key "${projectKey}" must be exactly 3 letters` })
+                  errors.push({ project: projectData.name || tCommon('unknown'), error: tTools('createProjects.keyLengthError', { key: projectKey }) })
                   continue
                 }
 
                 // Check if key already exists
                 const existingProject = teamContext.projects.find(p => p.key.toLowerCase() === projectKey.toLowerCase())
                 if (existingProject) {
-                  errors.push({ project: projectData.name || 'Unknown', error: `Project key "${projectKey}" already exists` })
+                  errors.push({ project: projectData.name || tCommon('unknown'), error: tTools('createProjects.keyExistsError', { key: projectKey }) })
                   continue
                 }
 
@@ -1065,16 +1076,16 @@ ${tSystemPrompt('useToolsRule')}`
                   key: project.key,
                 })
               } catch (error: any) {
-                errors.push({ project: projectData.name, error: error.message || 'Failed to create project' })
+                errors.push({ project: projectData.name, error: error.message || tTools('createProjects.failed') })
               }
             }
 
             const successMessage = createdProjects.length > 0
-              ? `Successfully created ${createdProjects.length} project${createdProjects.length !== 1 ? 's' : ''}: ${createdProjects.map(p => `"${p.name}" (${p.key})`).join(', ')}`
+              ? tTools('createProjects.success', { count: createdProjects.length, plural: createdProjects.length !== 1 ? 's' : '', projects: createdProjects.map(p => `"${p.name}" (${p.key})`).join(', ') })
               : ''
 
             const errorMessage = errors.length > 0
-              ? `Failed to create ${errors.length} project${errors.length !== 1 ? 's' : ''}: ${errors.map(e => `"${e.project}" (${e.error})`).join(', ')}`
+              ? tTools('createProjects.failure', { count: errors.length, plural: errors.length !== 1 ? 's' : '', errors: errors.map(e => `"${e.project}" (${e.error})`).join(', ') })
               : ''
 
             return {
@@ -1085,7 +1096,7 @@ ${tSystemPrompt('useToolsRule')}`
               failedCount: errors.length,
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to create projects' }
+            return { success: false, error: error.message || tTools('createProjects.failed') }
           }
         },
       }),
@@ -1108,7 +1119,7 @@ ${tSystemPrompt('useToolsRule')}`
               })),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to list projects' }
+            return { success: false, error: error.message || tTools('listProjects.failed') }
           }
         },
       }),
@@ -1137,13 +1148,13 @@ ${tSystemPrompt('useToolsRule')}`
               )
 
               if (matchingProjects.length === 0) {
-                return { success: false, error: `No project found with name "${name}"` }
+                return { success: false, error: tTools('updateProject.notFound', { name }) }
               }
 
               if (matchingProjects.length > 1) {
                 return {
                   success: false,
-                  error: `Multiple projects found matching "${name}": ${matchingProjects.map(p => `${p.name} (${p.key})`).join(', ')}. Please be more specific.`,
+                  error: tTools('updateProject.multiple', { name, matches: matchingProjects.map(p => `${p.name} (${p.key})`).join(', ') }),
                 }
               }
 
@@ -1151,7 +1162,7 @@ ${tSystemPrompt('useToolsRule')}`
             }
 
             if (!resolvedProjectId) {
-              return { success: false, error: 'Either projectId or name must be provided' }
+              return { success: false, error: tTools('updateProject.idOrNameRequired') }
             }
 
             const project = await updateProject(teamId, resolvedProjectId, {
@@ -1160,14 +1171,14 @@ ${tSystemPrompt('useToolsRule')}`
               ...(status && { status }),
               ...(color && { color }),
               ...(icon && { icon }),
-              ...(leadId !== undefined && { 
+              ...(leadId !== undefined && {
                 leadId,
                 lead: leadId ? teamContext.members.find(m => m.userId === leadId)?.userName : undefined,
               }),
             })
 
             if (!project) {
-              return { success: false, error: 'Project not found' }
+              return { success: false, error: tTools('updateProject.projectNotFound') }
             }
 
             return {
@@ -1178,10 +1189,10 @@ ${tSystemPrompt('useToolsRule')}`
                 key: project.key,
                 status: project.status,
               },
-              message: `Project "${project.name}" has been updated successfully.`,
+              message: tTools('updateProject.success', { name: project.name }),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to update project' }
+            return { success: false, error: error.message || tTools('updateProject.failed') }
           }
         },
       }),
@@ -1202,7 +1213,7 @@ ${tSystemPrompt('useToolsRule')}`
             })
 
             if (existingInvitation?.status === 'pending') {
-              return { success: false, error: 'Invitation already sent to this email' }
+              return { success: false, error: tTools('inviteTeamMember.alreadyInvited', { email }) }
             }
 
             // Create invitation
@@ -1241,10 +1252,10 @@ ${tSystemPrompt('useToolsRule')}`
 
             return {
               success: true,
-              message: `Invitation sent to ${email}`,
+              message: tTools('inviteTeamMember.success', { email }),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to invite team member' }
+            return { success: false, error: error.message || tTools('inviteTeamMember.failed') }
           }
         },
       }),
@@ -1260,7 +1271,7 @@ ${tSystemPrompt('useToolsRule')}`
         execute: async ({ invitations }) => {
           try {
             if (!invitations || invitations.length === 0) {
-              return { success: false, error: 'At least one invitation is required' }
+              return { success: false, error: tCommon('atLeastOneRequired', { item: tCommon('invitation') }) }
             }
 
             const sentInvitations = []
@@ -1273,7 +1284,7 @@ ${tSystemPrompt('useToolsRule')}`
                 // Validate email format
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
                 if (!emailRegex.test(invitationData.email)) {
-                  errors.push({ email: invitationData.email, error: 'Invalid email format' })
+                  errors.push({ email: invitationData.email, error: tTools('inviteTeamMembers.invalidEmail') })
                   continue
                 }
 
@@ -1285,7 +1296,7 @@ ${tSystemPrompt('useToolsRule')}`
                 })
 
                 if (existingInvitation?.status === 'pending') {
-                  errors.push({ email: invitationData.email, error: 'Invitation already sent to this email' })
+                  errors.push({ email: invitationData.email, error: tTools('inviteTeamMembers.alreadyInvited') })
                   continue
                 }
 
@@ -1326,16 +1337,16 @@ ${tSystemPrompt('useToolsRule')}`
                   role: invitationData.role || 'developer',
                 })
               } catch (error: any) {
-                errors.push({ email: invitationData.email, error: error.message || 'Failed to send invitation' })
+                errors.push({ email: invitationData.email, error: error.message || tTools('inviteTeamMembers.sendFailed') })
               }
             }
 
             const successMessage = sentInvitations.length > 0
-              ? `Successfully sent ${sentInvitations.length} invitation${sentInvitations.length !== 1 ? 's' : ''} to: ${sentInvitations.map(i => i.email).join(', ')}`
+              ? tTools('inviteTeamMembers.success', { count: sentInvitations.length, plural: sentInvitations.length !== 1 ? 's' : '', emails: sentInvitations.map(i => i.email).join(', ') })
               : ''
 
             const errorMessage = errors.length > 0
-              ? `Failed to send ${errors.length} invitation${errors.length !== 1 ? 's' : ''}: ${errors.map(e => `${e.email} (${e.error})`).join(', ')}`
+              ? tTools('inviteTeamMembers.failure', { count: errors.length, plural: errors.length !== 1 ? 's' : '', errors: errors.map(e => `${e.email} (${e.error})`).join(', ') })
               : ''
 
             return {
@@ -1346,7 +1357,7 @@ ${tSystemPrompt('useToolsRule')}`
               failedCount: errors.length,
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to send invitations' }
+            return { success: false, error: error.message || tTools('inviteTeamMembers.failed') }
           }
         },
       }),
@@ -1366,7 +1377,7 @@ ${tSystemPrompt('useToolsRule')}`
               })),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to list team members' }
+            return { success: false, error: error.message || tTools('listTeamMembers.failed') }
           }
         },
       }),
@@ -1391,7 +1402,7 @@ ${tSystemPrompt('useToolsRule')}`
               },
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to get team stats' }
+            return { success: false, error: error.message || tTools('getTeamStats.failed') }
           }
         },
       }),
@@ -1414,13 +1425,13 @@ ${tSystemPrompt('useToolsRule')}`
               )
 
               if (matchingProjects.length === 0) {
-                return { success: false, error: `No project found with name "${name}"` }
+                return { success: false, error: tTools('deleteProject.notFound', { name }) }
               }
 
               if (matchingProjects.length > 1) {
                 return {
                   success: false,
-                  error: `Multiple projects found matching "${name}": ${matchingProjects.map(p => `${p.name} (${p.key})`).join(', ')}. Please be more specific with the project name or use the project ID.`,
+                  error: tTools('deleteProject.multiple', { name, matches: matchingProjects.map(p => `${p.name} (${p.key})`).join(', ') }),
                 }
               }
 
@@ -1428,7 +1439,7 @@ ${tSystemPrompt('useToolsRule')}`
             }
 
             if (!resolvedProjectId) {
-              return { success: false, error: 'Either projectId or name must be provided' }
+              return { success: false, error: tTools('deleteProject.idOrNameRequired') }
             }
 
             // Get project details before deleting
@@ -1437,7 +1448,7 @@ ${tSystemPrompt('useToolsRule')}`
             })
 
             if (!project) {
-              return { success: false, error: 'Project not found' }
+              return { success: false, error: tTools('deleteProject.projectNotFound') }
             }
 
             // Delete the project
@@ -1445,10 +1456,10 @@ ${tSystemPrompt('useToolsRule')}`
 
             return {
               success: true,
-              message: `Project "${project.name}" has been deleted successfully.`,
+              message: tTools('deleteProject.success', { name: project.name }),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to delete project' }
+            return { success: false, error: error.message || tTools('deleteProject.failed') }
           }
         },
       }),
@@ -1473,13 +1484,13 @@ ${tSystemPrompt('useToolsRule')}`
               )
 
               if (matchingProjects.length === 0) {
-                return { success: false, error: `No project found with name "${projectName}"` }
+                return { success: false, error: tTools('addProjectMember.projectNotFound', { name: projectName }) }
               }
 
               if (matchingProjects.length > 1) {
                 return {
                   success: false,
-                  error: `Multiple projects found matching "${projectName}": ${matchingProjects.map(p => `${p.name} (${p.key})`).join(', ')}. Please be more specific.`,
+                  error: tTools('addProjectMember.multipleProjects', { name: projectName, matches: matchingProjects.map(p => `${p.name} (${p.key})`).join(', ') }),
                 }
               }
 
@@ -1487,7 +1498,7 @@ ${tSystemPrompt('useToolsRule')}`
             }
 
             if (!resolvedProjectId) {
-              return { success: false, error: 'Either projectId or projectName must be provided' }
+              return { success: false, error: tTools('addProjectMember.idOrNameRequired') }
             }
 
             // Verify project exists
@@ -1496,7 +1507,7 @@ ${tSystemPrompt('useToolsRule')}`
             })
 
             if (!project) {
-              return { success: false, error: 'Project not found' }
+              return { success: false, error: tTools('addProjectMember.projectNotFound2') }
             }
 
             // Resolve team member
@@ -1513,7 +1524,7 @@ ${tSystemPrompt('useToolsRule')}`
               const availableMembers = teamContext.members.map(m => `${m.userName} (${m.userEmail})`).join(', ')
               return {
                 success: false,
-                error: `Team member not found. Available team members: ${availableMembers || 'No team members found'}`,
+                error: tTools('addProjectMember.memberNotFound', { members: availableMembers || tCommon('noMembers') }),
               }
             }
 
@@ -1528,7 +1539,7 @@ ${tSystemPrompt('useToolsRule')}`
             })
 
             if (existingMember) {
-              return { success: false, error: `${teamMember.userName} is already a member of this project` }
+              return { success: false, error: tTools('addProjectMember.alreadyMember', { name: teamMember.userName }) }
             }
 
             // Add member to project
@@ -1543,10 +1554,10 @@ ${tSystemPrompt('useToolsRule')}`
 
             return {
               success: true,
-              message: `Added ${teamMember.userName} to project "${project.name}".`,
+              message: tTools('addProjectMember.success', { userName: teamMember.userName, projectName: project.name }),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to add project member' }
+            return { success: false, error: error.message || tTools('addProjectMember.failed') }
           }
         },
       }),
@@ -1571,13 +1582,13 @@ ${tSystemPrompt('useToolsRule')}`
               )
 
               if (matchingProjects.length === 0) {
-                return { success: false, error: `No project found with name "${projectName}"` }
+                return { success: false, error: tTools('removeProjectMember.projectNotFound', { name: projectName }) }
               }
 
               if (matchingProjects.length > 1) {
                 return {
                   success: false,
-                  error: `Multiple projects found matching "${projectName}": ${matchingProjects.map(p => `${p.name} (${p.key})`).join(', ')}. Please be more specific.`,
+                  error: tTools('removeProjectMember.multipleProjects', { name: projectName, matches: matchingProjects.map(p => `${p.name} (${p.key})`).join(', ') }),
                 }
               }
 
@@ -1585,7 +1596,7 @@ ${tSystemPrompt('useToolsRule')}`
             }
 
             if (!resolvedProjectId) {
-              return { success: false, error: 'Either projectId or projectName must be provided' }
+              return { success: false, error: tTools('removeProjectMember.idOrNameRequired') }
             }
 
             // Verify project exists
@@ -1594,7 +1605,7 @@ ${tSystemPrompt('useToolsRule')}`
             })
 
             if (!project) {
-              return { success: false, error: 'Project not found' }
+              return { success: false, error: tTools('removeProjectMember.projectNotFound2') }
             }
 
             // Resolve project member
@@ -1624,7 +1635,7 @@ ${tSystemPrompt('useToolsRule')}`
             }
 
             if (!projectMember) {
-              return { success: false, error: 'Project member not found' }
+              return { success: false, error: tTools('removeProjectMember.memberNotFound') }
             }
 
             // Remove member from project
@@ -1634,10 +1645,10 @@ ${tSystemPrompt('useToolsRule')}`
 
             return {
               success: true,
-              message: `Removed ${projectMember.userName} from project "${project.name}".`,
+              message: tTools('removeProjectMember.success', { userName: projectMember.userName, projectName: project.name }),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to remove project member' }
+            return { success: false, error: error.message || tTools('removeProjectMember.failed') }
           }
         },
       }),
@@ -1659,13 +1670,13 @@ ${tSystemPrompt('useToolsRule')}`
               )
 
               if (matchingProjects.length === 0) {
-                return { success: false, error: `No project found with name "${projectName}"` }
+                return { success: false, error: tTools('listProjectMembers.projectNotFound', { name: projectName }) }
               }
 
               if (matchingProjects.length > 1) {
                 return {
                   success: false,
-                  error: `Multiple projects found matching "${projectName}": ${matchingProjects.map(p => `${p.name} (${p.key})`).join(', ')}. Please be more specific.`,
+                  error: tTools('listProjectMembers.multipleProjects', { name: projectName, matches: matchingProjects.map(p => `${p.name} (${p.key})`).join(', ') }),
                 }
               }
 
@@ -1673,7 +1684,7 @@ ${tSystemPrompt('useToolsRule')}`
             }
 
             if (!resolvedProjectId) {
-              return { success: false, error: 'Either projectId or projectName must be provided' }
+              return { success: false, error: tTools('listProjectMembers.idOrNameRequired') }
             }
 
             // Verify project exists
@@ -1682,7 +1693,7 @@ ${tSystemPrompt('useToolsRule')}`
             })
 
             if (!project) {
-              return { success: false, error: 'Project not found' }
+              return { success: false, error: tTools('listProjectMembers.projectNotFound2') }
             }
 
             // Get project members
@@ -1701,11 +1712,11 @@ ${tSystemPrompt('useToolsRule')}`
               projectName: project.name,
               count: members.length,
               message: members.length === 0
-                ? `Project "${project.name}" has no members yet.`
-                : `Project "${project.name}" has ${members.length} member${members.length !== 1 ? 's' : ''}: ${members.map(m => m.userName).join(', ')}`,
+                ? tTools('listProjectMembers.noMembers', { name: project.name })
+                : tTools('listProjectMembers.success', { name: project.name, count: members.length, plural: members.length !== 1 ? 's' : '', members: members.map(m => m.userName).join(', ') }),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to list project members' }
+            return { success: false, error: error.message || tTools('listProjectMembers.failed') }
           }
         },
       }),
@@ -1729,18 +1740,18 @@ ${tSystemPrompt('useToolsRule')}`
               })
 
               if (!invitation) {
-                return { success: false, error: `No pending invitation found for email "${email}"` }
+                return { success: false, error: tTools('revokeInvitation.notFound', { email }) }
               }
 
               if (invitation.status !== 'pending') {
-                return { success: false, error: `Invitation for "${email}" is not pending (status: ${invitation.status})` }
+                return { success: false, error: tTools('revokeInvitation.notPending', { email, status: invitation.status }) }
               }
 
               resolvedInvitationId = invitation.id
             }
 
             if (!resolvedInvitationId) {
-              return { success: false, error: 'Either invitationId or email must be provided' }
+              return { success: false, error: tTools('revokeInvitation.idOrEmailRequired') }
             }
 
             // Get invitation details before deleting
@@ -1749,7 +1760,7 @@ ${tSystemPrompt('useToolsRule')}`
             })
 
             if (!invitation) {
-              return { success: false, error: 'Invitation not found' }
+              return { success: false, error: tTools('revokeInvitation.invitationNotFound') }
             }
 
             // Delete the invitation
@@ -1759,10 +1770,10 @@ ${tSystemPrompt('useToolsRule')}`
 
             return {
               success: true,
-              message: `Invitation for "${invitation.email}" has been revoked successfully.`,
+              message: tTools('revokeInvitation.success', { email: invitation.email }),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to revoke invitation' }
+            return { success: false, error: error.message || tTools('revokeInvitation.failed') }
           }
         },
       }),
@@ -1791,20 +1802,20 @@ ${tSystemPrompt('useToolsRule')}`
               } else if (email) {
                 matchingMember = members.find(m => m.userEmail?.toLowerCase() === email.toLowerCase())
               } else if (name) {
-                matchingMember = members.find(m => 
+                matchingMember = members.find(m =>
                   m.userName?.toLowerCase().includes(name.toLowerCase())
                 )
               }
 
               if (!matchingMember) {
-                return { success: false, error: 'Team member not found' }
+                return { success: false, error: tTools('removeTeamMember.memberNotFound') }
               }
 
               resolvedMemberId = matchingMember.id
             }
 
             if (!resolvedMemberId) {
-              return { success: false, error: 'Either memberId, userId, email, or name must be provided' }
+              return { success: false, error: tTools('removeTeamMember.idOrIdentifierRequired') }
             }
 
             // Check if current user is an admin
@@ -1816,7 +1827,7 @@ ${tSystemPrompt('useToolsRule')}`
             })
 
             if (!currentMember || currentMember.role !== 'admin') {
-              return { success: false, error: 'Only admins can remove team members' }
+              return { success: false, error: tTools('removeTeamMember.adminOnly') }
             }
 
             // Get member details before deleting
@@ -1825,12 +1836,12 @@ ${tSystemPrompt('useToolsRule')}`
             })
 
             if (!member || member.teamId !== teamId) {
-              return { success: false, error: 'Team member not found' }
+              return { success: false, error: tTools('removeTeamMember.notFound') }
             }
 
             // Check if trying to remove yourself
             if (member.userId === userId) {
-              return { success: false, error: 'Cannot remove yourself from the team' }
+              return { success: false, error: tTools('removeTeamMember.cannotRemoveSelf') }
             }
 
             // Delete the member
@@ -1840,10 +1851,10 @@ ${tSystemPrompt('useToolsRule')}`
 
             return {
               success: true,
-              message: `Team member "${member.userName || member.userEmail}" has been removed successfully.`,
+              message: tTools('removeTeamMember.success', { name: member.userName || member.userEmail }),
             }
           } catch (error: any) {
-            return { success: false, error: error.message || 'Failed to remove team member' }
+            return { success: false, error: error.message || tTools('removeTeamMember.failed') }
           }
         },
       }),

@@ -40,6 +40,7 @@ interface AIChatbotProps {
 
 export function AIChatbot({ teamId }: AIChatbotProps) {
   const t = useTranslations('components.aiChatbot')
+  const tChainOfThought = useTranslations('components.chainOfThought')
 
   const promptSuggestions = [
     t('suggestions.createIssue'),
@@ -487,15 +488,13 @@ export function AIChatbot({ teamId }: AIChatbotProps) {
                       
                       {isAssistant && chainOfThought && (
                         <ChainOfThought defaultOpen={false}>
-                          <ChainOfThoughtHeader>
-                            Chain of Thought
-                          </ChainOfThoughtHeader>
+                          <ChainOfThoughtHeader />
                           <ChainOfThoughtContent>
                             {Array.isArray(chainOfThought) ? (
                               chainOfThought.map((step: any, stepIndex: number) => (
                                 <ChainOfThoughtStep
                                   key={stepIndex}
-                                  label={step.label || `Step ${stepIndex + 1}`}
+                                  label={step.label || tChainOfThought('step', { number: stepIndex + 1 })}
                                   description={step.description}
                                   status={step.status || 'complete'}
                                 >

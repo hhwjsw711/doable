@@ -670,6 +670,15 @@
     "chatMessage": {
       "you": "您",
       "ai": "Doable AI"
+    },
+    "reasoning": {
+      "thinking": "思考中...",
+      "thoughtForSeconds": "思考了 {duration} 秒",
+      "thoughtForFewSeconds": "思考了几秒钟"
+    },
+    "chainOfThought": {
+      "title": "思维链",
+      "step": "步骤 {number}"
     }
   },
   "api": {
@@ -682,7 +691,24 @@
         "failedToProcess": "处理消息失败：{error}",
         "failedToSave": "处理聊天请求失败"
       },
+      "common": {
+        "unknown": "未知",
+        "failed": "失败",
+        "eitherIdOrTitle": "必须提供 issueId 或 title",
+        "eitherIdOrName": "必须提供 projectId 或 name",
+        "notFound": "未找到",
+        "alreadyExists": "已存在",
+        "atLeastOne": "至少需要一项",
+        "atLeastOneRequired": "至少需要一个{item}",
+        "issue": "问题",
+        "issueUpdate": "问题更新",
+        "invitation": "邀请",
+        "invalidFormat": "格式无效",
+        "noProjectsAvailable": "没有可用项目",
+        "noMembers": "没有成员"
+      },
       "systemPrompt": {
+        "languageInstruction": "重要提示：你必须使用中文进行回复和思考。你的所有回复、推理和内部思考都应该使用中文。在使用工具和生成响应时，所有文本内容都应使用中文。",
         "intro": "您是一个项目管理系统的智能助手。\n您的职责是通过自然对话帮助用户管理任务、项目和团队成员。",
         "teamContext": "当前团队信息",
         "availableProjects": "可用项目",
@@ -725,7 +751,8 @@
           "projectsAvailable": "可用项目:{projects}。请指定有效的项目名称、标识或ID。",
           "noProjects": "请先创建项目或指定现有项目。",
           "createError": "创建问题失败",
-          "success": "问题 #{number} \"{title}\" 已成功创建。"
+          "success": "问题 #{number} \"{title}\" 已成功创建。",
+          "failed": "创建问题失败"
         },
         "createIssues": {
           "description": "一次创建多个问题。接受问题对象数组。每个问题需要:标题、状态（工作流状态）、优先级和项目。重要提示:如果任何问题缺少标题、状态、优先级或项目，请勿调用此工具 - 而是先向用户询问缺失的信息。当用户要求创建多个问题时使用此工具（例如「创建10个问题」、「为任务X、Y、Z创建问题」）。",
@@ -736,7 +763,8 @@
           "workflowStateError": "无法解析工作流状态 \"{state}\"。可用状态:{availableStates}",
           "success": "成功创建了 {count} 个问题 {plural}:{issues}",
           "failure": "创建 {count} 个问题 {plural} 失败:{errors}",
-          "mixed": "{successMsg}。{errorMsg}"
+          "mixed": "{successMsg}。{errorMsg}",
+          "failed": "创建问题失败"
         },
         "updateIssue": {
           "description": "通过标题或ID更新现有问题。使用工作流状态名称（如「待办」、「待办事项」、「进行中」、「已完成」）、负责人名称和标签名称。",
@@ -744,16 +772,19 @@
           "multiple": "找到多个匹配 \"{title}\" 的问题:{matches}。请更具体一些。",
           "idOrTitleRequired": "必须提供 issueId 或 title",
           "issueNotFound": "问题不存在",
-          "success": "问题 #{number} \"{title}\" 已成功更新。"
+          "success": "问题 #{number} \"{title}\" 已成功更新。",
+          "failed": "更新问题失败"
         },
         "listIssues": {
           "description": "获取团队的所有问题列表。默认返回所有问题，除非请求特定限制。使用此工具获取所有任务的完整概览。",
           "allIssues": "找到所有 {count} 个问题",
-          "limitedIssues": "显示 {shown} 个，共 {total} 个问题"
+          "limitedIssues": "显示 {shown} 个，共 {total} 个问题",
+          "failed": "列出问题失败"
         },
         "getIssue": {
           "description": "通过ID获取特定问题的详细信息",
-          "notFound": "问题不存在"
+          "notFound": "问题不存在",
+          "failed": "获取问题失败"
         },
         "deleteIssue": {
           "description": "通过标题或ID删除问题。如果提供标题，将搜索匹配的问题。",
@@ -761,7 +792,8 @@
           "multiple": "找到多个匹配 \"{title}\" 的问题:{matches}。请更具体一些。",
           "idOrTitleRequired": "必须提供 title 或 issueId",
           "issueNotFound": "问题不存在",
-          "success": "问题 #{number} \"{title}\" 已成功删除。"
+          "success": "问题 #{number} \"{title}\" 已成功删除。",
+          "failed": "删除问题失败"
         },
         "updateIssues": {
           "description": "一次更新多个问题。接受更新数组。当用户要求更新多个问题时使用此工具（例如「将问题 #1、#2、#3 的状态更改为已完成」、「将项目X中的所有问题分配给John」）。",
@@ -769,8 +801,10 @@
           "notFound": "问题不存在",
           "multiple": "找到多个匹配 \"{title}\" 的问题",
           "idOrTitleRequired": "必须提供 issueId 或 title",
+          "updateFailed": "更新问题失败",
           "success": "成功更新了 {count} 个问题 {plural}:{issues}",
-          "failure": "更新 {count} 个问题 {plural} 失败:{errors}"
+          "failure": "更新 {count} 个问题 {plural} 失败:{errors}",
+          "failed": "更新问题失败"
         },
         "deleteIssues": {
           "description": "一次删除多个问题。接受问题ID或标题数组。当用户要求删除多个问题时使用此工具（例如「删除问题 #1、#2、#3」、「删除项目X中的所有问题」）。",
@@ -780,7 +814,8 @@
           "idOrTitleRequired": "必须提供 issueId 或 title",
           "issueNotFound": "问题不存在",
           "success": "成功删除了 {count} 个问题 {plural}:{issues}",
-          "failure": "删除 {count} 个问题 {plural} 失败:{errors}"
+          "failure": "删除 {count} 个问题 {plural} 失败:{errors}",
+          "failed": "删除问题失败"
         },
         "createProject": {
           "description": "创建单个新项目。要一次创建多个项目（2个以上），请使用 createProjects。名称和标识是必需的。如果缺少任何必需信息（名称或标识），请向用户询问。颜色参数是可选的，如果未提供则默认为 #6366f1。状态参数是可选的，如果未提供则默认为 active。",
@@ -788,7 +823,8 @@
           "missingKey": "要创建项目，我需要一个3字母的项目标识（key）。请提供此项目的简短3字母代码（例如 WEB、API、MOB）。",
           "missingBoth": "要创建项目，我需要:(1) 项目名称，和 (2) 3字母的项目标识（key）。请提供 {fieldCount} 以继续。",
           "keyLengthError": "项目标识必须正好是3个字母。您提供的 \"{key}\" 有 {length} 个字符 {plural}。请提供3字母的标识（例如 WEB、API、MOB）。",
-          "success": "项目 \"{name}\" 已成功创建。"
+          "success": "项目 \"{name}\" 已成功创建。",
+          "failed": "创建项目失败"
         },
         "createProjects": {
           "description": "一次创建多个项目。接受项目对象数组。每个项目需要:名称和标识（3字母标识符）。当用户要求创建多个项目时使用此工具（例如「创建5个项目」、「为前端、后端和API创建项目」）。",
@@ -797,10 +833,12 @@
           "keyLengthError": "标识 \"{key}\" 必须正好是3个字母",
           "keyExistsError": "项目标识 \"{key}\" 已存在",
           "success": "成功创建了 {count} 个项目 {plural}:{projects}",
-          "failure": "创建 {count} 个项目 {plural} 失败:{errors}"
+          "failure": "创建 {count} 个项目 {plural} 失败:{errors}",
+          "failed": "创建项目失败"
         },
         "listProjects": {
-          "description": "获取团队的所有项目"
+          "description": "获取团队的所有项目",
+          "failed": "列出项目失败"
         },
         "updateProject": {
           "description": "通过名称或ID更新现有项目。您可以更新属性，如状态、名称、描述、颜色、图标或负责人。",
@@ -808,7 +846,8 @@
           "multiple": "找到多个匹配 \"{name}\" 的项目:{matches}。请更具体一些。",
           "idOrNameRequired": "必须提供 projectId 或 name",
           "projectNotFound": "项目不存在",
-          "success": "项目 \"{name}\" 已成功更新。"
+          "success": "项目 \"{name}\" 已成功更新。",
+          "failed": "更新项目失败"
         },
         "deleteProject": {
           "description": "通过名称或ID删除项目。这将永久删除项目及所有关联的问题。",
@@ -816,51 +855,64 @@
           "multiple": "找到多个匹配 \"{name}\" 的项目:{matches}。请更具体地说明项目名称或使用项目ID。",
           "idOrNameRequired": "必须提供 projectId 或 name",
           "projectNotFound": "项目不存在",
-          "success": "项目 \"{name}\" 已成功删除。"
+          "success": "项目 \"{name}\" 已成功删除。",
+          "failed": "删除项目失败"
         },
         "inviteTeamMember": {
           "description": "通过电子邮件邀请单个新团队成员。要一次邀请多个团队成员（2个以上），请使用 inviteTeamMembers。",
           "alreadyInvited": "已向此邮箱发送邀请",
-          "success": "已向 {email} 发送邀请"
+          "success": "已向 {email} 发送邀请",
+          "failed": "邀请团队成员失败"
         },
         "inviteTeamMembers": {
           "description": "一次邀请多个团队成员。接受带有可选角色的电子邮件地址数组。当用户要求邀请多人时使用此工具（例如「邀请10个团队成员」、「邀请 john@example.com、jane@example.com 和 bob@example.com」）。",
           "atLeastOne": "至少需要一个邀请",
           "invalidEmail": "邮箱格式无效",
           "alreadyInvited": "已向此邮箱发送邀请",
+          "sendFailed": "发送邀请失败",
           "success": "成功向以下地址发送了 {count} 个邀请 {plural}:{emails}",
-          "failure": "发送 {count} 个邀请 {plural} 失败:{errors}"
+          "failure": "发送 {count} 个邀请 {plural} 失败:{errors}",
+          "failed": "发送邀请失败"
         },
         "listTeamMembers": {
-          "description": "获取所有团队成员"
+          "description": "获取所有团队成员",
+          "failed": "列出团队成员失败"
         },
         "getTeamStats": {
-          "description": "获取团队统计信息和摘要"
+          "description": "获取团队统计信息和摘要",
+          "failed": "获取团队统计失败"
         },
         "addProjectMember": {
           "description": "将团队成员添加到项目。成员必须已经是团队成员。使用项目名称或ID，以及成员名称或邮箱。",
           "projectNotFound": "未找到名称为 \"{name}\" 的项目",
           "multipleProjects": "找到多个匹配 \"{name}\" 的项目:{matches}。请更具体一些。",
           "idOrNameRequired": "必须提供 projectId 或 projectName",
+          "projectNotFound2": "项目不存在",
           "memberNotFound": "未找到团队成员。可用团队成员:{members}",
+          "noMembersFound": "未找到团队成员",
           "alreadyMember": "{member} 已经是此项目的成员",
-          "success": "已将 {member} 添加到项目 \"{project}\"。"
+          "success": "已将 {member} 添加到项目 \"{project}\"。",
+          "failed": "添加项目成员失败"
         },
         "removeProjectMember": {
           "description": "从项目中移除团队成员。使用项目名称或ID，以及成员名称或邮箱。",
           "projectNotFound": "未找到名称为 \"{name}\" 的项目",
           "multipleProjects": "找到多个匹配 \"{name}\" 的项目:{matches}。请更具体一些。",
           "idOrNameRequired": "必须提供 projectId 或 projectName",
+          "projectNotFound2": "项目不存在",
           "memberNotFound": "未找到项目成员",
-          "success": "已从项目 \"{project}\" 中移除 {member}。"
+          "success": "已从项目 \"{project}\" 中移除 {member}。",
+          "failed": "移除项目成员失败"
         },
         "listProjectMembers": {
           "description": "列出特定项目的所有成员。使用项目名称或ID。",
           "projectNotFound": "未找到名称为 \"{name}\" 的项目",
           "multipleProjects": "找到多个匹配 \"{name}\" 的项目:{matches}。请更具体一些。",
           "idOrNameRequired": "必须提供 projectId 或 projectName",
+          "projectNotFound2": "项目不存在",
           "noMembers": "项目 \"{project}\" 还没有成员。",
-          "success": "项目 \"{project}\" 有 {count} 位成员 {plural}:{members}"
+          "success": "项目 \"{project}\" 有 {count} 位成员 {plural}:{members}",
+          "failed": "列出项目成员失败"
         },
         "revokeInvitation": {
           "description": "通过邮箱或邀请ID撤销或取消待处理的团队邀请",
@@ -868,16 +920,18 @@
           "notPending": "邮箱 \"{email}\" 的邀请不是待处理状态（状态:{status}）",
           "idOrEmailRequired": "必须提供 invitationId 或 email",
           "invitationNotFound": "邀请不存在",
-          "success": "邮箱 \"{email}\" 的邀请已成功撤销。"
+          "success": "邮箱 \"{email}\" 的邀请已成功撤销。",
+          "failed": "撤销邀请失败"
         },
         "removeTeamMember": {
           "description": "通过用户ID、邮箱或名称从工作空间中移除团队成员。只有管理员可以移除团队成员。",
-          "notFound": "未找到团队成员",
-          "idRequired": "必须提供 memberId、userId、email 或 name",
-          "notAdmin": "只有管理员可以移除团队成员",
           "memberNotFound": "未找到团队成员",
+          "idOrIdentifierRequired": "必须提供 memberId、userId、email 或 name",
+          "adminOnly": "只有管理员可以移除团队成员",
+          "notFound": "未找到团队成员",
           "cannotRemoveSelf": "无法将自己从团队中移除",
-          "success": "团队成员 \"{member}\" 已成功移除。"
+          "success": "团队成员 \"{member}\" 已成功移除。",
+          "failed": "移除团队成员失败"
         }
       }
     }

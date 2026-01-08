@@ -12,6 +12,7 @@ import type { ComponentProps } from "react";
 import { createContext, memo, useContext, useEffect, useState } from "react";
 import { Response } from "./response";
 import { Shimmer } from "./shimmer";
+import { useTranslations } from "next-intl";
 
 type ReasoningContextValue = {
   isStreaming: boolean;
@@ -113,19 +114,24 @@ export const Reasoning = memo(
 
 export type ReasoningTriggerProps = ComponentProps<typeof CollapsibleTrigger>;
 
-const getThinkingMessage = (isStreaming: boolean, duration?: number) => {
+const getThinkingMessage = (
+  isStreaming: boolean,
+  duration: number | undefined,
+  t: (key: string, values?: Record<string, number>) => string
+) => {
   if (isStreaming || duration === 0) {
-    return <Shimmer duration={1}>Thinking...</Shimmer>;
+    return <Shimmer duration={1}>{t("thinking")}</Shimmer>;
   }
   if (duration === undefined) {
-    return <p>Thought for a few seconds</p>;
+    return <p>{t("thoughtForFewSeconds")}</p>;
   }
-  return <p>Thought for {duration} seconds</p>;
+  return <p>{t("thoughtForSeconds", { duration })}</p>;
 };
 
 export const ReasoningTrigger = memo(
   ({ className, children, ...props }: ReasoningTriggerProps) => {
     const { isStreaming, isOpen, duration } = useReasoning();
+    const t = useTranslations("components.reasoning");
 
     return (
       <CollapsibleTrigger
@@ -138,7 +144,7 @@ export const ReasoningTrigger = memo(
         {children ?? (
           <>
             <BrainIcon className="size-4" />
-            {getThinkingMessage(isStreaming, duration)}
+            {getThinkingMessage(isStreaming, duration, t)}
             <ChevronDownIcon
               className={cn(
                 "size-4 transition-transform",

@@ -670,6 +670,15 @@
     "chatMessage": {
       "you": "You",
       "ai": "Doable AI"
+    },
+    "reasoning": {
+      "thinking": "Thinking...",
+      "thoughtForSeconds": "Thought for {duration} seconds",
+      "thoughtForFewSeconds": "Thought for a few seconds"
+    },
+    "chainOfThought": {
+      "title": "Chain of Thought",
+      "step": "Step {number}"
     }
   },
   "api": {
@@ -682,7 +691,24 @@
         "failedToProcess": "Failed to process messages: {error}",
         "failedToSave": "Failed to process chat request"
       },
+      "common": {
+        "unknown": "Unknown",
+        "failed": "Failed",
+        "eitherIdOrTitle": "Either issueId or title must be provided",
+        "eitherIdOrName": "Either projectId or name must be provided",
+        "notFound": "Not found",
+        "alreadyExists": "Already exists",
+        "atLeastOne": "At least one item is required",
+        "atLeastOneRequired": "At least one {item} is required",
+        "issue": "issue",
+        "issueUpdate": "issue update",
+        "invitation": "invitation",
+        "invalidFormat": "Invalid format",
+        "noProjectsAvailable": "No projects available",
+        "noMembers": "No members"
+      },
       "systemPrompt": {
+        "languageInstruction": "IMPORTANT: You MUST respond and think in English. All your responses, reasoning, and internal thoughts should be in English. When using tools and generating responses, use English for all text content.",
         "intro": "You are a helpful AI assistant for a project management system.\nYour role is to help users manage their tasks, projects, and team members through natural conversation.",
         "teamContext": "Current Team Context",
         "availableProjects": "Available Projects",
@@ -725,7 +751,8 @@
           "projectsAvailable": "Available projects: {projects}. Please specify a valid project name, key, or ID.",
           "noProjects": "Please create a project first or specify an existing project.",
           "createError": "Failed to create issue",
-          "success": "Issue #{number} \"{title}\" has been created successfully."
+          "success": "Issue #{number} \"{title}\" has been created successfully.",
+          "failed": "Failed to create issue"
         },
         "createIssues": {
           "description": "Create multiple issues at once. Accepts an array of issue objects. Each issue needs: title, status (workflow state), priority, and project. IMPORTANT: Do NOT call this tool if any issue is missing title, status, priority, or project - instead, ask the user for the missing information first. Use this when the user asks to create multiple issues (e.g., \"create 10 issues\", \"create issues for tasks X, Y, Z\").",
@@ -736,7 +763,8 @@
           "workflowStateError": "Could not resolve workflow state \"{state}\". Available states: {availableStates}",
           "success": "Successfully created {count} issue{plural}: {issues}",
           "failure": "Failed to create {count} issue{plural}: {errors}",
-          "mixed": "{successMsg}. {errorMsg}"
+          "mixed": "{successMsg}. {errorMsg}",
+          "failed": "Failed to create issues"
         },
         "updateIssue": {
           "description": "Update an existing issue by title or ID. Use workflow state names (like \"Todo\", \"Backlog\", \"In Progress\", \"Done\"), assignee names, and label names.",
@@ -744,16 +772,19 @@
           "multiple": "Multiple issues found matching \"{title}\": {matches}. Please be more specific.",
           "idOrTitleRequired": "Either issueId or title must be provided",
           "issueNotFound": "Issue not found",
-          "success": "Issue #{number} \"{title}\" has been updated successfully."
+          "success": "Issue #{number} \"{title}\" has been updated successfully.",
+          "failed": "Failed to update issue"
         },
         "listIssues": {
           "description": "Get a list of ALL issues for the team. Returns all issues by default unless a specific limit is requested. Use this to get a complete overview of all tasks.",
           "allIssues": "Found all {count} issues",
-          "limitedIssues": "Showing {shown} of {total} total issues"
+          "limitedIssues": "Showing {shown} of {total} total issues",
+          "failed": "Failed to list issues"
         },
         "getIssue": {
           "description": "Get details of a specific issue by ID",
-          "notFound": "Issue not found"
+          "notFound": "Issue not found",
+          "failed": "Failed to get issue"
         },
         "deleteIssue": {
           "description": "Delete an issue by its title or ID. If title is provided, it will search for matching issues.",
@@ -761,7 +792,8 @@
           "multiple": "Multiple issues found matching \"{title}\": {matches}. Please be more specific.",
           "idOrTitleRequired": "Either title or issueId must be provided",
           "issueNotFound": "Issue not found",
-          "success": "Issue #{number} \"{title}\" has been deleted successfully."
+          "success": "Issue #{number} \"{title}\" has been deleted successfully.",
+          "failed": "Failed to delete issue"
         },
         "updateIssues": {
           "description": "Update multiple issues at once. Accepts an array of updates. Use this when the user asks to update multiple issues (e.g., \"change status of issues #1, #2, #3 to Done\", \"assign all issues in project X to John\").",
@@ -769,8 +801,10 @@
           "notFound": "Issue not found",
           "multiple": "Multiple issues found matching \"{title}\"",
           "idOrTitleRequired": "Either issueId or title must be provided",
+          "updateFailed": "Failed to update issue",
           "success": "Successfully updated {count} issue{plural}: {issues}",
-          "failure": "Failed to update {count} issue{plural}: {errors}"
+          "failure": "Failed to update {count} issue{plural}: {errors}",
+          "failed": "Failed to update issues"
         },
         "deleteIssues": {
           "description": "Delete multiple issues at once. Accepts an array of issue IDs or titles. Use this when the user asks to delete multiple issues (e.g., \"delete issues #1, #2, #3\", \"delete all issues in project X\").",
@@ -780,7 +814,8 @@
           "idOrTitleRequired": "Either issueId or title must be provided",
           "issueNotFound": "Issue not found",
           "success": "Successfully deleted {count} issue{plural}: {issues}",
-          "failure": "Failed to delete {count} issue{plural}: {errors}"
+          "failure": "Failed to delete {count} issue{plural}: {errors}",
+          "failed": "Failed to delete issues"
         },
         "createProject": {
           "description": "Create a single new project. For creating multiple projects at once (2+), use createProjects instead. The name and key are REQUIRED. If any required information is missing (name or key), ask the user for it. The color parameter is optional and defaults to #6366f1 if not provided. The status parameter is optional and defaults to \"active\" if not provided.",
@@ -788,7 +823,8 @@
           "missingKey": "To create a project, I need a 3-letter project identifier (key). Please provide a short 3-letter code for this project (e.g., \"WEB\", \"API\", \"MOB\").",
           "missingBoth": "To create a project, I need both: (1) the project name, and (2) a 3-letter project identifier (key). Please provide {fieldCount} to proceed.",
           "keyLengthError": "The project key must be exactly 3 letters. You provided \"{key}\" which is {length} character{plural}. Please provide a 3-letter key (e.g., \"WEB\", \"API\", \"MOB\").",
-          "success": "Project \"{name}\" has been created successfully."
+          "success": "Project \"{name}\" has been created successfully.",
+          "failed": "Failed to create project"
         },
         "createProjects": {
           "description": "Create multiple projects at once. Accepts an array of project objects. Each project needs: name and key (3-letter identifier). Use this when the user asks to create multiple projects (e.g., \"create 5 projects\", \"create projects for frontend, backend, and API\").",
@@ -797,10 +833,12 @@
           "keyLengthError": "Key \"{key}\" must be exactly 3 letters",
           "keyExistsError": "Project key \"{key}\" already exists",
           "success": "Successfully created {count} project{plural}: {projects}",
-          "failure": "Failed to create {count} project{plural}: {errors}"
+          "failure": "Failed to create {count} project{plural}: {errors}",
+          "failed": "Failed to create projects"
         },
         "listProjects": {
-          "description": "Get all projects for the team"
+          "description": "Get all projects for the team",
+          "failed": "Failed to list projects"
         },
         "updateProject": {
           "description": "Update an existing project by name or ID. You can update properties like status, name, description, color, icon, or lead.",
@@ -808,7 +846,8 @@
           "multiple": "Multiple projects found matching \"{name}\": {matches}. Please be more specific.",
           "idOrNameRequired": "Either projectId or name must be provided",
           "projectNotFound": "Project not found",
-          "success": "Project \"{name}\" has been updated successfully."
+          "success": "Project \"{name}\" has been updated successfully.",
+          "failed": "Failed to update project"
         },
         "deleteProject": {
           "description": "Delete a project by name or ID. This will permanently remove the project and all associated issues.",
@@ -816,51 +855,64 @@
           "multiple": "Multiple projects found matching \"{name}\": {matches}. Please be more specific with the project name or use the project ID.",
           "idOrNameRequired": "Either projectId or name must be provided",
           "projectNotFound": "Project not found",
-          "success": "Project \"{name}\" has been deleted successfully."
+          "success": "Project \"{name}\" has been deleted successfully.",
+          "failed": "Failed to delete project"
         },
         "inviteTeamMember": {
           "description": "Invite a single new team member via email. For inviting multiple team members at once (2+), use inviteTeamMembers instead.",
           "alreadyInvited": "Invitation already sent to this email",
-          "success": "Invitation sent to {email}"
+          "success": "Invitation sent to {email}",
+          "failed": "Failed to invite team member"
         },
         "inviteTeamMembers": {
           "description": "Invite multiple team members at once. Accepts an array of email addresses with optional roles. Use this when the user asks to invite multiple people (e.g., \"invite 10 team members\", \"invite john@example.com, jane@example.com, and bob@example.com\").",
           "atLeastOne": "At least one invitation is required",
           "invalidEmail": "Invalid email format",
           "alreadyInvited": "Invitation already sent to this email",
+          "sendFailed": "Failed to send invitation",
           "success": "Successfully sent {count} invitation{plural} to: {emails}",
-          "failure": "Failed to send {count} invitation{plural}: {errors}"
+          "failure": "Failed to send {count} invitation{plural}: {errors}",
+          "failed": "Failed to send invitations"
         },
         "listTeamMembers": {
-          "description": "Get all team members"
+          "description": "Get all team members",
+          "failed": "Failed to list team members"
         },
         "getTeamStats": {
-          "description": "Get team statistics and summary"
+          "description": "Get team statistics and summary",
+          "failed": "Failed to get team stats"
         },
         "addProjectMember": {
           "description": "Add a team member to a project. The member must already be a team member. Use project name or ID, and member name or email.",
           "projectNotFound": "No project found with name \"{name}\"",
           "multipleProjects": "Multiple projects found matching \"{name}\": {matches}. Please be more specific.",
           "idOrNameRequired": "Either projectId or projectName must be provided",
+          "projectNotFound2": "Project not found",
           "memberNotFound": "Team member not found. Available team members: {members}",
+          "noMembersFound": "No team members found",
           "alreadyMember": "{member} is already a member of this project",
-          "success": "Added {member} to project \"{project}\"."
+          "success": "Added {member} to project \"{project}\".",
+          "failed": "Failed to add project member"
         },
         "removeProjectMember": {
           "description": "Remove a team member from a project. Use project name or ID, and member name or email.",
           "projectNotFound": "No project found with name \"{name}\"",
           "multipleProjects": "Multiple projects found matching \"{name}\": {matches}. Please be more specific.",
           "idOrNameRequired": "Either projectId or projectName must be provided",
+          "projectNotFound2": "Project not found",
           "memberNotFound": "Project member not found",
-          "success": "Removed {member} from project \"{project}\"."
+          "success": "Removed {member} from project \"{project}\".",
+          "failed": "Failed to remove project member"
         },
         "listProjectMembers": {
           "description": "List all members of a specific project. Use project name or ID.",
           "projectNotFound": "No project found with name \"{name}\"",
           "multipleProjects": "Multiple projects found matching \"{name}\": {matches}. Please be more specific.",
           "idOrNameRequired": "Either projectId or projectName must be provided",
+          "projectNotFound2": "Project not found",
           "noMembers": "Project \"{project}\" has no members yet.",
-          "success": "Project \"{project}\" has {count} member{plural}: {members}"
+          "success": "Project \"{project}\" has {count} member{plural}: {members}",
+          "failed": "Failed to list project members"
         },
         "revokeInvitation": {
           "description": "Revoke or cancel a pending team invitation by email or invitation ID",
@@ -868,16 +920,18 @@
           "notPending": "Invitation for \"{email}\" is not pending (status: {status})",
           "idOrEmailRequired": "Either invitationId or email must be provided",
           "invitationNotFound": "Invitation not found",
-          "success": "Invitation for \"{email}\" has been revoked successfully."
+          "success": "Invitation for \"{email}\" has been revoked successfully.",
+          "failed": "Failed to revoke invitation"
         },
         "removeTeamMember": {
           "description": "Remove a team member from the workspace by user ID, email, or name. Only admins can remove team members.",
-          "notFound": "Team member not found",
-          "idRequired": "Either memberId, userId, email, or name must be provided",
-          "notAdmin": "Only admins can remove team members",
           "memberNotFound": "Team member not found",
+          "idOrIdentifierRequired": "Either memberId, userId, email, or name must be provided",
+          "adminOnly": "Only admins can remove team members",
+          "notFound": "Team member not found",
           "cannotRemoveSelf": "Cannot remove yourself from the team",
-          "success": "Team member \"{member}\" has been removed successfully."
+          "success": "Team member \"{member}\" has been removed successfully.",
+          "failed": "Failed to remove team member"
         }
       }
     }
