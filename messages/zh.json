@@ -429,7 +429,7 @@
     "invitation": {
       "subject": "您已被邀请加入 {teamName} - TheGroupFinder",
       "title": "您已被邀请加入 {teamName}",
-      "bodyIntro": "{inviterName} 邀请您以 <strong>{role}</strong> 身份加入 TheGroupFinder 的 <strong>{teamName}</strong> 团队。",
+      "bodyIntro": "{inviterName} 邀请您以 {role} 身份加入 TheGroupFinder 的 {teamName} 团队。",
       "bodyAction": "点击下方按钮接受邀请：",
       "acceptButton": "接受邀请",
       "urlFallback": "或复制以下链接到浏览器中打开：",

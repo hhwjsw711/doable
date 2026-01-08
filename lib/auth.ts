@@ -59,11 +59,27 @@ export const auth = betterAuth({
           console.log("📧 OTP verification email sent to", email, "with code", otp);
         }
 
-        // Send OTP email
+        // Try to get locale from Next.js cookies
+        let locale = 'zh' // Default to Chinese
+        try {
+          const { cookies } = await import('next/headers')
+          const cookieStore = await cookies()
+          const localeCookie = cookieStore.get('NEXT_LOCALE')
+          if (localeCookie && ['en', 'zh'].includes(localeCookie.value)) {
+            locale = localeCookie.value
+          }
+        } catch (error) {
+          console.log('[sendVerificationOTP] Could not read locale from cookies, using default:', locale)
+        }
+
+        console.log('[sendVerificationOTP] Sending OTP email with locale:', locale)
+
+        // Send OTP email with locale
         await sendOTPEmail({
           email,
           otp,
           type: type as 'sign-in' | 'email-verification',
+          locale,
         });
       },
     }),

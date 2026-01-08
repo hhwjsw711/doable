@@ -9,7 +9,10 @@ const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KE
  * Priority: NEXT_LOCALE cookie > Accept-Language header > 'en' (default)
  */
 export function getLocaleFromRequest(request?: Request): string {
-  if (!request) return 'en'
+  if (!request) {
+    console.log('[getLocaleFromRequest] No request provided, defaulting to en')
+    return 'en'
+  }
 
   try {
     // Try to get locale from NEXT_LOCALE cookie (set by next-intl)
@@ -22,6 +25,7 @@ export function getLocaleFromRequest(request?: Request): string {
       }, {} as Record<string, string>)
 
       if (cookies.NEXT_LOCALE && ['en', 'zh'].includes(cookies.NEXT_LOCALE)) {
+        console.log('[getLocaleFromRequest] Found locale from NEXT_LOCALE cookie:', cookies.NEXT_LOCALE)
         return cookies.NEXT_LOCALE
       }
     }
@@ -32,9 +36,12 @@ export function getLocaleFromRequest(request?: Request): string {
       // Parse Accept-Language: "zh-CN,zh;q=0.9,en;q=0.8"
       const preferredLang = acceptLanguage.split(',')[0]?.split('-')[0]
       if (preferredLang && ['en', 'zh'].includes(preferredLang)) {
+        console.log('[getLocaleFromRequest] Found locale from Accept-Language:', preferredLang)
         return preferredLang
       }
     }
+
+    console.log('[getLocaleFromRequest] No valid locale found, defaulting to en')
   } catch (error) {
     console.error('Error getting locale from request:', error)
   }
@@ -48,42 +55,51 @@ const emailTemplate = (
   role: string,
   inviteUrl: string,
   t: Awaited<ReturnType<typeof getTranslations<'emails.invitation'>>>
-) => `
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>${t('title', { teamName })}</title>
-          </head>
-          <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
-            <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-              <div style="background-color: white; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h1 style="margin: 0 0 20px 0; font-size: 24px; font-weight: 600; color: #1a1a1a;">
-                  ${t('title', { teamName })}
-                </h1>
-                <p style="margin: 0 0 16px 0; font-size: 16px; color: #4a4a4a; line-height: 1.5;">
-                  ${t.rich('bodyIntro', { teamName, inviterName, role })}
-                </p>
-                <p style="margin: 0 0 32px 0; font-size: 16px; color: #4a4a4a; line-height: 1.5;">
-                  ${t('bodyAction')}
-                </p>
-                <a href="${inviteUrl}" style="display: inline-block; background-color: #0066cc; color: white; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-size: 16px; font-weight: 500; margin-bottom: 24px;">
-                  ${t('acceptButton')}
-                </a>
-                <p style="margin: 0; font-size: 14px; color: #888; line-height: 1.5;">
-                  ${t('urlFallback')}<br>
-                  <a href="${inviteUrl}" style="color: #0066cc; word-break: break-all;">${inviteUrl}</a>
-                </p>
-                <hr style="margin: 32px 0; border: none; border-top: 1px solid #e0e0e0;">
-                <p style="margin: 0; font-size: 14px; color: #888;">
-                  ${t('footer')}
-                </p>
-              </div>
-            </div>
-          </body>
-        </html>
-      `
+) => {
+  // Manually build the body intro with HTML tags
+  const bodyIntroText = t('bodyIntro', { inviterName, teamName, role })
+  // Add <strong> tags around teamName and role in the result
+  const bodyIntroWithHTML = bodyIntroText
+    .replace(teamName, `<strong>${teamName}</strong>`)
+    .replace(role, `<strong>${role}</strong>`)
+
+  return `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${t('title', { teamName })}</title>
+  </head>
+  <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+      <div style="background-color: white; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h1 style="margin: 0 0 20px 0; font-size: 24px; font-weight: 600; color: #1a1a1a;">
+          ${t('title', { teamName })}
+        </h1>
+        <p style="margin: 0 0 16px 0; font-size: 16px; color: #4a4a4a; line-height: 1.5;">
+          ${bodyIntroWithHTML}
+        </p>
+        <p style="margin: 0 0 32px 0; font-size: 16px; color: #4a4a4a; line-height: 1.5;">
+          ${t('bodyAction')}
+        </p>
+        <a href="${inviteUrl}" style="display: inline-block; background-color: #0066cc; color: white; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-size: 16px; font-weight: 500; margin-bottom: 24px;">
+          ${t('acceptButton')}
+        </a>
+        <p style="margin: 0; font-size: 14px; color: #888; line-height: 1.5;">
+          ${t('urlFallback')}<br>
+          <a href="${inviteUrl}" style="color: #0066cc; word-break: break-all;">${inviteUrl}</a>
+        </p>
+        <hr style="margin: 32px 0; border: none; border-top: 1px solid #e0e0e0;">
+        <p style="margin: 0; font-size: 14px; color: #888;">
+          ${t('footer')}
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+  `
+}
 
 const otpEmailTemplate = (
   otp: string,
@@ -94,38 +110,38 @@ const otpEmailTemplate = (
   const description = type === 'sign-in' ? t('signIn.description') : t('emailVerification.description')
 
   return `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${title}</title>
-      </head>
-      <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
-        <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-          <div style="background-color: white; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-            <h1 style="margin: 0 0 20px 0; font-size: 24px; font-weight: 600; color: #1a1a1a;">
-              ${title}
-            </h1>
-            <p style="margin: 0 0 24px 0; font-size: 16px; color: #4a4a4a; line-height: 1.5;">
-              ${description}
-            </p>
-            <div style="background-color: #f8f9fa; border-radius: 6px; padding: 20px; text-align: center; margin-bottom: 24px;">
-              <div style="font-size: 32px; font-weight: 700; letter-spacing: 8px; color: #0066cc; font-family: 'Courier New', monospace;">
-                ${otp}
-              </div>
-            </div>
-            <p style="margin: 0 0 16px 0; font-size: 14px; color: #888; line-height: 1.5;">
-              ${t('expiryNotice')}
-            </p>
-            <hr style="margin: 32px 0; border: none; border-top: 1px solid #e0e0e0;">
-            <p style="margin: 0; font-size: 14px; color: #888;">
-              ${t('footer')}
-            </p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+  </head>
+  <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+      <div style="background-color: white; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h1 style="margin: 0 0 20px 0; font-size: 24px; font-weight: 600; color: #1a1a1a;">
+          ${title}
+        </h1>
+        <p style="margin: 0 0 24px 0; font-size: 16px; color: #4a4a4a; line-height: 1.5;">
+          ${description}
+        </p>
+        <div style="background-color: #f8f9fa; border-radius: 6px; padding: 20px; text-align: center; margin-bottom: 24px;">
+          <div style="font-size: 32px; font-weight: 700; letter-spacing: 8px; color: #0066cc; font-family: 'Courier New', monospace;">
+            ${otp}
           </div>
         </div>
-      </body>
-    </html>
+        <p style="margin: 0 0 16px 0; font-size: 14px; color: #888; line-height: 1.5;">
+          ${t('expiryNotice')}
+        </p>
+        <hr style="margin: 32px 0; border: none; border-top: 1px solid #e0e0e0;">
+        <p style="margin: 0; font-size: 14px; color: #888;">
+          ${t('footer')}
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
   `
 }
 
@@ -185,6 +201,8 @@ export async function sendInvitationEmail(params: {
 }) {
   const { email, teamName, inviterName, role, inviteUrl, locale = 'en' } = params
 
+  console.log('[sendInvitationEmail] Sending email with locale:', locale)
+
   try {
     // Check if Resend is configured
     if (!resend || !process.env.RESEND_API_KEY) {
@@ -198,6 +216,7 @@ export async function sendInvitationEmail(params: {
 
     // Get translations for the specified locale
     const t = await getTranslations({ locale, namespace: 'emails.invitation' })
+    console.log('[sendInvitationEmail] Using translations for locale:', locale)
 
     // Send email via Resend
     // Use verified domain: doable.kartiklabhshetwar.me
