@@ -126,7 +126,23 @@ export function ManagementPageClient() {
                 <BarChart data={priorityData}>
                   <XAxis dataKey="name" />
                   <YAxis />
-                  <Tooltip />
+                  <Tooltip
+                    content={({ active, payload }) => {
+                      if (active && payload && payload.length) {
+                        return (
+                          <div className="rounded-lg border bg-background p-2 shadow-sm">
+                            <div className="flex flex-col gap-1">
+                              <span className="text-xs font-medium">{payload[0].payload.name}</span>
+                              <span className="text-xs text-muted-foreground">
+                                {payload[0].value}
+                              </span>
+                            </div>
+                          </div>
+                        )
+                      }
+                      return null
+                    }}
+                  />
                   <Bar dataKey="value" fill="var(--color-count)">
                     {priorityData.map((entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
@@ -170,7 +186,24 @@ export function ManagementPageClient() {
                       <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip
+                    content={({ active, payload }) => {
+                      if (active && payload && payload.length) {
+                        const data = payload[0].payload
+                        return (
+                          <div className="rounded-lg border bg-background p-2 shadow-sm">
+                            <div className="flex flex-col gap-1">
+                              <span className="text-xs font-medium">{t(`statuses.${data.name}`)}</span>
+                              <span className="text-xs text-muted-foreground">
+                                {data.value}
+                              </span>
+                            </div>
+                          </div>
+                        )
+                      }
+                      return null
+                    }}
+                  />
                 </PieChart>
               </ChartContainer>
             ) : (
