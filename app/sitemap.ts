@@ -35,9 +35,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
           images: [`${baseUrl}/open-graph.png`],
           videos: [
             {
-              title: "TheGroupFinder Demo Video",
+              title: "FizzProject Demo Video",
               thumbnail_loc: `${baseUrl}/open-graph.png`,
-              description: "Watch how teams use TheGroupFinder to manage tasks and collaborate effectively.",
+              description: "Watch how teams use FizzProject to manage tasks and collaborate effectively.",
             },
           ],
         } : {}),

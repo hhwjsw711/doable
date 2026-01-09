@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "TheGroupFinder",
+    "appName": "FizzProject",
     "loading": "加载中...",
     "error": "错误",
     "success": "成功",
@@ -12,17 +12,17 @@
     "back": "返回"
   },
   "metadata": {
-    "title": "TheGroupFinder - 现代化团队任务管理",
+    "title": "FizzProject - 现代化团队任务管理",
     "description": "专为追求高效的团队打造。简洁、快速、强大的任务管理工具，配备 AI 智能助手。",
     "keywords": "任务管理, 团队协作, 项目管理, 看板, 敏捷开发, 生产力工具, AI 助手, 开源",
     "openGraph": {
-      "title": "TheGroupFinder",
+      "title": "FizzProject",
       "description": "专为追求高效的团队打造。简洁、快速、强大的任务管理工具。",
-      "siteName": "TheGroupFinder",
-      "imageAlt": "TheGroupFinder - 现代化团队任务管理"
+      "siteName": "FizzProject",
+      "imageAlt": "FizzProject - 现代化团队任务管理"
     },
     "twitter": {
-      "title": "TheGroupFinder",
+      "title": "FizzProject",
       "description": "专为追求高效的团队打造。简洁、快速、强大的任务管理工具。"
     }
   },
@@ -71,19 +71,19 @@
       "secondaryButton": "在 GitHub 查看"
     },
     "demo": {
-      "title": "看看 TheGroupFinder 的实际效果",
-      "description": "观看团队如何使用 TheGroupFinder 管理任务和高效协作。",
+      "title": "看看 FizzProject 的实际效果",
+      "description": "观看团队如何使用 FizzProject 管理任务和高效协作。",
       "cta": "体验 AI 辅助任务管理的强大功能。",
       "videoNotSupported": "您的浏览器不支持视频播放。"
     },
     "ctaSection": {
       "title": "准备好改变您的团队工作流程了吗？",
-      "subtitle": "加入已经在使用 TheGroupFinder 优化任务管理、提升团队生产力的组织。",
+      "subtitle": "加入已经在使用 FizzProject 优化任务管理、提升团队生产力的组织。",
       "button": "开始使用"
     },
     "howToUse": {
       "title": "如何开始使用",
-      "subtitle": "三个简单步骤，让您的团队快速上手 TheGroupFinder。",
+      "subtitle": "三个简单步骤，让您的团队快速上手 FizzProject。",
       "steps": {
         "step1": {
           "number": "01",
@@ -131,27 +131,27 @@
     },
     "faq": {
       "title": "常见问题",
-      "subtitle": "关于 TheGroupFinder 您需要了解的一切",
+      "subtitle": "关于 FizzProject 您需要了解的一切",
       "questions": {
         "whoIsItFor": {
-          "question": "TheGroupFinder 适合谁使用？",
-          "answer": "TheGroupFinder 专为希望优化任务管理的团队和组织打造。无论您是初创公司、成长型企业还是大型组织，TheGroupFinder 都能为您的团队提供保持高效和有序所需的工具。"
+          "question": "FizzProject 适合谁使用？",
+          "answer": "FizzProject 专为希望优化任务管理的团队和组织打造。无论您是初创公司、成长型企业还是大型组织，FizzProject 都能为您的团队提供保持高效和有序所需的工具。"
         },
         "whatIsIt": {
-          "question": "TheGroupFinder 是什么？",
-          "answer": "TheGroupFinder 是一个现代化的 AI 驱动任务管理平台。您可以通过自然语言创建任务、组织项目和管理团队工作。AI 助手帮助自动化日常任务并提供智能洞察，提升团队生产力。"
+          "question": "FizzProject 是什么？",
+          "answer": "FizzProject 是一个现代化的 AI 驱动任务管理平台。您可以通过自然语言创建任务、组织项目和管理团队工作。AI 助手帮助自动化日常任务并提供智能洞察，提升团队生产力。"
         },
         "howAIWorks": {
           "question": "AI 助手如何工作？",
           "answer": "只需自然地与 AI 交流。说「为修复登录错误创建一个任务」或「显示所有分配给张三的高优先级任务」，AI 就会立即处理。无需复杂的表单或手动数据输入 - AI 理解上下文并自动化您的工作流程。"
         },
         "whatFeatures": {
-          "question": "TheGroupFinder 提供哪些核心功能？",
-          "answer": "TheGroupFinder 包含 AI 驱动的任务创建、智能任务分配、项目组织、团队协作工具、工作流自动化、实时更新和全面的报告功能。为您的团队提供保持高效和快速交付所需的一切。"
+          "question": "FizzProject 提供哪些核心功能？",
+          "answer": "FizzProject 包含 AI 驱动的任务创建、智能任务分配、项目组织、团队协作工具、工作流自动化、实时更新和全面的报告功能。为您的团队提供保持高效和快速交付所需的一切。"
         },
         "needTeam": {
           "question": "可以用于团队协作吗？",
-          "answer": "当然可以。TheGroupFinder 专为团队协作设计。创建您的组织工作空间，设置项目，邀请团队成员，即可立即开始协作。平台支持基于角色的权限管理和无缝的团队沟通。"
+          "answer": "当然可以。FizzProject 专为团队协作设计。创建您的组织工作空间，设置项目，邀请团队成员，即可立即开始协作。平台支持基于角色的权限管理和无缝的团队沟通。"
         },
         "howToStart": {
           "question": "如何开始使用？",
@@ -159,28 +159,28 @@
         },
         "dataSafety": {
           "question": "我们组织的数据安全吗？",
-          "answer": "是的。TheGroupFinder 使用企业级安全保护，包括加密数据存储和安全身份验证。我们遵循行业最佳实践进行数据保护和合规性管理。您团队的数据始终受到保护且私密。"
+          "answer": "是的。FizzProject 使用企业级安全保护，包括加密数据存储和安全身份验证。我们遵循行业最佳实践进行数据保护和合规性管理。您团队的数据始终受到保护且私密。"
         }
       }
     },
     "testimonials": {
       "title": "大家的评价",
-      "subtitle": "看看开发者和团队对 TheGroupFinder 的评价"
+      "subtitle": "看看开发者和团队对 FizzProject 的评价"
     },
     "contributors": {
       "title": "贡献者",
-      "subtitle": "让 TheGroupFinder 成为可能的优秀人才",
+      "subtitle": "让 FizzProject 成为可能的优秀人才",
       "contribution": "次贡献",
       "contributions": "次贡献"
     },
     "footer": {
-      "copyright": "© {year} TheGroupFinder. 为追求高效交付的团队打造。"
+      "copyright": "© {year} FizzProject. 为追求高效交付的团队打造。"
     }
   },
   "auth": {
     "signIn": {
       "title": "欢迎回来",
-      "subtitle": "登录您的账户，继续使用 TheGroupFinder",
+      "subtitle": "登录您的账户，继续使用 FizzProject",
       "googleButton": "使用 Google 登录",
       "emailButton": "使用邮箱登录",
       "signingIn": "登录中...",
@@ -191,7 +191,7 @@
     },
     "signUp": {
       "title": "创建账户",
-      "subtitle": "加入已经在使用 TheGroupFinder 的数千个团队",
+      "subtitle": "加入已经在使用 FizzProject 的数千个团队",
       "googleButton": "使用 Google 注册",
       "emailButton": "使用邮箱注册",
       "signingUp": "注册中...",
@@ -272,7 +272,7 @@
     }
   },
   "loading": {
-    "title": "正在加载 TheGroupFinder",
+    "title": "正在加载 FizzProject",
     "message": "正在设置您的工作空间..."
   },
   "issues": {
@@ -427,9 +427,9 @@
   },
   "emails": {
     "invitation": {
-      "subject": "您已被邀请加入 {teamName} - TheGroupFinder",
+      "subject": "您已被邀请加入 {teamName} - FizzProject",
       "title": "您已被邀请加入 {teamName}",
-      "bodyIntro": "{inviterName} 邀请您以 {role} 身份加入 TheGroupFinder 的 {teamName} 团队。",
+      "bodyIntro": "{inviterName} 邀请您以 {role} 身份加入 FizzProject 的 {teamName} 团队。",
       "bodyAction": "点击下方按钮接受邀请：",
       "acceptButton": "接受邀请",
       "urlFallback": "或复制以下链接到浏览器中打开：",
@@ -437,12 +437,12 @@
     },
     "otp": {
       "signIn": {
-        "subject": "您的 TheGroupFinder 登录验证码",
+        "subject": "您的 FizzProject 登录验证码",
         "title": "登录您的账户",
-        "description": "使用以下验证码登录您的 TheGroupFinder 账户："
+        "description": "使用以下验证码登录您的 FizzProject 账户："
       },
       "emailVerification": {
-        "subject": "验证您的邮箱 - TheGroupFinder",
+        "subject": "验证您的邮箱 - FizzProject",
         "title": "验证您的邮箱",
         "description": "使用以下验证码验证您的邮箱地址："
       },

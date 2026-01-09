@@ -1,4 +1,4 @@
-# TheGroupFinder
+# FizzProject
 
 A modern task management platform with AI-powered assistance.
 
@@ -14,9 +14,9 @@ A modern task management platform with AI-powered assistance.
 
 ## Overview
 
-TheGroupFinder is a modern, AI-powered task management platform designed for teams who want to ship faster and work smarter. Built with Next.js 15, React 19, and TypeScript, TheGroupFinder combines the power of AI assistance with intuitive project management tools.
+FizzProject is a modern, AI-powered task management platform designed for teams who want to ship faster and work smarter. Built with Next.js 15, React 19, and TypeScript, FizzProject combines the power of AI assistance with intuitive project management tools.
 
-**What makes TheGroupFinder different:**
+**What makes FizzProject different:**
 
 - Natural language AI assistant powered by GPT-OSS 120B for intelligent task management
 - Seamless team collaboration with role-based access control

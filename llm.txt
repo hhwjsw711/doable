@@ -1,8 +1,8 @@
-# TheGroupFinder - LLM Context
+# FizzProject - LLM Context
 
 ## Project Overview
 
-TheGroupFinder is a modern, AI-powered task management platform designed for teams who want to ship faster and work smarter. It combines the power of AI assistance with intuitive project management tools, featuring natural language task creation, team collaboration, and flexible workflows.
+FizzProject is a modern, AI-powered task management platform designed for teams who want to ship faster and work smarter. It combines the power of AI assistance with intuitive project management tools, featuring natural language task creation, team collaboration, and flexible workflows.
 
 **Repository**: https://github.com/KartikLabhshetwar/doable  
 **License**: Apache License 2.0  

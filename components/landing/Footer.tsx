@@ -112,7 +112,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
           onMouseOut={handleMouseOut}
         >
           <svg width="100%" height="80" viewBox="0 0 300 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Text "TheGroupFinder" */}
+            {/* Text "FizzProject" */}
             <text
               x="50%"
               y="50%"
@@ -121,7 +121,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
               className="text-5xl font-bold fill-foreground"
               style={{ fontFamily: 'Inter, sans-serif', fontSize: '48px', letterSpacing: '-0.02em' }}
             >
-              TheGroupFinder
+              FizzProject
             </text>
             
             {/* Animated gradient circle */}
@@ -159,7 +159,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                   fill="white"
                   style={{ fontFamily: 'Inter, sans-serif', fontSize: '48px', letterSpacing: '-0.02em', fontWeight: 'bold' }}
                 >
-                  TheGroupFinder
+                  FizzProject
                 </text>
               </mask>
               <linearGradient id="circle-rgb-gradient" x1="0" y1="0" x2="1" y2="1">

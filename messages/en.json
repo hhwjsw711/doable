@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "TheGroupFinder",
+    "appName": "FizzProject",
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
@@ -12,17 +12,17 @@
     "back": "Back"
   },
   "metadata": {
-    "title": "TheGroupFinder - Modern Team Task Management",
+    "title": "FizzProject - Modern Team Task Management",
     "description": "Built for teams who want to get things done. Clean, fast, and powerful task management with AI-powered assistance.",
     "keywords": "task management, team collaboration, project management, kanban, agile, productivity, AI assistant, open source",
     "openGraph": {
-      "title": "TheGroupFinder",
+      "title": "FizzProject",
       "description": "Built for teams who want to get things done. Clean, fast, and powerful task management.",
-      "siteName": "TheGroupFinder",
-      "imageAlt": "TheGroupFinder - Modern Team Task Management"
+      "siteName": "FizzProject",
+      "imageAlt": "FizzProject - Modern Team Task Management"
     },
     "twitter": {
-      "title": "TheGroupFinder",
+      "title": "FizzProject",
       "description": "Built for teams who want to get things done. Clean, fast, and powerful task management."
     }
   },
@@ -71,19 +71,19 @@
       "secondaryButton": "View on GitHub"
     },
     "demo": {
-      "title": "See TheGroupFinder in Action",
-      "description": "Watch how teams use TheGroupFinder to manage tasks and collaborate effectively.",
+      "title": "See FizzProject in Action",
+      "description": "Watch how teams use FizzProject to manage tasks and collaborate effectively.",
       "cta": "Experience the power of AI-assisted task management.",
       "videoNotSupported": "Your browser does not support the video tag."
     },
     "ctaSection": {
       "title": "Ready to transform your team's workflow?",
-      "subtitle": "Join organizations already using TheGroupFinder to streamline task management and boost team productivity.",
+      "subtitle": "Join organizations already using FizzProject to streamline task management and boost team productivity.",
       "button": "Get Started"
     },
     "howToUse": {
       "title": "How to Get Started",
-      "subtitle": "Get your team up and running with TheGroupFinder in three simple steps.",
+      "subtitle": "Get your team up and running with FizzProject in three simple steps.",
       "steps": {
         "step1": {
           "number": "01",
@@ -131,27 +131,27 @@
     },
     "faq": {
       "title": "Frequently Asked Questions",
-      "subtitle": "Everything you need to know about TheGroupFinder",
+      "subtitle": "Everything you need to know about FizzProject",
       "questions": {
         "whoIsItFor": {
-          "question": "Who is TheGroupFinder for?",
-          "answer": "TheGroupFinder is built for teams and organizations who want to streamline their task management. Whether you're a startup, a growing company, or an established enterprise, TheGroupFinder provides the tools you need to keep your team organized and productive."
+          "question": "Who is FizzProject for?",
+          "answer": "FizzProject is built for teams and organizations who want to streamline their task management. Whether you're a startup, a growing company, or an established enterprise, FizzProject provides the tools you need to keep your team organized and productive."
         },
         "whatIsIt": {
-          "question": "What is TheGroupFinder?",
-          "answer": "TheGroupFinder is a modern, AI-powered task management platform. You can create tasks, organize projects, and manage your team's work through natural language. The AI assistant helps automate routine tasks and provides intelligent insights to boost productivity."
+          "question": "What is FizzProject?",
+          "answer": "FizzProject is a modern, AI-powered task management platform. You can create tasks, organize projects, and manage your team's work through natural language. The AI assistant helps automate routine tasks and provides intelligent insights to boost productivity."
         },
         "howAIWorks": {
           "question": "How does the AI assistant work?",
           "answer": "Simply communicate naturally with the AI. Say things like 'Create a task for fixing the login bug' or 'Show me all high-priority tasks assigned to John' and the AI handles it instantly. No complex forms or manual data entry - the AI understands context and automates your workflow."
         },
         "whatFeatures": {
-          "question": "What key features does TheGroupFinder offer?",
-          "answer": "TheGroupFinder includes AI-powered task creation, intelligent task assignment, project organization, team collaboration tools, workflow automation, real-time updates, and comprehensive reporting. Everything your team needs to stay organized and ship faster."
+          "question": "What key features does FizzProject offer?",
+          "answer": "FizzProject includes AI-powered task creation, intelligent task assignment, project organization, team collaboration tools, workflow automation, real-time updates, and comprehensive reporting. Everything your team needs to stay organized and ship faster."
         },
         "needTeam": {
           "question": "Can I use it for team collaboration?",
-          "answer": "Absolutely. TheGroupFinder is designed for team collaboration. Create your organization workspace, set up projects, invite team members, and start collaborating immediately. The platform supports role-based permissions and seamless team communication."
+          "answer": "Absolutely. FizzProject is designed for team collaboration. Create your organization workspace, set up projects, invite team members, and start collaborating immediately. The platform supports role-based permissions and seamless team communication."
         },
         "howToStart": {
           "question": "How do I get started?",
@@ -159,28 +159,28 @@
         },
         "dataSafety": {
           "question": "Is my organization's data secure?",
-          "answer": "Yes. TheGroupFinder uses enterprise-grade security with encrypted data storage and secure authentication. We follow industry best practices for data protection and compliance. Your team's data is always protected and private."
+          "answer": "Yes. FizzProject uses enterprise-grade security with encrypted data storage and secure authentication. We follow industry best practices for data protection and compliance. Your team's data is always protected and private."
         }
       }
     },
     "testimonials": {
       "title": "What People Are Saying",
-      "subtitle": "See what developers and teams are saying about TheGroupFinder"
+      "subtitle": "See what developers and teams are saying about FizzProject"
     },
     "contributors": {
       "title": "Contributors",
-      "subtitle": "The amazing people who make TheGroupFinder possible",
+      "subtitle": "The amazing people who make FizzProject possible",
       "contribution": "contribution",
       "contributions": "contributions"
     },
     "footer": {
-      "copyright": "© {year} TheGroupFinder. Built for teams who ship."
+      "copyright": "© {year} FizzProject. Built for teams who ship."
     }
   },
   "auth": {
     "signIn": {
       "title": "Welcome back",
-      "subtitle": "Sign in to your account to continue your journey with TheGroupFinder",
+      "subtitle": "Sign in to your account to continue your journey with FizzProject",
       "googleButton": "Sign in with Google",
       "emailButton": "Sign in with Email",
       "signingIn": "Signing in...",
@@ -191,7 +191,7 @@
     },
     "signUp": {
       "title": "Create an account",
-      "subtitle": "Join thousands of teams already using TheGroupFinder",
+      "subtitle": "Join thousands of teams already using FizzProject",
       "googleButton": "Sign up with Google",
       "emailButton": "Sign up with Email",
       "signingUp": "Signing up...",
@@ -272,7 +272,7 @@
     }
   },
   "loading": {
-    "title": "Loading TheGroupFinder",
+    "title": "Loading FizzProject",
     "message": "Setting up your workspace..."
   },
   "issues": {
@@ -427,9 +427,9 @@
   },
   "emails": {
     "invitation": {
-      "subject": "You've been invited to join {teamName} on TheGroupFinder",
+      "subject": "You've been invited to join {teamName} on FizzProject",
       "title": "You've been invited to join {teamName}",
-      "bodyIntro": "{inviterName} has invited you to join the {teamName} team as a {role} on TheGroupFinder.",
+      "bodyIntro": "{inviterName} has invited you to join the {teamName} team as a {role} on FizzProject.",
       "bodyAction": "Click the button below to accept the invitation:",
       "acceptButton": "Accept Invitation",
       "urlFallback": "Or copy and paste this URL into your browser:",
@@ -437,12 +437,12 @@
     },
     "otp": {
       "signIn": {
-        "subject": "Your Sign-In Code for TheGroupFinder",
+        "subject": "Your Sign-In Code for FizzProject",
         "title": "Sign In to Your Account",
-        "description": "Use the code below to sign in to your TheGroupFinder account:"
+        "description": "Use the code below to sign in to your FizzProject account:"
       },
       "emailVerification": {
-        "subject": "Verify Your Email - TheGroupFinder",
+        "subject": "Verify Your Email - FizzProject",
         "title": "Verify Your Email",
         "description": "Use the code below to verify your email address:"
       },
